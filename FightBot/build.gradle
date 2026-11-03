@@ -1,0 +1,72 @@
+plugins {
+    id 'net.fabricmc.fabric-loom' version "${loom_version}"
+}
+
+version = project.mod_version
+group = project.maven_group
+
+base {
+    archivesName = project.archives_base_name
+}
+
+repositories {
+}
+
+// Minecraft 26.x ships without obfuscation, so there is no mappings line
+// and mods are plain implementation dependencies.
+dependencies {
+    minecraft "com.mojang:minecraft:${project.minecraft_version}"
+    implementation "net.fabricmc:fabric-loader:${project.loader_version}"
+    implementation "net.fabricmc.fabric-api:fabric-api:${project.fabric_api_version}"
+}
+
+processResources {
+    inputs.property "version", project.version
+    filesMatching("fabric.mod.json") {
+        expand "version": project.version
+    }
+}
+
+java {
+    toolchain {
+        languageVersion = JavaLanguageVersion.of(25)
+    }
+}
+
+tasks.withType(JavaCompile).configureEach {
+    it.options.release = 25
+    it.options.encoding = 'UTF-8'
+}
+
+// Two builds from the same code. `gradlew build` makes both in build/libs:
+//   fightbot-VERSION-learning.jar  scores rounds and saves learning data (fightbot/learning/)
+//   fightbot-VERSION.jar           the plain build: fights the same, keeps no learning data
+// The difference is one flag, learning=true or false, read by dev.reality.fightbot.Build.
+def buildFlags = layout.buildDirectory.dir('build-flags')
+tasks.register('writeBuildFlags') {
+    def out = buildFlags
+    outputs.dir out
+    doLast {
+        def learningDir = out.get().dir('learning').asFile
+        def plainDir = out.get().dir('plain').asFile
+        learningDir.mkdirs(); plainDir.mkdirs()
+        new File(learningDir, 'fightbot-build.properties').text = 'learning=true\n'
+        new File(plainDir, 'fightbot-build.properties').text = 'learning=false\n'
+    }
+}
+
+tasks.named('jar', Jar) {
+    dependsOn 'writeBuildFlags'
+    archiveClassifier = 'learning'
+    from(buildFlags.map { it.dir('learning') })
+}
+
+def plainJar = tasks.register('plainJar', Jar) {
+    dependsOn 'writeBuildFlags', 'classes'
+    archiveClassifier = ''
+    from sourceSets.main.output
+    from(buildFlags.map { it.dir('plain') })
+    duplicatesStrategy = DuplicatesStrategy.EXCLUDE
+}
+
+tasks.named('assemble') { dependsOn plainJar }

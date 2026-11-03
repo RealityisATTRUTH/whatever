@@ -1,0 +1,22 @@
+{
+  "schemaVersion": 1,
+  "id": "fightbot",
+  "version": "${version}",
+  "name": "Fight Bot",
+  "description": "Turns a Carpet fake player into a sword fighting bot for practice on your own server.",
+  "authors": ["Reality_456"],
+  "license": "CC0-1.0",
+  "environment": "*",
+  "entrypoints": {
+    "main": ["dev.reality.fightbot.FightBotMod"]
+  },
+  "depends": {
+    "fabricloader": ">=0.19.2",
+    "minecraft": "~26.3",
+    "java": ">=25",
+    "fabric-api": "*"
+  },
+  "suggests": {
+    "carpet": "*"
+  }
+}
