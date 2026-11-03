@@ -1,0 +1,19 @@
+{
+  "display": {
+    "icon": {
+      "id": "mobcraft:nether_star_shard"
+    },
+    "title": "MobCraft: The Fracture Star",
+    "description": "Break the Wither and forge its star into a blade",
+    "frame": "task",
+    "show_toast": false,
+    "announce_to_chat": false,
+    "hidden": false,
+    "background": "minecraft:block/crying_obsidian"
+  },
+  "criteria": {
+    "joined": {
+      "trigger": "minecraft:tick"
+    }
+  }
+}

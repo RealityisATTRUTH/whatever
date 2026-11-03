@@ -1,0 +1,26 @@
+{
+  "parent": "mobcraft:star_fragment",
+  "display": {
+    "icon": {
+      "id": "mobcraft:nether_star_shard"
+    },
+    "title": "Fractured",
+    "description": "Craft a Fracture Nether Star",
+    "frame": "goal",
+    "show_toast": true,
+    "announce_to_chat": true,
+    "hidden": false
+  },
+  "criteria": {
+    "got": {
+      "trigger": "minecraft:inventory_changed",
+      "conditions": {
+        "items": [
+          {
+            "items": "mobcraft:nether_star_shard"
+          }
+        ]
+      }
+    }
+  }
+}

@@ -1,0 +1,33 @@
+{
+  "schemaVersion": 1,
+  "id": "mobcraft",
+  "version": "${version}",
+  "name": "MobCraft Season 3",
+  "description": "MobCraft Season 3 alpha. Mob roles, energy, curses, ability keys, dual hitbox, client-side glowing and Warden echolocation.",
+  "authors": [
+    "Reality Studios"
+  ],
+  "license": "CC0-1.0",
+  "environment": "*",
+  "entrypoints": {
+    "main": [
+      "com.reality.mobcraft.MobCraft"
+    ],
+    "client": [
+      "com.reality.mobcraft.client.MobCraftClient"
+    ]
+  },
+  "mixins": [
+    "mobcraft.mixins.json",
+    {
+      "config": "mobcraft.client.mixins.json",
+      "environment": "client"
+    }
+  ],
+  "depends": {
+    "fabricloader": ">=0.19.3",
+    "minecraft": ">=26.3",
+    "java": ">=25",
+    "fabric-api": "*"
+  }
+}

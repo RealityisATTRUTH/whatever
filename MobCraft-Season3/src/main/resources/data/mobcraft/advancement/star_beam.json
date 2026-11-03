@@ -1,0 +1,19 @@
+{
+  "parent": "mobcraft:starforged",
+  "display": {
+    "icon": {
+      "id": "minecraft:end_rod"
+    },
+    "title": "Star Beam",
+    "description": "Charge the star sword and fire it",
+    "frame": "task",
+    "show_toast": true,
+    "announce_to_chat": true,
+    "hidden": false
+  },
+  "criteria": {
+    "done": {
+      "trigger": "minecraft:impossible"
+    }
+  }
+}

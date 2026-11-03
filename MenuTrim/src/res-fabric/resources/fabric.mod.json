@@ -1,0 +1,21 @@
+{
+  "schemaVersion": 1,
+  "id": "menutrim",
+  "version": "${version}",
+  "name": "Menu Trim",
+  "description": "Hides the Essential menu buttons you don't use, like Wardrobe, Pictures, the player model and the sale banner. Keeps the ones you do, like Social.",
+  "authors": ["Reality Studios"],
+  "license": "CC0-1.0",
+  "environment": "client",
+  "entrypoints": {
+    "client": ["com.reality.menutrim.MenuTrimFabric"]
+  },
+  "depends": {
+    "fabricloader": ">=0.14.0",
+    "fabric-api": "*",
+    "minecraft": "${range}"
+  },
+  "suggests": {
+    "essential": "*"
+  }
+}

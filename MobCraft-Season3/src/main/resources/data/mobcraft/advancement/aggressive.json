@@ -1,0 +1,19 @@
+{
+  "parent": "mobcraft:first_army",
+  "display": {
+    "icon": {
+      "id": "minecraft:iron_sword"
+    },
+    "title": "No Mercy",
+    "description": "Set an army to Aggressive",
+    "frame": "task",
+    "show_toast": true,
+    "announce_to_chat": true,
+    "hidden": false
+  },
+  "criteria": {
+    "done": {
+      "trigger": "minecraft:impossible"
+    }
+  }
+}

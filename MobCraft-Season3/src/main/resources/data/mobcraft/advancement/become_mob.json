@@ -1,0 +1,19 @@
+{
+  "parent": "mobcraft:root",
+  "display": {
+    "icon": {
+      "id": "minecraft:zombie_head"
+    },
+    "title": "Who Am I?",
+    "description": "Be given a mob",
+    "frame": "task",
+    "show_toast": true,
+    "announce_to_chat": true,
+    "hidden": false
+  },
+  "criteria": {
+    "done": {
+      "trigger": "minecraft:impossible"
+    }
+  }
+}

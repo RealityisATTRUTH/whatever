@@ -1,0 +1,58 @@
+## Edit this file to change the Update Log on the title screen.
+## Lines starting with "# " are version headings, lines starting with "- " are entries.
+## Newest at the top. Lines starting with ## don't show, like these.
+# Season 3 Alpha 0.2
+- MobCraft is now CC0: anyone can use, change and share the code
+- /shutdownjeff: no password in the code. Set one in config/mobcraft-jeff.txt
+- Fixed: the Update Log scrolls everywhere, even over Essential's player model
+- Fixed: Sculk Eruption sculk now goes back even after a server crash
+- Fixed: commanded endermen that teleport by themselves are put straight back
+- Mob Guide: a button on the title screen and pause menu with every mob's abilities, keys and ultimate
+- RTS: any damage pulls you out of RTS, back to the view you had, with a warning
+- RTS: you can see your own body below you while commanding
+- Every mob has an ultimate now, press U when the gold bar is full
+- Ultimates only charge from fighting other players, and killing one gives a big boost. Normal mobs give nothing
+- Ultimates: Tidal Surge, Night Swarm, Inferno, Tempest, Supernova, Abyssal Gaze, Dragon's Fury, Void Rift, Fang Storm, Hellfire, Hall of Mirrors, Earthquake, Bastion Rally, Killer Stampede, Bullet Storm, Infestation, Arrow Rain, Spectral Legion, Call the Guard, Skull Storm
+- Wither death: the nether star rises, bursts and splinters into 2 Star Fragments
+- Every vanilla advancement tab shows from the start
+- Make your own team: /myteam create, invite, accept, leave, kick
+- Update Log: close it, open it, drag it anywhere, right-click its title to reset
+- /myteam: rename your team with any words and pick its color
+- /teams lists every team, its players and their mobs
+- Ultimates: charge by fighting, fire with U. Warden: Sculk Eruption
+- MobCraft advancements in four tabs: Mobs, RTS, Gear and The Fracture Star
+- Star Fragments: the Wither drops 2, craft 4 with a nether star and echo shards into the Fracture Nether Star
+- Star sword needs a netherite upgrade template, in a smithing table or the crafting grid. 16 damage, 45 second cooldown
+- MobCraft recipes show in the recipe book
+- Anti-cheat: logs flight, auto totem, crystal and anchor macros, never kicks. ESP and X-ray allowed
+- /mobcraftanticheat to set it up and let players use hacks
+- RTS: selected mobs stay put until ordered, silverfish don't hide in stone
+- RTS: better pathing: caves and bridges, long walks, getting round things
+- RTS: hidden mobs can't be picked as targets, commanded endermen teleport only where you send them
+- RTS: command every mob of your own kind, no hand or crosshair in RTS
+- Blaze: optional Blaze Rod Fireballs setting
+- RTS: right-click an army to add the selected mobs to it
+- RTS: Aggressive army stance, shift-click enemies to split your mobs between them
+- RTS: attack orders reach any distance, clearer selection markers
+- RTS: new selecting, make your own armies, Move and Attack buttons, Settings to hide parts
+- New mob: Villager. Money, Warden bodyguards, his own item menu
+- Fracture Nether Star: kill the Wither, put it on a netherite sword, charge and fire
+- New mob: Elder Guardian. Laser Beam, Elder Curse, guardians, conduits hurt it
+- New mob: Breeze. Gust, Leap, Whirlwind, arrows bounce off
+- Curse Antidote: a bowl that lifts any curse. Milk no longer does
+- Shulker is now one block tall
+- MobCraft tab in the creative inventory
+- Left and right warden tendrils swapped to match how they look
+- Bat ears and warden tendrils make nearby mobs glow blue for you
+- New mob: Ender Dragon. Flight, Dragon Breath, Wing Buffet, the egg
+- No Ender Dragons spawn. All 20 End gateways open
+- Potion of Curse: brew the dragon egg into a water or awkward bottle
+- Evoker: Raid Captain by wearing an ominous banner
+- Armor upgrades: bat ears, warden tendrils, ender pearl shard, stalker shard
+- Upgrades show on your armor and on the item icons
+- Stalker Shard: teleport behind a player who isn't looking
+- Water now fully clears the Ghast's curse
+# Earlier
+- Mob kits for 17 mobs, with energy and ability keys
+- RTS: army groups with colors, mob behavior settings
+- Self-give menu with a drop toggle for auto crafters

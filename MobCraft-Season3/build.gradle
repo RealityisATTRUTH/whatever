@@ -1,0 +1,161 @@
+plugins {
+    // MC 26.1+ uses the new prefixed Loom plugin and Mojang mappings.
+    id 'net.fabricmc.fabric-loom' version "${loom_version}"
+    id 'java'
+}
+
+version = mod_version
+group = maven_group
+
+base {
+    archivesName = archives_base_name
+}
+
+dependencies {
+    // No 'mappings' line — 26.1+ ships Mojang's official mappings via Loom.
+    // Use implementation/compileOnly, NOT modImplementation.
+    minecraft "com.mojang:minecraft:${minecraft_version}"
+    implementation "net.fabricmc:fabric-loader:${loader_version}"
+    implementation "net.fabricmc.fabric-api:fabric-api:${fabric_version}"
+}
+
+processResources {
+    inputs.property "version", project.version
+    filesMatching("fabric.mod.json") {
+        expand "version": project.version
+    }
+}
+
+tasks.withType(JavaCompile).configureEach {
+    it.options.release = 25
+}
+
+java {
+    sourceCompatibility = JavaVersion.VERSION_25
+    targetCompatibility = JavaVersion.VERSION_25
+}
+
+// ---------------------------------------------------------------------------
+// dumpVanillaSource
+//
+// Copies the genuine, version-matched vanilla source MobCraft hooks into
+// out of the sources jar that Loom's genSources produced for THIS project's
+// Minecraft version. Nothing here is written by hand: every file is copied
+// byte-for-byte from Loom's decompiled sources jar.
+//
+// Run:   gradlew genSources
+//        gradlew dumpVanillaSource
+// Output: build/vanilla-src.zip  (plus MANIFEST.txt inside it)
+// ---------------------------------------------------------------------------
+def dumpMcVersion = project.minecraft_version
+def dumpSearchRoots = [
+    new File(rootDir, '.gradle/loom-cache'),
+    new File(gradle.gradleUserHomeDir, 'caches/fabric-loom')
+]
+def dumpOutDir = layout.buildDirectory.dir('vanilla-src').get().asFile
+def dumpOutZip = layout.buildDirectory.file('vanilla-src.zip').get().asFile
+
+tasks.register('dumpVanillaSource') {
+    group = 'mobcraft'
+    description = 'Extracts the vanilla source MobCraft hooks into from Loom\'s genSources jar.'
+    doLast {
+        // Exact files requested.
+        def exactFiles = [
+            'net/minecraft/world/entity/Entity.java',
+            'net/minecraft/world/entity/LivingEntity.java',
+            'net/minecraft/world/entity/player/Player.java',
+            'net/minecraft/world/entity/EntityDimensions.java',
+            'net/minecraft/world/entity/EntityAttachments.java',
+            'net/minecraft/world/entity/EntityAttachment.java',
+            'net/minecraft/world/entity/Pose.java',
+            'net/minecraft/world/phys/AABB.java',
+            'net/minecraft/world/entity/projectile/ProjectileUtil.java',
+            'net/minecraft/client/KeyboardHandler.java',
+            'net/minecraft/client/renderer/LevelRenderer.java',
+            'net/minecraft/client/renderer/GameRenderer.java',
+            'net/minecraft/client/renderer/entity/EntityRenderDispatcher.java',
+            'net/minecraft/client/renderer/entity/EntityRenderer.java',
+            'net/minecraft/server/network/ServerGamePacketListenerImpl.java',
+            'net/minecraft/client/Minecraft.java',
+            'net/minecraft/client/multiplayer/ClientLevel.java',
+            'net/minecraft/world/entity/decoration/ArmorStand.java',
+            'net/minecraft/client/renderer/entity/LivingEntityRenderer.java',
+            'net/minecraft/client/renderer/entity/ArmorStandRenderer.java',
+            'net/minecraft/world/entity/Mob.java',
+            'net/minecraft/world/level/ServerExplosion.java'
+        ] as Set
+        // Whole packages: debug renderers, the Gizmos API, debug-screen options.
+        def packagePrefixes = [
+            'net/minecraft/client/renderer/debug/',
+            'net/minecraft/gizmos/',
+            'net/minecraft/client/renderer/gizmos/',
+            'net/minecraft/client/gui/components/debug/'
+        ]
+        // Any other file that mentions one of these is also copied, so files
+        // whose 26.2 names we don't know yet are still caught.
+        def grepTerms = [
+            'EntityHitboxDebugRenderer', 'ENTITY_HITBOXES', 'entity_hitboxes',
+            'showHitboxes', 'renderHitbox',
+            'shouldEntityAppearGlowing', 'outlineColor'
+        ]
+
+        def jars = []
+        dumpSearchRoots.each { root ->
+            if (root.exists()) {
+                root.eachFileRecurse(groovy.io.FileType.FILES) { f ->
+                    def n = f.name.toLowerCase()
+                    if (n.endsWith('-sources.jar') && n.contains('minecraft') && f.path.contains(dumpMcVersion)) {
+                        jars << f
+                    }
+                }
+            }
+        }
+        if (jars.isEmpty()) {
+            throw new GradleException("No Minecraft ${dumpMcVersion} sources jar found. Run 'gradlew genSources' first.")
+        }
+
+        project.delete(dumpOutDir)
+        dumpOutDir.mkdirs()
+        def manifest = new StringBuilder()
+        manifest << "Minecraft version: ${dumpMcVersion}\n"
+        manifest << "Source jars:\n"
+        jars.each { manifest << "  ${it.absolutePath}\n" }
+        manifest << "\nCopied files (reason):\n"
+        def found = [] as Set
+
+        jars.each { jarFile ->
+            def zip = new java.util.zip.ZipFile(jarFile)
+            try {
+                zip.entries().each { e ->
+                    if (e.isDirectory() || !e.name.endsWith('.java') || found.contains(e.name)) return
+                    String reason = null
+                    if (exactFiles.contains(e.name)) reason = 'requested class'
+                    else if (packagePrefixes.any { e.name.startsWith(it) }) reason = 'package'
+                    byte[] bytes = zip.getInputStream(e).bytes
+                    if (reason == null && e.name.startsWith('net/minecraft/')) {
+                        def text = new String(bytes, 'UTF-8')
+                        def hit = grepTerms.find { text.contains(it) }
+                        if (hit != null) reason = "mentions ${hit}"
+                    }
+                    if (reason != null) {
+                        def out = new File(dumpOutDir, e.name)
+                        out.parentFile.mkdirs()
+                        out.bytes = bytes
+                        found << e.name
+                        manifest << "  ${e.name}  (${reason})\n"
+                    }
+                }
+            } finally {
+                zip.close()
+            }
+        }
+
+        def missing = exactFiles.findAll { !found.contains(it) }
+        manifest << "\nRequested but not present in ${dumpMcVersion}:\n"
+        (missing ? missing : ['  (none)']).each { manifest << "  ${it}\n" }
+        new File(dumpOutDir, 'MANIFEST.txt').text = manifest.toString()
+
+        project.ant.zip(destfile: dumpOutZip, basedir: dumpOutDir)
+        println "Copied ${found.size()} files. Send this file back: ${dumpOutZip.absolutePath}"
+    }
+}

@@ -1,0 +1,19 @@
+{
+  "parent": "mobcraft:root",
+  "display": {
+    "icon": {
+      "id": "minecraft:name_tag"
+    },
+    "title": "The Roster",
+    "description": "Every mob you can become. Each one unlocks when you play it",
+    "frame": "task",
+    "show_toast": true,
+    "announce_to_chat": true,
+    "hidden": false
+  },
+  "criteria": {
+    "done": {
+      "trigger": "minecraft:impossible"
+    }
+  }
+}

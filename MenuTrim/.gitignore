@@ -1,0 +1,13 @@
+# Build output and Gradle caches
+build/
+.gradle/
+versions/*/build/
+versions/*/.gradle/
+# Build logs and the packed release
+logs/
+pack/
+*.zip
+# IDE files
+.idea/
+*.iml
+.vscode/

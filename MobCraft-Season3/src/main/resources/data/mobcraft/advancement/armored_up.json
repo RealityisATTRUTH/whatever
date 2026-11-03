@@ -1,0 +1,19 @@
+{
+  "parent": "mobcraft:spare_parts",
+  "display": {
+    "icon": {
+      "id": "minecraft:netherite_helmet"
+    },
+    "title": "Armored Up",
+    "description": "Wear armor with an upgrade on it",
+    "frame": "task",
+    "show_toast": true,
+    "announce_to_chat": true,
+    "hidden": false
+  },
+  "criteria": {
+    "done": {
+      "trigger": "minecraft:impossible"
+    }
+  }
+}

@@ -1,0 +1,86 @@
+{
+  "parent": "mobcraft:gear_root",
+  "display": {
+    "icon": {
+      "id": "mobcraft:bat_ear_left"
+    },
+    "title": "Spare Parts",
+    "description": "Get a bat ear, warden tendril, ender pearl shard or creaking splinter",
+    "frame": "task",
+    "show_toast": true,
+    "announce_to_chat": true,
+    "hidden": false
+  },
+  "criteria": {
+    "ear_l": {
+      "trigger": "minecraft:inventory_changed",
+      "conditions": {
+        "items": [
+          {
+            "items": "mobcraft:bat_ear_left"
+          }
+        ]
+      }
+    },
+    "ear_r": {
+      "trigger": "minecraft:inventory_changed",
+      "conditions": {
+        "items": [
+          {
+            "items": "mobcraft:bat_ear_right"
+          }
+        ]
+      }
+    },
+    "tendril_l": {
+      "trigger": "minecraft:inventory_changed",
+      "conditions": {
+        "items": [
+          {
+            "items": "mobcraft:warden_tendril_left"
+          }
+        ]
+      }
+    },
+    "tendril_r": {
+      "trigger": "minecraft:inventory_changed",
+      "conditions": {
+        "items": [
+          {
+            "items": "mobcraft:warden_tendril_right"
+          }
+        ]
+      }
+    },
+    "pearl": {
+      "trigger": "minecraft:inventory_changed",
+      "conditions": {
+        "items": [
+          {
+            "items": "mobcraft:ender_pearl_shard"
+          }
+        ]
+      }
+    },
+    "splinter": {
+      "trigger": "minecraft:inventory_changed",
+      "conditions": {
+        "items": [
+          {
+            "items": "mobcraft:creaking_splinter"
+          }
+        ]
+      }
+    }
+  },
+  "requirements": [
+    [
+      "ear_l",
+      "ear_r",
+      "tendril_l",
+      "tendril_r",
+      "pearl",
+      "splinter"
+    ]
+  ]
+}

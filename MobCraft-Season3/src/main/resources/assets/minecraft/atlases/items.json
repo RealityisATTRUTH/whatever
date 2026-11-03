@@ -1,0 +1,26 @@
+{
+  "sources": [
+    {
+      "type": "minecraft:unstitch",
+      "resource": "minecraft:entity/warden/warden",
+      "divisor_x": 128,
+      "divisor_y": 128,
+      "regions": [
+        {
+          "sprite": "mobcraft:item/warden_tendril_left",
+          "x": 58,
+          "y": 0,
+          "width": 16,
+          "height": 16
+        },
+        {
+          "sprite": "mobcraft:item/warden_tendril_right",
+          "x": 52,
+          "y": 32,
+          "width": 16,
+          "height": 16
+        }
+      ]
+    }
+  ]
+}

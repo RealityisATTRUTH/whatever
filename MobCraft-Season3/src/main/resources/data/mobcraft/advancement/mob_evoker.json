@@ -1,0 +1,19 @@
+{
+  "parent": "mobcraft:mob_roster",
+  "display": {
+    "icon": {
+      "id": "minecraft:evoker_spawn_egg"
+    },
+    "title": "Evoker",
+    "description": "Play as the Evoker",
+    "frame": "task",
+    "show_toast": true,
+    "announce_to_chat": true,
+    "hidden": false
+  },
+  "criteria": {
+    "done": {
+      "trigger": "minecraft:impossible"
+    }
+  }
+}

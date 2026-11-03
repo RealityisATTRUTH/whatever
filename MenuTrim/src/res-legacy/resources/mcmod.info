@@ -1,0 +1,10 @@
+[
+  {
+    "modid": "menutrim",
+    "name": "Menu Trim",
+    "description": "Hides the Essential menu buttons you don't use, like Wardrobe, Pictures, the player model and the sale banner. Keeps the ones you do, like Social.",
+    "version": "${version}",
+    "mcversion": "${mc}",
+    "authorList": ["Reality Studios"]
+  }
+]

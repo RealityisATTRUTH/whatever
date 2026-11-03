@@ -1,0 +1,11 @@
+# Build output and Gradle caches
+build/
+.gradle/
+out/
+# The local test server: worlds, logs and configs (like the /shutdownjeff password scramble)
+run/
+# IDE files
+.idea/
+*.iml
+.vscode/
+*.log

@@ -1,0 +1,19 @@
+modLoader="javafml"
+loaderVersion="[0,)"
+license="CC0-1.0"
+
+[[mods]]
+modId="menutrim"
+version="${version}"
+displayName="Menu Trim"
+authors="Reality Studios"
+description='''Hides the Essential menu buttons you don't use, like Wardrobe, Pictures, the player model and the sale banner. Keeps the ones you do, like Social.'''
+displayTest="IGNORE_ALL_VERSION"
+
+[[dependencies.menutrim]]
+modId="minecraft"
+mandatory=true
+type="required"
+versionRange="${range}"
+ordering="NONE"
+side="CLIENT"
