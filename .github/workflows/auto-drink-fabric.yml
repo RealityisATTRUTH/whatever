@@ -1,0 +1,41 @@
+name: Auto-Drink Ominous Bottles (Fabric)
+
+on:
+  push:
+    branches:
+      - main
+      - add-auto-drink-ominous-bottles-fabric
+    paths:
+      - 'AutoDrinkOminousBottles/**'
+      - '.github/workflows/auto-drink-fabric.yml'
+  pull_request:
+    paths:
+      - 'AutoDrinkOminousBottles/**'
+      - '.github/workflows/auto-drink-fabric.yml'
+
+permissions:
+  contents: read
+
+jobs:
+  build:
+    name: Test and build Minecraft 26.1.2 jar
+    runs-on: ubuntu-latest
+    steps:
+      - name: Check out source
+        uses: actions/checkout@v4
+      - name: Set up Java 25
+        uses: actions/setup-java@v4
+        with:
+          distribution: temurin
+          java-version: '25'
+      - name: Run unit tests and build mod
+        working-directory: AutoDrinkOminousBottles
+        run: |
+          chmod +x ./gradlew
+          ./gradlew --no-daemon test build
+      - name: Save built jar
+        uses: actions/upload-artifact@v4
+        with:
+          name: auto-drink-ominous-bottles-fabric-minecraft-26.1.2
+          path: AutoDrinkOminousBottles/build/libs/*.jar
+          if-no-files-found: error
