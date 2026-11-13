@@ -43,7 +43,13 @@ def request(method, path, token=None, body=None, content_type=None):
         with urllib.request.urlopen(req) as r:
             return json.loads(r.read() or b"null")
     except urllib.error.HTTPError as e:
-        raise SystemExit(f"Modrinth said {e.code} for {method} {path}: {e.read().decode(errors='replace')}")
+        hint = ""
+        if e.code == 404 and path.startswith("/project/"):
+            hint = ("\nCheck the slug matches your project's page address. If the project is a draft, your token"
+                    " needs the 'Read projects' scope as well as 'Create versions'.")
+        if e.code == 401:
+            hint = "\nThe token was refused. Check it's pasted in full and hasn't expired."
+        raise SystemExit(f"Modrinth said {e.code} for {method} {path}: {e.read().decode(errors='replace')}{hint}")
 
 
 def key(v):
@@ -96,12 +102,13 @@ def main():
     here = os.path.dirname(os.path.abspath(__file__))
     manifest = json.load(open(os.path.join(here, "manifest.json")))
     token = os.environ.get("MODRINTH_TOKEN", "").strip()
-    if not token and not args.dry_run:
+    if not token:
         raise SystemExit("Set the MODRINTH_TOKEN environment variable first (see the top of this file).")
 
     releases = [v["version"] for v in request("GET", "/tag/game_version") if v["version_type"] == "release"]
-    project = request("GET", f"/project/{args.project}")
-    existing = {v["version_number"] for v in request("GET", f"/project/{project['id']}/version")}
+    # Sent with the token, so a draft project (one only you can see) is found too.
+    project = request("GET", f"/project/{args.project}", token)
+    existing = {v["version_number"] for v in request("GET", f"/project/{project['id']}/version", token)}
     print(f"Project: {project['title']} ({project['id']}), {len(existing)} versions already there")
 
     for entry in manifest["jars"]:
