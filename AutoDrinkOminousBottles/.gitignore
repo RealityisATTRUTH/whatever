@@ -2,3 +2,5 @@
 build/
 logs/
 run/
+pack/
+*.zip

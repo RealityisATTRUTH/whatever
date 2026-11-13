@@ -1,46 +1,62 @@
 # Auto-Drink Ominous Bottles
 
-Client-side Fabric mod that automatically drinks an **Ominous Bottle** when a raid ends.
+A client-side mod that drinks an Ominous Bottle for you the moment a raid is won, so you can chain raids
+without stopping.
 
-## How it works (Boss Bar trigger)
+- When the raid boss bar turns to **Raid - Victory**, it drinks one Ominous Bottle.
+- It picks the highest Bad Omen level in your hotbar. If the hotbar has none, it pulls the best one from the
+  rest of your inventory into an empty hotbar slot first.
+- It switches back to the slot you were holding when it's done.
+- If a menu or chat is open when the raid ends, it waits and drinks as soon as you close it.
+- If you have no bottles, it tells you above the hotbar.
 
-This mod watches the **raid boss bar** at the top of the screen.
+Press **K** to turn it on or off. You can rebind it under Options, Controls, Key Binds, Miscellaneous. It's off
+until you turn it on, and it remembers your choice in `config/auto_drink_ominous_bottles.properties`.
 
-- When the boss bar changes to **Raid - Victory**, the mod triggers once.
-- It then attempts to drink **one** Ominous Bottle.
-- It includes safeguards to prevent repeatedly triggering from brief boss bar flickers.
+It only runs on your game, so servers don't need it. Raid boss bars have to be showing on your screen, because
+that's how it knows the raid was won.
 
-## Keybind (Enable / Disable)
+## Versions
 
-- Go to: **Options → Controls → Key Binds**
-- Find: **Auto Drink Ominous Bottles**
-- Default key: **R**
+One jar per Minecraft version and loader:
 
-Toggling shows a small on-screen message:
-- `Auto Drink Ominous Bottles: Enabled`
-- `Auto Drink Ominous Bottles: Disabled`
+| Loader | Minecraft |
+|---|---|
+| Fabric | every version from 1.21 to 26.3 |
+| Forge | 1.21.1, 1.21.3, 1.21.4, 1.21.5, 1.21.8, 1.21.11, 26.1.2, 26.2, 26.3 |
+| NeoForge | 1.21.1, 1.21.3, 1.21.4, 1.21.5, 1.21.8, 1.21.11, 26.1.2, 26.2, 26.3 |
 
-## Bottle selection behavior
+Fabric needs Fabric API. Forge and NeoForge need nothing extra.
 
-When a raid ends, the mod looks for an Ominous Bottle to drink:
+## How the code is laid out
 
-1. **Hotbar scan**
-   - It scans the hotbar and selects the **highest Omen level** bottle available.
-2. **Pull from inventory (if none in hotbar)**
-   - If no bottles are found in the hotbar, it searches the main inventory.
-   - If found, it swaps one into the hotbar and drinks it.
+- `src/core` is the logic, the same for every version: when to drink, which bottle, putting your slot back, and
+  the on/off setting. It only talks to the game through the small `Game` interface.
+- `src/era-*` fills in `Game` for each era of Minecraft's code, plus the toggle key:
+  - `era-121` is 1.21 and 1.21.1.
+  - `era-1212` is 1.21.2 to 1.21.4.
+  - `era-1215` is 1.21.5 to 1.21.8.
+  - `era-1219` is 1.21.9 to 1.21.11.
+  - `era-261` is 26.1.
+  - `era-262` is 26.2 and 26.3.
+- `src/hook-*` is each loader's way of registering the key and running every tick.
+- `src/res-*` is each loader's mod info file, and `src/common` the language file.
+- `versions/<minecraft>-<loader>/gradle.properties` picks the era, hook and resources for one jar.
 
-If no Ominous Bottles exist anywhere:
-- It prints a message indicating none were found.
+## Building
 
-## Consumption behavior
+You need Java 25 and Gradle 9.6 or newer. Each version builds on its own:
 
-- The mod switches to the chosen bottle slot.
-- It holds “use” long enough for the bottle to be consumed.
-- It releases “use” in a way that prevents accidental double-consumption (even under lag).
-- It then swaps back to your previous selected hotbar slot.
+    ADOB_TARGETS=26.3-fabric gradle :26.3-fabric:build
 
-## Notes / Limitations
+`build-all.sh` builds every version you name, one at a time, and `package.py` collects the jars into `pack/` with
+a README listing which jar is for which version.
 
-- This is **client-side only**. It does not require server-side installation.
-- The trigger is based on the **visible boss bar text**, so you must have raid boss bars enabled in your HUD.
+`tests.sh` runs the logic tests, which need no Minecraft.
+
+## Credits and license
+
+The original Fabric mod is by shumsic: https://github.com/shumsic/auto-drink-ominous-bottles. This version was
+rebuilt for Fabric, Forge and NeoForge across every version by Reality Studios.
+
+MIT, the same as the original. See LICENSE.

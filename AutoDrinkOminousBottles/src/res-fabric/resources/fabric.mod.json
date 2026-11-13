@@ -1,0 +1,19 @@
+{
+  "schemaVersion": 1,
+  "id": "auto_drink_ominous_bottles",
+  "version": "${version}",
+  "name": "Auto-Drink Ominous Bottles",
+  "description": "Drinks an Ominous Bottle for you the moment a raid is won. Press K to turn it on or off.",
+  "authors": ["shumsic", "Reality Studios"],
+  "contact": { "sources": "https://github.com/RealityisATTRUTH/whatever" },
+  "license": "MIT",
+  "environment": "client",
+  "entrypoints": {
+    "client": ["com.shumsic.autodrinkominousbottles.AutoDrinkFabric"]
+  },
+  "depends": {
+    "fabricloader": ">=0.15.0",
+    "fabric-api": "*",
+    "minecraft": "${range}"
+  }
+}

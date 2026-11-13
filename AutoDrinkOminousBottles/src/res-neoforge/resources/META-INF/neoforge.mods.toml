@@ -1,0 +1,19 @@
+modLoader="javafml"
+loaderVersion="[0,)"
+license="MIT"
+
+[[mods]]
+modId="auto_drink_ominous_bottles"
+version="${version}"
+displayName="Auto-Drink Ominous Bottles"
+authors="shumsic, Reality Studios"
+description='''Drinks an Ominous Bottle for you the moment a raid is won. Press K to turn it on or off.'''
+displayTest="IGNORE_ALL_VERSION"
+
+[[dependencies.auto_drink_ominous_bottles]]
+modId="minecraft"
+mandatory=true
+type="required"
+versionRange="${range}"
+ordering="NONE"
+side="CLIENT"
