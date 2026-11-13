@@ -39,6 +39,7 @@ ver = open(os.path.join(S, 'gradle.properties')).read().split('mod_version=')[1]
 import json
 json.dump({'version': ver, 'jars': jars_info}, open(os.path.join(out, 'manifest.json'), 'w'), indent=2)
 shutil.copy(os.path.join(S, 'upload_modrinth.py'), out)
+shutil.copy(os.path.join(S, 'set_environment.py'), out)
 z = os.path.join(S, 'AutoDrinkOminousBottles-all-versions.zip')
 if os.path.exists(z): os.remove(z)
 with zipfile.ZipFile(z, 'w', zipfile.ZIP_DEFLATED) as f:

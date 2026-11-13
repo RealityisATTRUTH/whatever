@@ -140,7 +140,17 @@ def main():
             "primary_file": "file",
         }
         body, ctype = multipart(data, entry["file"], open(path, "rb").read())
-        request("POST", "/version", token, body, ctype)
+        made = request("POST", "/version", token, body, ctype)
+        # Modrinth keeps the environment on each version; this mod only runs on the player's game.
+        env = urllib.request.Request(f"https://api.modrinth.com/v3/version/{made['id']}", method="PATCH",
+                                     data=json.dumps({"environment": "client_only"}).encode())
+        env.add_header("User-Agent", USER_AGENT)
+        env.add_header("Authorization", token)
+        env.add_header("Content-Type", "application/json")
+        try:
+            urllib.request.urlopen(env).close()
+        except urllib.error.HTTPError as e:
+            print(f"  (couldn't mark it client-side only: {e.code}. Run set_environment.py afterwards.)")
         print(f"UPLOADED {line}")
 
 
