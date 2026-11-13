@@ -54,6 +54,10 @@ a README listing which jar is for which version.
 
 `tests.sh` runs the logic tests, which need no Minecraft.
 
+`upload_modrinth.py` uploads every jar in the pack to a Modrinth project, each tagged with its loader and
+Minecraft versions. `package.py` puts it in the pack with a `manifest.json` it reads. Run it from the unzipped
+pack with `--dry-run` first. It needs your Modrinth token in the `MODRINTH_TOKEN` environment variable.
+
 ## Credits and license
 
 The original Fabric mod is by shumsic: https://github.com/shumsic/auto-drink-ominous-bottles. This version was
