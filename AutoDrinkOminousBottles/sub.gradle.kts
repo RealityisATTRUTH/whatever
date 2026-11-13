@@ -75,3 +75,8 @@ tasks.processResources {
 tasks.register("printRepos") {
     doLast { repositories.forEach { r -> println("REPO ${r.name} ${(r as? MavenArtifactRepository)?.url}") } }
 }
+
+// The MIT license asks for its notice in every copy, so each jar carries LICENSE (shumsic's original notice).
+tasks.named<Jar>("jar") {
+    from(rootProject.file("LICENSE"))
+}
