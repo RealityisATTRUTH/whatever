@@ -120,6 +120,8 @@ public final class ArmorUpgradeRecipe extends CustomRecipe {
             }
             if (id == null || ArmorUpgrades.isEar(id) || ArmorUpgrades.isTendril(id)) return ItemStack.EMPTY;
             if (!ArmorUpgrades.fits(id, slot)) return ItemStack.EMPTY;
+            // No Mending with a Vex Wing: only killing allays repairs it.
+            if (ArmorUpgrades.VEX_WING.equals(id) && VexWing.hasMending(armor)) return ItemStack.EMPTY;
             // The star sword costs a netherite upgrade template, and nothing else takes one.
             boolean star = ArmorUpgrades.STAR_SHARD.equals(id);
             if (templates != (star ? 1 : 0)) return ItemStack.EMPTY;

@@ -1,5 +1,9 @@
 package com.reality.mobcraft.mob.kit;
 
+import net.minecraft.world.item.Items;
+
+import com.reality.mobcraft.mob.MobAttachments;
+
 import com.reality.mobcraft.mob.MobKit;
 import com.reality.mobcraft.mob.MobType;
 import com.reality.mobcraft.mob.PlayerMob;
@@ -46,6 +50,10 @@ import net.minecraft.util.RandomSource;
  *   Lock On        R: your next 3 arrows home in. 25 energy, 20s cooldown.
  *   Skeleton Horse G: a saddled skeleton horse you ride at once. 40 energy,
  *                  2:00 cooldown. Calling a new one sends the old one away.
+ *   Four Horsemen  the other choice for G, picked in /mobcraftsettings: lightning strikes
+ *                  and four skeleton horsemen ride out for you, like the vanilla skeleton
+ *                  trap. Iron helmets and Power II bows, yours to command in RTS. They
+ *                  crumble after 60 seconds, or when you call new ones. Same cost.
  *   Undead         poison immune, Instant Damage heals, Instant Health hurts,
  *                  Smite does bonus damage, burns in sunlight without a helmet,
  *                  Weakness I within 8 blocks of a wolf
@@ -102,12 +110,73 @@ public final class SkeletonKit implements MobKit {
         KitUtil.calmAllies(player, 32, ALLIES);
 
         steerHomingArrows(player);
+
+        // The quiver on your back: an arrow for each kind you carry, giving off the colors of any
+        // tipped ones, like tipped arrows do in flight. Shut while flying with an elytra.
+        if (player.tickCount % 10 == 0) updateQuiver(player);
+        if (player.tickCount % 4 == 0 && !player.isFallFlying() && !player.isInvisible()) quiverSparkle(player);
+    }
+
+    /** Spectral arrows' feathers in the quiver, and plain ones. Tipped ones use their potion's color. */
+    private static final int SPECTRAL_FEATHERS = 0xFFD84A;
+    private static final int PLAIN_FEATHERS = 0xFFFFFF;
+
+    /** The feather colors of up to three kinds of arrow you carry, tipped first, for everyone to see. */
+    private static void updateQuiver(ServerPlayer player) {
+        java.util.List<Integer> kinds = new java.util.ArrayList<>(tippedColors(player));
+        var inv = player.getInventory();
+        boolean spectral = false, plain = false;
+        for (int i = 0; i < inv.getContainerSize(); i++) {
+            ItemStack stack = inv.getItem(i);
+            if (stack.is(Items.SPECTRAL_ARROW)) spectral = true;
+            if (stack.is(Items.ARROW)) plain = true;
+        }
+        if (spectral) kinds.add(SPECTRAL_FEATHERS);
+        if (plain) kinds.add(PLAIN_FEATHERS);
+        if (kinds.size() > 3) kinds = new java.util.ArrayList<>(kinds.subList(0, 3));
+        java.util.List<Integer> now = player.getAttached(MobAttachments.QUIVER);
+        if (kinds.isEmpty()) {
+            if (now != null) player.removeAttached(MobAttachments.QUIVER);
+        } else if (!kinds.equals(now)) {
+            player.setAttached(MobAttachments.QUIVER, java.util.List.copyOf(kinds));
+        }
+    }
+
+    /** The colors of the different tipped arrows you carry, up to three. */
+    private static java.util.List<Integer> tippedColors(ServerPlayer player) {
+        java.util.List<Integer> colors = new java.util.ArrayList<>();
+        var inv = player.getInventory();
+        for (int i = 0; i < inv.getContainerSize() && colors.size() < 3; i++) {
+            ItemStack stack = inv.getItem(i);
+            if (!stack.is(Items.TIPPED_ARROW)) continue;
+            var potion = stack.get(net.minecraft.core.component.DataComponents.POTION_CONTENTS);
+            if (potion == null) continue;
+            int color = potion.getColor() & 0xFFFFFF;
+            if (!colors.contains(color)) colors.add(color);
+        }
+        return colors;
+    }
+
+    /** One spell particle out of the quiver's mouth, taking turns through the tipped arrows' colors. */
+    private static void quiverSparkle(ServerPlayer player) {
+        java.util.List<Integer> colors = tippedColors(player);
+        if (colors.isEmpty()) return;
+        int color = colors.get((player.tickCount / 4) % colors.size());
+        // The mouth of the quiver, over your left shoulder, just behind you.
+        float s = player.getScale();
+        double yaw = Math.toRadians(player.yBodyRot);
+        double leftX = Math.cos(yaw), leftZ = Math.sin(yaw), backX = Math.sin(yaw), backZ = -Math.cos(yaw);
+        double x = player.getX() + (leftX * 0.22 + backX * 0.28) * s;
+        double z = player.getZ() + (leftZ * 0.22 + backZ * 0.28) * s;
+        player.level().sendParticles(net.minecraft.core.particles.ColorParticleOption.create(
+                net.minecraft.core.particles.ParticleTypes.ENTITY_EFFECT, 0xFF000000 | color), x, player.getY() + 1.6 * s, z, 1, 0.04, 0.04, 0.04, 0.0);
     }
 
     @Override
     public void onRemoved(ServerPlayer player) {
         KitUtil.passive(player, MobEffects.SPEED, 0, false);
         KitUtil.passive(player, MobEffects.WEAKNESS, 0, false);
+        player.removeAttached(MobAttachments.QUIVER);
         forget(player);
     }
 
@@ -128,8 +197,13 @@ public final class SkeletonKit implements MobKit {
             player.level().playSound(null, player.blockPosition(), SoundEvents.SKELETON_AMBIENT, SoundSource.PLAYERS, 1.0f, 0.7f);
             KitUtil.actionBar(player, "Locked on. Your next 3 arrows will home in.");
         } else if (slot == ABILITY_2) {
-            if (!KitUtil.tryUse(player, HORSE, "Skeleton Horse", 40, 2400)) return;
-            summonHorse(player);
+            if (horsemen(player)) {
+                if (!KitUtil.tryUse(player, HORSE, "Four Horsemen", 40, 2400)) return;
+                summonHorsemen(player);
+            } else {
+                if (!KitUtil.tryUse(player, HORSE, "Skeleton Horse", 40, 2400)) return;
+                summonHorse(player);
+            }
         } else {
             KitUtil.actionBar(player, "The Skeleton has no third ability.");
         }
@@ -152,6 +226,98 @@ public final class SkeletonKit implements MobKit {
         HORSES.put(player.getUUID(), horse.getUUID());
         player.startRiding(horse);
         level.playSound(null, player.blockPosition(), SoundEvents.SKELETON_HORSE_AMBIENT, SoundSource.PLAYERS, 1.0f, 1.0f);
+    }
+
+    // --- Four Horsemen ------------------------------------------------------------
+
+    public static final String HORSEMEN_SETTING = "skeleton_horsemen";
+    private static final int HORSEMEN_TICKS = 1200;   // 60 seconds
+
+    /** A Skeleton's horsemen: every horse and rider, and the server tick they crumble on. */
+    private record Horsemen(ServerLevel level, List<UUID> mobs, int endTick) {}
+    private static final Map<UUID, Horsemen> HORSEMEN = new HashMap<>();
+
+    /** Whether G calls the Four Horsemen instead of the skeleton horse. Works on both sides. */
+    public static boolean horsemen(net.minecraft.world.entity.player.Player player) {
+        return Boolean.TRUE.equals(player.getAttached(MobAttachments.SKELETON_HORSEMEN));
+    }
+
+    /** Server only. */
+    public static void setHorsemen(net.minecraft.world.entity.player.Player player, boolean on) {
+        if (on) player.setAttached(MobAttachments.SKELETON_HORSEMEN, true);
+        else player.removeAttached(MobAttachments.SKELETON_HORSEMEN);
+    }
+
+    private static void summonHorsemen(ServerPlayer player) {
+        ServerLevel level = player.level();
+        crumble(HORSEMEN.remove(player.getUUID()));
+
+        // Lightning first, like the trap: it only looks and sounds like lightning, it hurts nobody.
+        net.minecraft.world.entity.LightningBolt bolt = EntityTypes.LIGHTNING_BOLT.create(level,
+                net.minecraft.world.entity.EntitySpawnReason.TRIGGERED);
+        if (bolt != null) {
+            bolt.snapTo(player.getX() + 2, player.getY(), player.getZ());
+            bolt.setVisualOnly(true);
+            level.addFreshEntity(bolt);
+        }
+
+        List<UUID> mobs = new ArrayList<>();
+        for (int i = 0; i < 4; i++) {
+            double angle = Math.PI / 4 + Math.PI / 2 * i;
+            double x = player.getX() + Math.cos(angle) * 2.5, z = player.getZ() + Math.sin(angle) * 2.5;
+            double y = KitUtil.groundY(level, x, player.getY() + 1, z);
+            if (Double.isNaN(y)) y = player.getY();
+            Mob horse = KitUtil.summon(player, "minecraft:skeleton_horse", x, y, z, "Tame:1b");
+            if (horse == null) continue;
+            Mob rider = KitUtil.summon(player, "minecraft:skeleton", x, y + 1, z, "");
+            if (rider == null) {
+                horse.discard();
+                continue;
+            }
+            rider.setItemSlot(EquipmentSlot.HEAD, new ItemStack(Items.IRON_HELMET));
+            ItemStack bow = new ItemStack(Items.BOW);
+            KitUtil.enchant(player, bow, Enchantments.POWER, 2);
+            rider.setItemSlot(EquipmentSlot.MAINHAND, bow);
+            rider.setDropChance(EquipmentSlot.HEAD, 0);
+            rider.setDropChance(EquipmentSlot.MAINHAND, 0);
+            rider.startRiding(horse);
+            mobs.add(horse.getUUID());
+            mobs.add(rider.getUUID());
+        }
+        if (mobs.isEmpty()) {
+            KitUtil.actionBar(player, "The horsemen couldn't spawn here.");
+            return;
+        }
+        HORSEMEN.put(player.getUUID(), new Horsemen(level, mobs, level.getServer().getTickCount() + HORSEMEN_TICKS));
+        level.playSound(null, player.blockPosition(), SoundEvents.SKELETON_HORSE_AMBIENT, SoundSource.PLAYERS, 1.5f, 0.8f);
+        KitUtil.actionBar(player, "The Four Horsemen ride for you, for 60 seconds.");
+    }
+
+    /** Every second: horsemen whose time is up crumble, wherever their Skeleton is. Registered by KitEvents. */
+    static void tickHorsemen(net.minecraft.server.MinecraftServer server) {
+        if (HORSEMEN.isEmpty() || server.getTickCount() % 20 != 0) return;
+        int now = server.getTickCount();
+        Iterator<Horsemen> it = HORSEMEN.values().iterator();
+        while (it.hasNext()) {
+            Horsemen group = it.next();
+            if (now < group.endTick()) continue;
+            it.remove();
+            crumble(group);
+        }
+    }
+
+    /** Horsemen fall apart into bone dust. */
+    private static void crumble(Horsemen group) {
+        if (group == null) return;
+        Entity first = group.mobs().isEmpty() ? null : group.level().getEntity(group.mobs().get(0));
+        if (first != null) group.level().playSound(null, first.blockPosition(), SoundEvents.SKELETON_DEATH, SoundSource.HOSTILE, 1.0f, 0.8f);
+        for (UUID id : group.mobs()) {
+            Entity mob = group.level().getEntity(id);
+            if (mob == null || !mob.isAlive()) continue;
+            group.level().sendParticles(net.minecraft.core.particles.ParticleTypes.POOF,
+                    mob.getX(), mob.getY() + mob.getBbHeight() / 2, mob.getZ(), 12, 0.3, 0.5, 0.3, 0.02);
+            mob.discard();
+        }
     }
 
     // --- Arrows -----------------------------------------------------------------
@@ -256,10 +422,15 @@ public final class SkeletonKit implements MobKit {
         return amount;
     }
 
-    private static boolean inSunlight(ServerPlayer player) {
+    /** Out in the sun: daytime, open sky, no rain or water. Also used by the Skull Visor. */
+    public static boolean inSunlight(ServerPlayer player) {
         ServerLevel level = player.level();
         if (level.getSkyDarken() >= 4) return false; // night
         if (level.isRainingAt(player.blockPosition()) || player.isInWaterOrRain()) return false;
+        // Rain and snow both block the sun. isRainingAt is false in snowy biomes, so check the weather itself.
+        // Deserts and other dry biomes get no rain or snow, so they still burn.
+        if (level.isRaining() && level.getBiome(player.blockPosition()).value().hasPrecipitation()) return false;
+        if (player.isInPowderSnow || player.wasInPowderSnow) return false;
         return level.canSeeSky(player.blockPosition().above());
     }
 

@@ -4,6 +4,8 @@ import com.reality.mobcraft.item.ArmorUpgrades;
 import com.reality.mobcraft.item.ModItems;
 import com.reality.mobcraft.mob.MobAbilities;
 import com.reality.mobcraft.mob.MobKit;
+import com.reality.mobcraft.mob.MobLook;
+import com.reality.mobcraft.mob.MobType;
 import com.reality.mobcraft.mob.PlayerMob;
 import net.minecraft.core.BlockPos;
 import net.minecraft.server.level.ServerLevel;
@@ -29,7 +31,8 @@ import net.minecraft.util.RandomSource;
  * Enderman. Draft numbers, waiting on Reality's sheet.
  *
  *   R  Teleport     to the block you're looking at, up to 32 blocks away.
- *                   15 energy, 3s cooldown.
+ *                   You glow purple for half a second first, in a cloud of
+ *                   portal particles, then go. 15 energy, 3s cooldown.
  *   Auto Dodge      passive: a projectile that would hit you teleports you up
  *                   to 8 blocks away instead. 5 energy each time. Switch off in
  *                   /mobcraftsettings.
@@ -47,6 +50,10 @@ public final class EndermanKit implements MobKit {
     private static final String AUTO_DODGE = "auto_dodge";
     private static final double TELEPORT_RANGE = 32;
     private static final float DODGE_COST = 5;
+    /** How long you glow before a Teleport goes. */
+    private static final int WIND_UP = 10;
+    /** While this runs you glow purple and shed portal particles. */
+    private static final KitUtil.Timers GLOW = new KitUtil.Timers();
 
     @Override
     public Set<EntityType<?>> allies() {
@@ -59,6 +66,19 @@ public final class EndermanKit implements MobKit {
             player.hurtServer(player.level(), player.damageSources().drown(), 1.0f);
         }
         KitUtil.calmAllies(player, 32, ALLIES);
+        boolean glowing = GLOW.active(player);
+        MobLook.set(player, MobLook.TELEPORTING, glowing);
+        if (glowing) {
+            float s = player.getScale();
+            player.level().sendParticles(ParticleTypes.PORTAL, player.getX(), player.getY() + player.getBbHeight() * 0.5, player.getZ(),
+                    6, 0.3 * s, 0.5 * s, 0.3 * s, 0.6);
+        }
+    }
+
+    @Override
+    public void onRemoved(ServerPlayer player) {
+        GLOW.forget(player.getUUID());
+        MobLook.clear(player);
     }
 
     @Override
@@ -77,7 +97,18 @@ public final class EndermanKit implements MobKit {
             return;
         }
         if (!KitUtil.tryUse(player, TELEPORT, "Teleport", 15, 60)) return;
-        teleportTo(player, target);
+        // Glow first, then go.
+        GLOW.start(player, WIND_UP);
+        ServerLevel from = player.level();
+        from.playSound(null, player.blockPosition(), SoundEvents.ENDERMAN_AMBIENT, SoundSource.PLAYERS, 0.6f, 1.6f);
+        UltimateFx.later(player, WIND_UP, p -> {
+            if (p.level() != from || !PlayerMob.has(p, MobType.ENDERMAN) || PlayerMob.isCursed(p)) return;
+            if (!KitUtil.standable(from, target)) {
+                KitUtil.actionBar(p, "That spot isn't safe any more.");
+                return;
+            }
+            teleportTo(p, target);
+        });
     }
 
     /** Where you'd stand on the block you're looking at, or null. */
@@ -97,10 +128,21 @@ public final class EndermanKit implements MobKit {
 
     private static void teleportTo(ServerPlayer player, BlockPos feet) {
         ServerLevel level = player.level();
+        burst(player);
         level.playSound(null, player.blockPosition(), SoundEvents.ENDERMAN_TELEPORT, SoundSource.PLAYERS, 1.0f, 1.0f);
         player.teleportTo(feet.getX() + 0.5, feet.getY(), feet.getZ() + 0.5);
         player.resetFallDistance();
         level.playSound(null, feet, SoundEvents.ENDERMAN_TELEPORT, SoundSource.PLAYERS, 1.0f, 1.0f);
+        burst(player);
+        // A last moment of glow where you land, fading out.
+        GLOW.start(player, 4);
+    }
+
+    /** A puff of portal particles around the player, like an enderman's when it teleports. */
+    private static void burst(ServerPlayer player) {
+        float s = player.getScale();
+        player.level().sendParticles(ParticleTypes.PORTAL, player.getX(), player.getY() + player.getBbHeight() * 0.5, player.getZ(),
+                48, 0.35 * s, 0.7 * s, 0.35 * s, 0.8);
     }
 
     @Override
@@ -127,7 +169,9 @@ public final class EndermanKit implements MobKit {
         ArmorUpgrades.dropAt(player, ModItems.ENDER_PEARL_SHARD);
     }
 
-    static void forget(ServerPlayer player) {}
+    static void forget(ServerPlayer player) {
+        GLOW.forget(player.getUUID());
+    }
 
     // --- Ultimate: Void Rift ---------------------------------------------------------------
     /**

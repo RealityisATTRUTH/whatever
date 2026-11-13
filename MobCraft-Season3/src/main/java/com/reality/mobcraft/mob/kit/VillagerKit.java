@@ -151,6 +151,24 @@ public final class VillagerKit implements MobKit {
     }
 
     /** Shut down, emeralds only at a crafting table or job block. Powered up, he uses his menu. */
+    /** Hit, he gets angry like a real villager: a little storm cloud over his head. */
+    @Override
+    public void afterHurt(ServerPlayer player, net.minecraft.world.damagesource.DamageSource source, float damage) {
+        if (damage <= 0 || source.getEntity() == null) return;
+        float s = player.getScale();
+        player.level().sendParticles(net.minecraft.core.particles.ParticleTypes.ANGRY_VILLAGER,
+                player.getX(), player.getY() + 2.0 * s, player.getZ(), 2, 0.25 * s, 0.1, 0.25 * s, 0.0);
+    }
+
+    /** Emeralds make him happy, like a real villager after a trade: green sparkles. */
+    @Override
+    public void customizeSelfGive(ServerPlayer player, String itemId, net.minecraft.world.item.ItemStack stack) {
+        if (!stack.is(Items.EMERALD)) return;
+        float s = player.getScale();
+        player.level().sendParticles(net.minecraft.core.particles.ParticleTypes.HAPPY_VILLAGER,
+                player.getX(), player.getY() + 1.2 * s, player.getZ(), 8, 0.4 * s, 0.6 * s, 0.4 * s, 0.0);
+    }
+
     @Override
     public boolean canSelfGive(ServerPlayer player, String itemId) {
         if (Jeff.isPowered(player)) return true;

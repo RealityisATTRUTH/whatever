@@ -13,7 +13,7 @@ import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 
-/** Copies the worn helmet's and chestplate's upgrades into the player's render state for HelmetUpgradeLayer. */
+/** Copies the worn helmet's and chestplate's upgrades, and the mob's look, into the player's render state for HelmetUpgradeLayer and MobLookLayer. */
 @Mixin(AvatarRenderer.class)
 public abstract class AvatarHelmetMixin<AvatarlikeEntity extends Avatar & ClientAvatarEntity> {
 
@@ -23,8 +23,10 @@ public abstract class AvatarHelmetMixin<AvatarlikeEntity extends Avatar & Client
         ItemStack helmet = entity.getItemBySlot(EquipmentSlot.HEAD);
         state.setData(HelmetUpgradeLayer.UPGRADE, helmet.get(ModItems.ARMOR_UPGRADE));
         state.setData(HelmetUpgradeLayer.FOIL, helmet.hasFoil());
+        state.setData(com.reality.mobcraft.client.SkullVisorLayer.WORN, helmet.is(ModItems.SKULL_VISOR));
         ItemStack chestplate = entity.getItemBySlot(EquipmentSlot.CHEST);
         state.setData(HelmetUpgradeLayer.CHEST_UPGRADE, chestplate.get(ModItems.ARMOR_UPGRADE));
         state.setData(HelmetUpgradeLayer.CHEST_FOIL, chestplate.hasFoil());
+        com.reality.mobcraft.client.MobLookLayer.extract(entity, state, partialTicks);
     }
 }

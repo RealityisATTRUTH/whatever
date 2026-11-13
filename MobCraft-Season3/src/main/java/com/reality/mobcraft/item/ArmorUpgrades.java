@@ -1,6 +1,7 @@
 package com.reality.mobcraft.item;
 
 import com.reality.mobcraft.glow.MobGlow;
+import com.reality.mobcraft.mob.MobLook;
 import com.reality.mobcraft.mob.MobType;
 import com.reality.mobcraft.mob.PlayerMob;
 import com.reality.mobcraft.mob.kit.Cooldowns;
@@ -28,6 +29,12 @@ import net.minecraft.world.item.Items;
 import net.minecraft.world.item.component.ItemLore;
 import net.minecraft.world.item.equipment.Equippable;
 import net.minecraft.world.phys.Vec3;
+import net.minecraft.tags.DamageTypeTags;
+import net.minecraft.world.damagesource.DamageSource;
+import net.minecraft.world.effect.MobEffectInstance;
+import net.minecraft.world.effect.MobEffects;
+import net.minecraft.world.entity.ai.attributes.AttributeModifier;
+import net.minecraft.world.entity.ai.attributes.Attributes;
 
 import java.util.HashSet;
 import java.util.List;
@@ -62,6 +69,19 @@ import java.util.UUID;
  *                            With an Ender Pearl Shard on the chestplate too,
  *                            sneak+Z uses its safe teleport instead.
  *
+ * Mob items (see MobRelics) also go on armor:
+ *   Helmet + Rabbit Ears     Armor Power key: turn into a rabbit (RabbitEars)
+ *   Boots + Lucky Paw        (before 0.2.41) jump higher, 3 more blocks before fall damage
+ *   Boots + Breeze Core      no fall damage
+ *   Chestplate + Iron Golem Head  half knockback
+ *   Chestplate + Creeper Fuse    explosions do half damage
+ *   Chestplate + Vex Wing    fly like the Vex for 3 energy a second,
+ *                            the wing wears down and is repaired by killing allays
+ *   Helmet + Skull Visor     (before 0.2.29, now a helmet of its own: SkullVisor) skeletons ignore you
+ *   Helmet + Illusion Lens   no Blindness or Darkness (except the Bat's curse)
+ *   Helmet + Elder Spike     underwater: Water Breathing and Night Vision
+ * These go anywhere in the crafting grid with the piece, like the shards.
+ *
  * Helmet senses don't apply to the Warden player, who has his own.
  */
 public final class ArmorUpgrades {
@@ -79,6 +99,22 @@ public final class ArmorUpgrades {
     /** Goes on a netherite sword: see StarBlade. */
     public static final String STAR_SHARD = "nether_star_shard";
 
+    // Mob items that go on armor. See MobRelics.
+    public static final String LUCKY_PAW = "lucky_paw";           // Rabbit Ears, helmet (was the Lucky Paw on boots)
+    public static final String BREEZE_CORE = "breeze_core";       // boots
+    public static final String IRON_HEART = "iron_heart";         // chestplate
+    public static final String CREEPER_FUSE = "creeper_fuse";     // chestplate
+    public static final String VEX_WING = "vex_wing";             // chestplate, see VexWing
+    public static final String SKULL_VISOR = "skull_visor";       // helmet
+    public static final String ILLUSION_LENS = "illusion_lens";   // helmet
+    public static final String ELDER_SCALE = "elder_scale";       // Elder Spike, chestplate (helmets made before keep their old power)
+
+    private static final double PAW_JUMP = 0.1;             // about Jump Boost II
+    private static final double PAW_SAFE_FALL = 3;          // blocks
+    private static final double HEART_KNOCKBACK = 0.5;      // half knockback
+    private static final float FUSE_EXPLOSION = 0.5f;       // explosions do half
+    private static final double VISOR_RANGE = 24;
+
     private static final int WARDEN_COLOR = 0x0FA3A3;
     private static final int BAT_COLOR = 0x20FFFF;
     private static final double GLOW_RANGE_ONE = 16;   // one ear or tendril
@@ -95,7 +131,12 @@ public final class ArmorUpgrades {
     private ArmorUpgrades() {}
 
     public static void register() {
+        // Elder Spike on a chestplate: the Elder Guardian's thorns.
+        ServerLivingEntityEvents.AFTER_DAMAGE.register((entity, source, base, taken, blocked) -> {
+            if (entity instanceof ServerPlayer player) elderSpikes(player, source);
+        });
         StarBlade.register();
+        VexWing.register();
         // Creakings drop a splinter.
         ServerLivingEntityEvents.AFTER_DEATH.register((entity, source) -> {
             if (entity.getType() == EntityTypes.CREAKING) dropAt(entity, ModItems.CREAKING_SPLINTER);
@@ -117,6 +158,9 @@ public final class ArmorUpgrades {
             case ENDER_SHARD -> slot == EquipmentSlot.CHEST;
             case STAR_SHARD -> slot == EquipmentSlot.MAINHAND; // also needs a netherite upgrade template, see ArmorUpgradeRecipe
             case STALKER_SHARD -> slot == EquipmentSlot.HEAD || slot == EquipmentSlot.CHEST;
+            case BREEZE_CORE -> slot == EquipmentSlot.FEET;
+            case IRON_HEART, CREEPER_FUSE, VEX_WING, ELDER_SCALE -> slot == EquipmentSlot.CHEST;
+            case LUCKY_PAW, SKULL_VISOR, ILLUSION_LENS, Hush.UPGRADE -> slot == EquipmentSlot.HEAD;
             default -> false;
         };
     }
@@ -145,6 +189,9 @@ public final class ArmorUpgrades {
         }
         armor.set(DataComponents.LORE, new ItemLore(lines));
         if (STAR_SHARD.equals(id)) StarBlade.makeChargeable(armor);
+        // A new Vex Wing starts whole; anything else on the piece has no wing durability.
+        if (VEX_WING.equals(id)) VexWing.setDurability(armor, VexWing.MAX_DURABILITY);
+        else armor.remove(ModItems.VEX_WING_DURABILITY);
     }
 
     /** What each upgrade does, for the tooltip. Keep in step with tick() and usePower(). */
@@ -169,6 +216,19 @@ public final class ArmorUpgrades {
                     "who isn't looking at you. Cooldown: 20 seconds",
                     "Sneak + Armor Power: rough random teleport. Hurts you,",
                     "and 1 in 5 times an endermite follows. Cooldown: 10 seconds");
+            case LUCKY_PAW -> List.of("Armor Power key: turn into a rabbit, and back",
+                    "Mobs ignore you. Hitting or getting hurt turns you back");
+            case BREEZE_CORE -> List.of("No fall damage");
+            case IRON_HEART -> List.of("Half knockback");
+            case CREEPER_FUSE -> List.of("Explosions hurt you half as much");
+            case VEX_WING -> List.of("Fly like the Vex (double-tap jump)", "Flying costs 3 energy a second",
+                    "Flying wears the wing down. Kill allays to repair it");
+            case SKULL_VISOR -> List.of("Skeletons, strays, bogged and parched ignore you");
+            case ILLUSION_LENS -> List.of("Blindness and Darkness can't affect you");
+            case ELDER_SCALE -> List.of("Spikes: when someone hits you up close,",
+                    "spikes shoot out and they take 1 heart back");
+            case Hush.UPGRADE -> List.of("Armor Power key: the player you look at",
+                    "can't hear anything for 15 seconds. Cooldown: 2 minutes");
             case STAR_SHARD -> List.of(
                     "Hold right-click for 10 seconds to charge,",
                     "then let go to fire a beam of star energy.",
@@ -187,16 +247,23 @@ public final class ArmorUpgrades {
         if (stack.is(ModItems.ENDER_PEARL_SHARD)) return ENDER_SHARD;
         if (stack.is(ModItems.STALKER_SHARD)) return STALKER_SHARD;
         if (stack.is(ModItems.NETHER_STAR_SHARD)) return STAR_SHARD;
+        if (stack.is(ModItems.LUCKY_PAW)) return LUCKY_PAW;
+        if (stack.is(ModItems.BREEZE_CORE)) return BREEZE_CORE;
+        if (stack.is(ModItems.IRON_HEART)) return IRON_HEART;
+        if (stack.is(ModItems.VEX_WING)) return VEX_WING;
+        if (stack.is(ModItems.ILLUSION_LENS)) return ILLUSION_LENS;
+        if (stack.is(ModItems.ELDER_SCALE)) return ELDER_SCALE;
+        if (stack.is(Hush.ITEM) && Hush.enabled()) return Hush.UPGRADE;
         return null;
     }
 
-    /** HEAD or CHEST for helmets and chestplates, MAINHAND for a netherite sword, otherwise null. */
+    /** HEAD, CHEST or FEET for helmets, chestplates and boots, MAINHAND for a netherite sword, otherwise null. */
     public static EquipmentSlot armorSlot(ItemStack stack) {
         if (stack.is(Items.NETHERITE_SWORD)) return EquipmentSlot.MAINHAND;
         Equippable equippable = stack.get(DataComponents.EQUIPPABLE);
         if (equippable == null) return null;
         EquipmentSlot slot = equippable.slot();
-        return slot == EquipmentSlot.HEAD || slot == EquipmentSlot.CHEST ? slot : null;
+        return slot == EquipmentSlot.HEAD || slot == EquipmentSlot.CHEST || slot == EquipmentSlot.FEET ? slot : null;
     }
 
     /** Goes left of the helmet when crafting. The tendrils' names are swapped from their ids. */
@@ -228,6 +295,15 @@ public final class ArmorUpgrades {
             case ENDER_SHARD -> "Ender Pearl Shard";
             case STALKER_SHARD -> "Stalker Shard";
             case STAR_SHARD -> "Fracture Nether Star";
+            case LUCKY_PAW -> "Rabbit Ears";
+            case BREEZE_CORE -> "Breeze Core";
+            case IRON_HEART -> "Iron Golem Head";
+            case CREEPER_FUSE -> "Creeper Fuse";
+            case VEX_WING -> "Vex Wing";
+            case SKULL_VISOR -> "Skull Visor";
+            case ILLUSION_LENS -> "Illusion Lens";
+            case ELDER_SCALE -> "Elder Spike";
+            case Hush.UPGRADE -> "The Hush";
             default -> id;
         };
     }
@@ -236,14 +312,93 @@ public final class ArmorUpgrades {
         return player.getItemBySlot(slot).get(ModItems.ARMOR_UPGRADE);
     }
 
+    // --- Mob items on armor ------------------------------------------------------------------
+
+    /** Every tick: the powers of mob items on the armor a player is wearing. */
+    private static void tickMobItems(ServerPlayer player) {
+        String head = upgradeOn(player, EquipmentSlot.HEAD);
+        String chest = upgradeOn(player, EquipmentSlot.CHEST);
+        String feet = upgradeOn(player, EquipmentSlot.FEET);
+
+        boolean paw = LUCKY_PAW.equals(feet);
+        KitUtil.modifier(player, Attributes.JUMP_STRENGTH, "mob_item_lucky_paw_jump", PAW_JUMP,
+                AttributeModifier.Operation.ADD_VALUE, paw);
+        KitUtil.modifier(player, Attributes.SAFE_FALL_DISTANCE, "mob_item_lucky_paw_fall", PAW_SAFE_FALL,
+                AttributeModifier.Operation.ADD_VALUE, paw);
+        KitUtil.modifier(player, Attributes.KNOCKBACK_RESISTANCE, "mob_item_iron_heart", HEART_KNOCKBACK,
+                AttributeModifier.Operation.ADD_VALUE, IRON_HEART.equals(chest));
+
+        SkullVisor.tick(player);
+        RabbitEars.tick(player);
+        if (SKULL_VISOR.equals(head) && player.tickCount % 10 == 0) {
+            KitUtil.calmAllies(player, VISOR_RANGE, mob -> mob.getType() == EntityTypes.SKELETON
+                    || mob.getType() == EntityTypes.STRAY || mob.getType() == EntityTypes.BOGGED
+                    || mob.getType() == EntityTypes.PARCHED);
+        }
+        // The Bat's own curse blinds him on purpose; a lens doesn't lift a curse.
+        if (ILLUSION_LENS.equals(head) && !(PlayerMob.has(player, MobType.BAT) && PlayerMob.isCursed(player))) {
+            if (player.hasEffect(MobEffects.BLINDNESS)) player.removeEffect(MobEffects.BLINDNESS);
+            if (player.hasEffect(MobEffects.DARKNESS)) player.removeEffect(MobEffects.DARKNESS);
+        }
+        // Spikes go back in after 1.5 seconds. The Elder Guardian's kit runs his own.
+        if (!PlayerMob.has(player, MobType.ELDER_GUARDIAN) && (MobLook.get(player) & MobLook.SPIKES) != 0
+                && !SPIKES_OUT.active(player)) {
+            MobLook.set(player, MobLook.SPIKES, false);
+        }
+        // Helmets that got an Elder Spike before it moved to the chestplate keep their old power.
+        if (ELDER_SCALE.equals(head) && player.isUnderWater() && player.tickCount % 40 == 0) {
+            player.addEffect(new MobEffectInstance(MobEffects.WATER_BREATHING, 300, 0, true, false, true));
+            player.addEffect(new MobEffectInstance(MobEffects.NIGHT_VISION, 300, 0, true, false, true));
+        }
+    }
+
+    private static final int SPIKE_TICKS = 30;          // 1.5 seconds, like the Elder Guardian
+    private static final float SPIKE_DAMAGE = 2.0f;     // 1 heart
+    private static final KitUtil.Timers SPIKES_OUT = new KitUtil.Timers();
+
+    /**
+     * Elder Spike on a chestplate works like the Elder Guardian's own spikes: someone hitting you up close
+     * makes spikes shoot out of your back and shoulders for 1.5 seconds, and they take 1 heart of thorns
+     * damage. Arrows and other thorns don't set it off. An Elder Guardian already has spikes of his own,
+     * so his don't fire twice.
+     */
+    private static void elderSpikes(ServerPlayer player, DamageSource source) {
+        if (!ELDER_SCALE.equals(upgradeOn(player, EquipmentSlot.CHEST))) return;
+        if (PlayerMob.has(player, MobType.ELDER_GUARDIAN)) return;
+        if (source.is(net.minecraft.world.damagesource.DamageTypes.THORNS) || source.is(DamageTypeTags.IS_PROJECTILE)) return;
+        if (!(source.getDirectEntity() instanceof LivingEntity attacker) || attacker != source.getEntity() || attacker == player) return;
+        SPIKES_OUT.start(player, SPIKE_TICKS);
+        MobLook.set(player, MobLook.SPIKES, true);
+        attacker.hurtServer(player.level(), player.damageSources().thorns(player), SPIKE_DAMAGE);
+        player.level().playSound(null, attacker.blockPosition(), SoundEvents.THORNS_HIT, SoundSource.PLAYERS, 1.0f, 1.0f);
+    }
+
+    /** Damage a mob item on armor cancels completely: a Breeze Core stops fall damage. Called from KitEvents. */
+    public static boolean blocksDamage(LivingEntity victim, DamageSource source) {
+        if (SkullVisor.blocksDamage(victim, source)) return true;
+        return victim instanceof Player player && source.is(DamageTypeTags.IS_FALL)
+                && BREEZE_CORE.equals(upgradeOn(player, EquipmentSlot.FEET));
+    }
+
+    /** Damage changes from mob items on armor. Called from KitEvents.modifyDamage. */
+    public static float modifyIncoming(LivingEntity victim, DamageSource source, float amount) {
+        amount = SkullVisor.modifyIncoming(victim, source, amount);
+        if (!(victim instanceof Player player)) return amount;
+        String chest = upgradeOn(player, EquipmentSlot.CHEST);
+        if (CREEPER_FUSE.equals(chest) && source.is(DamageTypeTags.IS_EXPLOSION)) return amount * FUSE_EXPLOSION;
+        return amount;
+    }
+
     // --- Helmet senses --------------------------------------------------------------------
 
     public static void tick(MinecraftServer server) {
         for (ServerPlayer player : server.getPlayerList().getPlayers()) {
             StarBlade.tick(player);
+            tickMobItems(player);
+            VexWing.tick(player);
             // Advancement: wearing armor with an upgrade on it.
             if (player.tickCount % 40 == 0 && (upgradeOn(player, EquipmentSlot.HEAD) != null
-                    || upgradeOn(player, EquipmentSlot.CHEST) != null)) {
+                    || upgradeOn(player, EquipmentSlot.CHEST) != null || upgradeOn(player, EquipmentSlot.FEET) != null)) {
                 com.reality.mobcraft.MobAdvancements.award(player, "armored_up");
             }
             if (PlayerMob.has(player, MobType.WARDEN)) {
@@ -305,7 +460,11 @@ public final class ArmorUpgrades {
         boolean stalker = STALKER_SHARD.equals(helmet) || STALKER_SHARD.equals(chest);
         boolean ender = ENDER_SHARD.equals(chest);
 
-        if (stalker && !sneaking) {
+        if (Hush.UPGRADE.equals(helmet) && !sneaking) {
+            Hush.silence(player);
+        } else if (LUCKY_PAW.equals(helmet)) {
+            RabbitEars.toggle(player);
+        } else if (stalker && !sneaking) {
             stalk(player);
         } else if (ender) {
             randomTeleport(player);
@@ -425,6 +584,7 @@ public final class ArmorUpgrades {
     }
 
     public static void forget(ServerPlayer player) {
+        VexWing.forget(player);
         SENSING.remove(player.getUUID());
         StarBlade.forget(player);
     }

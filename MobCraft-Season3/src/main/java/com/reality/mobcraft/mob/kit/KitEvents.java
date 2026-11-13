@@ -41,6 +41,8 @@ public final class KitEvents {
     public static void register() {
         // Before damage: kits can cancel hits they make or take.
         ServerLivingEntityEvents.ALLOW_DAMAGE.register((victim, source, amount) -> {
+            // A Breeze Core on your boots: no fall damage.
+            if (com.reality.mobcraft.item.ArmorUpgrades.blocksDamage(victim, source)) return false;
             // Mobs you own can never hurt you, even for a tick before they're calmed.
             if (victim instanceof ServerPlayer owner && source.getEntity() != null
                     && MobOwnership.isOwnedBy(source.getEntity(), owner)) return false;
@@ -82,6 +84,7 @@ public final class KitEvents {
 
         // Timers that run for everyone, not just players with a mob.
         ServerTickEvents.END_SERVER_TICK.register(Confusion::tick);
+        ServerTickEvents.END_SERVER_TICK.register(SkeletonKit::tickHorsemen);
 
         // Projectiles: the Skeleton's biome arrows and Lock On.
         ServerEntityEvents.ENTITY_LOAD.register((entity, level) -> {
@@ -143,7 +146,10 @@ public final class KitEvents {
         if (victimKit != null) {
             amount = victimKit.modifyIncomingDamage((ServerPlayer) victim, source, amount);
         }
-        return amount;
+        amount = com.reality.mobcraft.item.GloamiteTraits.modifyDamage(victim, source, amount);
+        amount = com.reality.mobcraft.item.TrollTiers.modifyDamage(victim, source, amount);
+        amount = com.reality.mobcraft.item.GearEnchants.modifyDamage(victim, source, amount);
+        return com.reality.mobcraft.item.ArmorUpgrades.modifyIncoming(victim, source, amount);
     }
 
     /** Called from the undead mixin. */

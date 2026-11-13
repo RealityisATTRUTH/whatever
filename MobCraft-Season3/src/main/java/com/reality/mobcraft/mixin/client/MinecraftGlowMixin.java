@@ -22,7 +22,7 @@ public class MinecraftGlowMixin {
 
     @Inject(method = "shouldEntityAppearGlowing", at = @At("HEAD"), cancellable = true)
     private void mobcraft$clientGlow(Entity entity, CallbackInfoReturnable<Boolean> cir) {
-        if (ClientGlow.isGlowing(entity.getId())) {
+        if (ClientGlow.isGlowing(entity.getId()) || com.reality.mobcraft.client.GearEnchantsClient.duskvision(entity)) {
             cir.setReturnValue(true);
         }
     }

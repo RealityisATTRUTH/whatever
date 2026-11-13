@@ -1,0 +1,10 @@
+{
+  "type": "minecraft:crafting_shapeless",
+  "ingredients": [
+    "mobcraft:gloamite",
+    "mobcraft:dusk_binding"
+  ],
+  "result": {
+    "id": "mobcraft:bound_gloamite"
+  }
+}

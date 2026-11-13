@@ -1,0 +1,19 @@
+{
+  "variants": {
+    "facing=east": {
+      "model": "mobcraft:block/duskvein_anvil",
+      "y": 270
+    },
+    "facing=north": {
+      "model": "mobcraft:block/duskvein_anvil",
+      "y": 180
+    },
+    "facing=south": {
+      "model": "mobcraft:block/duskvein_anvil"
+    },
+    "facing=west": {
+      "model": "mobcraft:block/duskvein_anvil",
+      "y": 90
+    }
+  }
+}

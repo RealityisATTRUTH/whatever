@@ -30,7 +30,7 @@ import net.minecraft.client.renderer.texture.OverlayTexture;
 import net.minecraft.resources.Identifier;
 
 /**
- * Draws bat ears and warden tendrils sticking out of a player's helmet when
+ * Draws bat ears, rabbit ears and warden tendrils sticking out of a player's helmet when
  * the helmet has that upgrade. The pieces follow the head as it turns.
  *
  * Also draws the chestplate's shard on its front: an orange eye for the
@@ -76,6 +76,8 @@ public final class HelmetUpgradeLayer extends RenderLayer<AvatarRenderState, Pla
     private final EntityModel<AvatarRenderState> tendrilRight;
     private final EntityModel<AvatarRenderState> stalkerEye;
     private final EntityModel<AvatarRenderState> pearlTrim;
+    private final EntityModel<AvatarRenderState> rabbitEars;
+    private static final Identifier RABBIT_TEXTURE = Identifier.withDefaultNamespace("textures/entity/rabbit/rabbit_brown.png");
 
     public HelmetUpgradeLayer(RenderLayerParent<AvatarRenderState, PlayerModel> parent, EntityRendererProvider.Context context) {
         super(parent);
@@ -85,6 +87,9 @@ public final class HelmetUpgradeLayer extends RenderLayer<AvatarRenderState, Pla
         tendrilRight = piece(context.bakeLayer(TENDRIL_RIGHT_LAYER));
         stalkerEye = piece(context.bakeLayer(STALKER_EYE_LAYER));
         pearlTrim = piece(context.bakeLayer(PEARL_TRIM_LAYER));
+        // Rabbit Ears: the rabbit's own ears, twitching like the Rabbit player's (MobLookLayer).
+        ModelPart rabbitHead = context.bakeLayer(net.minecraft.client.model.geom.ModelLayers.RABBIT).getChild("body").getChild("head");
+        rabbitEars = MobLookLayer.rabbitEarModel(rabbitHead.getChild("left_ear"), rabbitHead.getChild("right_ear"));
     }
 
     @SuppressWarnings({"unchecked", "rawtypes"})
@@ -197,6 +202,14 @@ public final class HelmetUpgradeLayer extends RenderLayer<AvatarRenderState, Pla
             case ArmorUpgrades.TENDRIL_BOTH -> {
                 draw(tendrilLeft, WARDEN_TEXTURE, foil, poseStack, collector, light, state);
                 draw(tendrilRight, WARDEN_TEXTURE, foil, poseStack, collector, light, state);
+            }
+            case ArmorUpgrades.LUCKY_PAW -> {
+                // A Rabbit player already has ears of their own.
+                // Animated: the ears place themselves on the helmet and twitch (MobLookLayer.rabbitEarModel).
+                if (!"rabbit".equals(state.getData(MobLookLayer.MOB))) {
+                    ArmorRenderer.submitTransformCopyingModel(getParentModel(), state, rabbitEars, state, true, collector.order(1),
+                            poseStack, RenderTypes.entityCutout(RABBIT_TEXTURE), light, OverlayTexture.NO_OVERLAY, state.outlineColor);
+                }
             }
             default -> { }
         }

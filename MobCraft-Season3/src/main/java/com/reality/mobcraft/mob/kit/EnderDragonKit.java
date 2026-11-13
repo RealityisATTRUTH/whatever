@@ -1,6 +1,8 @@
 package com.reality.mobcraft.mob.kit;
 
+import com.reality.mobcraft.mob.MobAttachments;
 import com.reality.mobcraft.mob.MobKit;
+import com.reality.mobcraft.mob.MobLook;
 import com.reality.mobcraft.mob.MobType;
 import com.reality.mobcraft.mob.PlayerMob;
 import net.minecraft.core.BlockPos;
@@ -57,6 +59,10 @@ import net.minecraft.world.entity.LivingEntity;
  *   Self-give     dragon's breath, 4 at a time, out of combat only
  *   Home          the End: Strength I and double energy regen
  *   Allies        endermen, endermites and shulkers
+ *   Wings         the real dragon's wings on her back, flapping while she
+ *                 flies and folded on the ground. Right-click an elytra to
+ *                 feed it to them: full-size wings and faster flight, kept
+ *                 through death until she stops being the Ender Dragon.
  *   Curse         can't fly, no crystal regen, can't spawn an egg
  *   Drops         64 dragon's breath and a dragon head, never the egg
  *
@@ -70,6 +76,7 @@ public final class EnderDragonKit implements MobKit {
     private static final String BUFFET = "wing_buffet";
     private static final String EGG_COOLDOWN = "dragon_egg_spawn";
     private static final float FLY_SPEED = 0.026f;      // about sprinting speed, like the Bat
+    private static final float WINGED_FLY_SPEED = 0.04f; // DRAFT: with the elytra fed to her wings
     private static final int GROUNDED_TICKS = 60;       // 3 seconds
     private static final float FLY_AGAIN_AT = 10;
     private static final double CRYSTAL_RANGE = 24;
@@ -109,7 +116,8 @@ public final class EnderDragonKit implements MobKit {
         if (player.getAbilities().flying && PlayerMob.energy(player) <= 0) TIRED.add(id);
         if (PlayerMob.energy(player) >= FLY_AGAIN_AT) TIRED.remove(id);
         boolean canFly = !cursed && !GROUNDED.active(player) && !TIRED.contains(id);
-        KitUtil.flight(player, canFly, FLY_SPEED);
+        KitUtil.flight(player, canFly, fullWings(player) ? WINGED_FLY_SPEED : FLY_SPEED);
+        MobLook.set(player, MobLook.FLYING, player.getAbilities().flying);
 
         // Immunities.
         if (player.hasEffect(MobEffects.WITHER)) player.removeEffect(MobEffects.WITHER);
@@ -137,6 +145,8 @@ public final class EnderDragonKit implements MobKit {
         KitUtil.passive(player, MobEffects.REGENERATION, 0, false);
         removeEggs(player); // the egg belongs to the Ender Dragon
         EndRules.clearDragonPlayer(player);
+        player.removeAttached(MobAttachments.DRAGON_WINGS);
+        MobLook.clear(player);
         forget(player);
     }
 
@@ -316,6 +326,29 @@ public final class EnderDragonKit implements MobKit {
         GROUNDED.stop(player);
         TIRED.remove(player.getUUID());
         unlinkCrystal(player);
+    }
+
+    static boolean fullWings(ServerPlayer player) {
+        return Boolean.TRUE.equals(player.getAttached(MobAttachments.DRAGON_WINGS));
+    }
+
+    /** Right-clicking an elytra feeds it to her wings, once. */
+    @Override
+    public InteractionResult onUseItem(ServerPlayer player, InteractionHand hand) {
+        ItemStack stack = player.getItemInHand(hand);
+        if (!stack.is(Items.ELYTRA)) return InteractionResult.PASS;
+        if (fullWings(player)) {
+            KitUtil.actionBar(player, "Your wings are already full size.");
+            return InteractionResult.FAIL;
+        }
+        stack.shrink(1);
+        player.setAttached(MobAttachments.DRAGON_WINGS, true);
+        // The game may have already put the elytra on her chest on its own screen. Send it the real inventory.
+        player.containerMenu.sendAllDataToRemote();
+        player.inventoryMenu.sendAllDataToRemote();
+        player.level().playSound(null, player.blockPosition(), SoundEvents.ENDER_DRAGON_FLAP, SoundSource.PLAYERS, 1.5f, 1.0f);
+        KitUtil.actionBar(player, "Your wings grow to full size. You fly faster now.");
+        return InteractionResult.SUCCESS;
     }
 
     static void forget(ServerPlayer player) {

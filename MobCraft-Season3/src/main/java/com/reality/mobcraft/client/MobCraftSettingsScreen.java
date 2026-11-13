@@ -2,6 +2,7 @@ package com.reality.mobcraft.client;
 
 import com.reality.mobcraft.mob.MobAbilities.Ability;
 import com.reality.mobcraft.mob.MobAbilities;
+import com.reality.mobcraft.mob.kit.SkeletonKit;
 import com.reality.mobcraft.mob.MobType;
 import com.reality.mobcraft.mob.PlayerMob;
 import com.reality.mobcraft.net.ToggleAbilityPayload;
@@ -57,6 +58,16 @@ public class MobCraftSettingsScreen extends Screen {
             y += 24;
         }
 
+        // Skeleton only: what G calls, your own skeleton horse or the Four Horsemen.
+        if (type == MobType.SKELETON) {
+            this.addRenderableWidget(Button.builder(horseLabel(horsemenOn()), button -> {
+                boolean turnOn = !horsemenOn();
+                ClientPlayNetworking.send(new ToggleBehaviorPayload(SkeletonKit.HORSEMEN_SETTING, turnOn));
+                button.setMessage(horseLabel(turnOn));
+            }).bounds(left, y, WIDTH, 20).build());
+            y += 24;
+        }
+
         // Blaze only: Fireballs from a blaze rod as well as the key.
         if (type == MobType.BLAZE) {
             this.addRenderableWidget(Button.builder(rodLabel(rodOn()), button -> {
@@ -77,8 +88,11 @@ public class MobCraftSettingsScreen extends Screen {
         this.addRenderableWidget(Button.builder(Component.literal("Mob Behavior..."),
                 button -> this.minecraft.gui.setScreen(new MobBehaviorScreen(this))
         ).bounds(left, bottom + 24, WIDTH, 20).build());
+        this.addRenderableWidget(Button.builder(Component.literal("Team & Pets..."),
+                button -> this.minecraft.gui.setScreen(new TeamScreen(this))
+        ).bounds(left, bottom + 48, WIDTH, 20).build());
         this.addRenderableWidget(Button.builder(Component.literal("Done"), button -> this.onClose())
-                .bounds(left, bottom + 48, WIDTH, 20).build());
+                .bounds(left, bottom + 72, WIDTH, 20).build());
     }
 
     private boolean isOn(Ability ability) {
@@ -91,6 +105,14 @@ public class MobCraftSettingsScreen extends Screen {
 
     private static Component rodLabel(boolean on) {
         return Component.literal("Blaze Rod Fireballs: " + (on ? "ON" : "OFF"));
+    }
+
+    private boolean horsemenOn() {
+        return this.minecraft.player != null && SkeletonKit.horsemen(this.minecraft.player);
+    }
+
+    private static Component horseLabel(boolean horsemen) {
+        return Component.literal("G Calls: " + (horsemen ? "Four Horsemen" : "Skeleton Horse"));
     }
 
     private boolean sensesOn() {

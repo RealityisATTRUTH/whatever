@@ -35,6 +35,15 @@ public final class AbilityKeys {
     /** Fires your mob's ultimate once it's charged. */
     private static KeyMapping ultimate;
 
+    /** Opens Team & Pets. */
+    private static KeyMapping team;
+
+    /** Uses an absorbed mob essence, like the Shulker Essence's shell. */
+    private static KeyMapping essence;
+
+    /** Shadow Crush, for players who absorbed a Shadow Shard. */
+    private static KeyMapping shadowCrush;
+
     public static KeyMapping rtsKey() {
         return rts;
     }
@@ -56,6 +65,12 @@ public final class AbilityKeys {
                 "key.mobcraft.armor_power", InputConstants.KEY_Z, CATEGORY));
         ultimate = KeyMappingHelper.registerKeyMapping(new KeyMapping(
                 "key.mobcraft.ultimate", InputConstants.KEY_U, CATEGORY));
+        team = KeyMappingHelper.registerKeyMapping(new KeyMapping(
+                "key.mobcraft.team", InputConstants.KEY_Y, CATEGORY));
+        essence = KeyMappingHelper.registerKeyMapping(new KeyMapping(
+                "key.mobcraft.essence", InputConstants.KEY_B, CATEGORY));
+        shadowCrush = KeyMappingHelper.registerKeyMapping(new KeyMapping(
+                "key.mobcraft.shadow_crush", InputConstants.KEY_X, CATEGORY));
     }
 
     /** Called every client tick. Sends one packet per press. */
@@ -63,11 +78,21 @@ public final class AbilityKeys {
         while (moveHud.consumeClick()) {
             if (client.player != null) client.gui.setScreen(new HudEditorScreen());
         }
+        while (team.consumeClick()) {
+            if (client.player != null) client.gui.setScreen(new TeamScreen(null));
+        }
         while (rts.consumeClick()) {
             if (client.player != null) client.gui.setScreen(new RtsScreen());
         }
 
         // Armor powers work for everyone, with or without a mob.
+        while (essence.consumeClick()) {
+            if (client.player != null) ClientPlayNetworking.send(new com.reality.mobcraft.net.EssencePayload());
+        }
+        while (shadowCrush.consumeClick()) {
+            if (client.player != null && com.reality.mobcraft.item.Shadow.has(client.player))
+                ClientPlayNetworking.send(new com.reality.mobcraft.net.ShadowCrushPayload());
+        }
         while (armorPower.consumeClick()) {
             if (client.player != null) ClientPlayNetworking.send(new ArmorPowerPayload(client.player.isShiftKeyDown()));
         }

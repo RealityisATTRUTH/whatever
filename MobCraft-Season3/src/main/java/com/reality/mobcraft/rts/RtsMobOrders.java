@@ -7,7 +7,9 @@ import net.minecraft.core.particles.ParticleTypes;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.util.Mth;
+import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.LivingEntity;
+import com.reality.mobcraft.mob.MobAttachments;
 import net.minecraft.world.entity.Mob;
 import net.minecraft.world.entity.ai.attributes.AttributeModifier;
 import net.minecraft.world.entity.ai.attributes.Attributes;
@@ -52,6 +54,11 @@ import java.util.UUID;
  *                 Far off, the mob walks toward it in long steps; close up
  *                 it fights with its own AI, and it never loses interest.
  *
+ * Shulkers can't walk, so they teleport too, like real ones: a hop of up to
+ * 12 blocks a second toward the spot. On an attack order a shulker hops until
+ * it's within 16 blocks of the target and can see it, then stays put and fires
+ * its bullets. Those only hit the target (ShulkerBulletAimMixin).
+ *
  * Endermen teleport instead of walking: up to 32 blocks a jump toward the
  * spot you sent them to, or next to their target. They also teleport if
  * walking close up gets them nowhere. Their own random teleports are turned
@@ -85,6 +92,9 @@ public final class RtsMobOrders {
     private static final double EXTRA_FOLLOW_RANGE = 96.0;
     private static final String FOLLOW_MODIFIER = "rts_follow_range";
     private static final double ENDER_RANGE = 32.0;
+    private static final double SHULKER_HOP = 12.0;     // blocks per teleport
+    private static final double SHULKER_RANGE = 16.0;   // shoots from here (a shulker gives up past 20)
+    private static final int SHULKER_HOP_TICKS = 20;    // a teleport a second
 
     /** y is the height of the clicked block, or NaN when there isn't one. */
     private record Waypoint(double x, double y, double z, int mode) {}
@@ -125,6 +135,7 @@ public final class RtsMobOrders {
     private static Orders open(Mob mob, ServerPlayer commander) {
         Orders orders = ORDERS.computeIfAbsent(mob.getUUID(), id -> new Orders(mob));
         orders.commander = commander.getUUID();
+        if (PetSystem.isSitting(mob)) PetSystem.setSitting(mob, false); // an order stands a sitting pet up
         KitUtil.modifier(mob, Attributes.FOLLOW_RANGE, FOLLOW_MODIFIER, EXTRA_FOLLOW_RANGE,
                 AttributeModifier.Operation.ADD_VALUE, true);
         return orders;
@@ -258,6 +269,17 @@ public final class RtsMobOrders {
                 if (!orders.queue.isEmpty()) startPath(orders, now);
                 continue;
             }
+            if (isShulker(mob)) {
+                if (now - orders.lastPath >= SHULKER_HOP_TICKS && !shulkerToward(orders, next, now)) {
+                    // Nowhere to land: give up on this spot after a while.
+                    if (++orders.tries >= GIVE_UP_TRIES) {
+                        orders.queue.poll();
+                        orders.tries = 0;
+                        if (!orders.queue.isEmpty()) startPath(orders, now);
+                    }
+                }
+                continue;
+            }
             // Hardly moved for a second while it should be walking: hop, and step round the side.
             if (now - orders.lastStuckCheck >= STUCK_CHECK_TICKS) {
                 orders.lastStuckCheck = now;
@@ -328,6 +350,15 @@ public final class RtsMobOrders {
         double dx = target.getX() - mob.getX();
         double dz = target.getZ() - mob.getZ();
         double distance = Math.sqrt(dx * dx + dz * dz);
+        // Shulkers hop until they're close enough to see and shoot the target, then hold still and fire.
+        if (isShulker(mob)) {
+            if (distance > SHULKER_RANGE || !mob.hasLineOfSight(target)) {
+                double step = Math.min(Math.max(distance - 8.0, 2.0), SHULKER_HOP);
+                double along = distance > 0 ? step / distance : 0;
+                shulkerHop(mob, mob.getX() + dx * along, mob.getY() + (target.getY() - mob.getY()) * along, mob.getZ() + dz * along);
+            }
+            return;
+        }
         // Commanded endermen teleport next to a far target instead of walking to it.
         if (mob.getType() == EntityTypes.ENDERMAN && distance > ATTACK_CLOSE) {
             double step = Math.min(distance - 2.0, ENDER_RANGE);
@@ -386,6 +417,62 @@ public final class RtsMobOrders {
         return true;
     }
 
+    private static boolean isShulker(Mob mob) {
+        return mob.getType() == EntityTypes.SHULKER;
+    }
+
+    /** One hop toward a waypoint: all the way if it's close, otherwise 12 blocks along. */
+    private static boolean shulkerToward(Orders orders, Waypoint next, int now) {
+        Mob mob = orders.mob;
+        orders.lastPath = now;
+        double dx = next.x() - mob.getX();
+        double dz = next.z() - mob.getZ();
+        double distance = Math.sqrt(dx * dx + dz * dz);
+        if (distance < ARRIVED) return true;
+        if (distance <= SHULKER_HOP) return shulkerHop(mob, next.x(), next.y(), next.z());
+        return shulkerHop(mob, mob.getX() + dx / distance * SHULKER_HOP, Double.NaN, mob.getZ() + dz / distance * SHULKER_HOP);
+    }
+
+    /**
+     * A shulker teleports to a free block near the spot, on the ground, with the shulker's
+     * teleport sound at both ends, the way real ones move. It sticks to the floor there.
+     */
+    private static boolean shulkerHop(Mob mob, double x, double yHint, double z) {
+        if (!(mob.level() instanceof ServerLevel level)) return false;
+        BlockPos feet = standableNear(level, x, yHint, z);
+        if (!KitUtil.standable(level, feet)) {
+            feet = KitUtil.nearestFreeSpot(level, feet, 3);
+            if (feet == null) return false;
+        }
+        if (feet.equals(mob.blockPosition())) return true;
+        // Shulkers are solid, so two can't share a block: the one landing takes a free block next to it.
+        if (shulkerAt(level, feet, mob)) {
+            BlockPos free = null;
+            search:
+            for (int r = 1; r <= 2; r++) {
+                for (int[] dir : AROUND) {
+                    BlockPos around = standableNear(level, feet.getX() + dir[0] * r + 0.5, feet.getY(), feet.getZ() + dir[1] * r + 0.5);
+                    if (around.equals(mob.blockPosition())) return true;
+                    if (KitUtil.standable(level, around) && !shulkerAt(level, around, mob)) {
+                        free = around;
+                        break search;
+                    }
+                }
+            }
+            if (free == null) return false;
+            feet = free;
+        }
+        level.playSound(null, mob.getX(), mob.getY(), mob.getZ(), SoundEvents.SHULKER_TELEPORT, SoundSource.HOSTILE, 1.0f, 1.0f);
+        mob.teleportTo(feet.getX() + 0.5, feet.getY(), feet.getZ() + 0.5);
+        level.playSound(null, mob.getX(), mob.getY(), mob.getZ(), SoundEvents.SHULKER_TELEPORT, SoundSource.HOSTILE, 1.0f, 1.0f);
+        return true;
+    }
+
+    private static boolean shulkerAt(ServerLevel level, BlockPos pos, Mob except) {
+        return !level.getEntitiesOfClass(Mob.class, new net.minecraft.world.phys.AABB(pos),
+                m -> m != except && m.isAlive() && m.getType() == EntityTypes.SHULKER).isEmpty();
+    }
+
     /**
      * Keeps a holding mob on its block. It fights back against anything that
      * comes close, but won't chase more than 6 blocks. With nothing to fight
@@ -400,6 +487,7 @@ public final class RtsMobOrders {
             target = null;
         }
         if (target != null && target.isAlive()) return;
+        if (isShulker(mob)) return; // it can't be pushed or walk off anyway
         double dx = orders.holdX - mob.getX();
         double dz = orders.holdZ - mob.getZ();
         if (dx * dx + dz * dz > 1.0) {
@@ -432,6 +520,10 @@ public final class RtsMobOrders {
         if (next == null) return;
         orders.lastPath = now;
         Mob mob = orders.mob;
+        if (isShulker(mob)) {
+            shulkerToward(orders, next, now);
+            return;
+        }
         if (mob.getType() == EntityTypes.ENDERMAN) {
             // Commanded endermen teleport to the spot, up to 32 blocks a jump, instead of walking.
             double dx = next.x() - mob.getX();
@@ -541,6 +633,55 @@ public final class RtsMobOrders {
     private static void disengage(Mob mob) {
         mob.setTarget(null);
         mob.getBrain().eraseMemory(MemoryModuleType.ATTACK_TARGET);
+    }
+
+    /**
+     * The enemy a shulker bullet on your side flies at next, after its target died.
+     * A commanded shulker's bullets go for what that shulker is fighting now, or the
+     * closest enemy of its owner. A Shulker player's bullets go for the closest enemy
+     * of that player near the bullet. Null if there's nobody.
+     */
+    public static LivingEntity nextBulletTarget(Entity owner, Entity bullet) {
+        if (owner instanceof Mob mob) {
+            LivingEntity fighting = mob.getTarget();
+            if (fighting != null && fighting.isAlive()) return fighting;
+            ServerPlayer commander = commanderOf(mob);
+            return commander == null ? null : findEnemy(mob, commander);
+        }
+        if (!(owner instanceof ServerPlayer player)) return null;
+        LivingEntity best = null;
+        double bestDistance = SHULKER_RANGE * SHULKER_RANGE;
+        for (LivingEntity entity : bullet.level().getEntitiesOfClass(LivingEntity.class,
+                bullet.getBoundingBox().inflate(SHULKER_RANGE), e -> e != player && e.isAlive())) {
+            if (!isEnemyOf(entity, player)) continue;
+            double distance = entity.distanceToSqr(bullet);
+            if (distance < bestDistance) {
+                bestDistance = distance;
+                best = entity;
+            }
+        }
+        return best;
+    }
+
+    /** The player who owns this mob, if they're online. */
+    private static ServerPlayer commanderOf(Mob mob) {
+        String owner = mob.getAttached(MobAttachments.OWNER);
+        if (owner == null || !(mob.level() instanceof ServerLevel level)) return null;
+        try {
+            return level.getServer().getPlayerList().getPlayer(UUID.fromString(owner));
+        } catch (IllegalArgumentException e) {
+            return null;
+        }
+    }
+
+    /** Other teams' players and hostile mobs, but never your own side. */
+    private static boolean isEnemyOf(LivingEntity entity, ServerPlayer commander) {
+        if (entity == commander || RtsControl.commandsByOwner(entity, commander)
+                || RtsControl.isOwnKind(entity, commander)) return false;
+        if (entity instanceof Player player) {
+            return !(player.isSpectator() || player.isCreative() || player.isAlliedTo(commander));
+        }
+        return entity instanceof Enemy;
     }
 
     /** The closest enemy of the commander this mob can see: other teams' players and hostile mobs. */

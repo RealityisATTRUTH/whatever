@@ -78,6 +78,21 @@ public final class IronGolemKit implements MobKit {
         KitUtil.calmAllies(player, 32, ALLIES);
     }
 
+    /**
+     * Breaking down: every hit knocks gray-white chips of iron off you. Harder hits knock off
+     * more, and more again the more worn down you are.
+     */
+    @Override
+    public void afterHurt(ServerPlayer player, DamageSource source, float damage) {
+        if (damage <= 0) return;
+        float worn = 1f - player.getHealth() / player.getMaxHealth();
+        int count = (int) Math.min(40, (6 + damage * 2) * (1f + worn));
+        float s = player.getScale();
+        player.level().sendParticles(new net.minecraft.core.particles.BlockParticleOption(ParticleTypes.BLOCK,
+                        net.minecraft.world.level.block.Blocks.IRON_BLOCK.defaultBlockState()),
+                player.getX(), player.getY() + 0.9 * s, player.getZ(), count, 0.3 * s, 0.5 * s, 0.3 * s, 0.15);
+    }
+
     @Override
     public void onRemoved(ServerPlayer player) {
         KitUtil.modifier(player, Attributes.SCALE, "golem_scale", 0, AttributeModifier.Operation.ADD_VALUE, false);

@@ -1,0 +1,62 @@
+{
+  "model": {
+    "type": "minecraft:condition",
+    "property": "minecraft:using_item",
+    "on_true": {
+      "type": "minecraft:range_dispatch",
+      "property": "minecraft:use_duration",
+      "scale": 0.03125,
+      "entries": [
+        {
+          "threshold": 0.33,
+          "model": {
+            "type": "minecraft:model",
+            "model": "mobcraft:item/axolotl_roe_eaten_1"
+          }
+        },
+        {
+          "threshold": 0.66,
+          "model": {
+            "type": "minecraft:model",
+            "model": "mobcraft:item/axolotl_roe_eaten_2"
+          }
+        }
+      ],
+      "fallback": {
+        "type": "minecraft:model",
+        "model": "mobcraft:item/axolotl_roe_open"
+      }
+    },
+    "on_false": {
+      "type": "minecraft:range_dispatch",
+      "property": "mobcraft:held_ticks",
+      "entries": [
+        {
+          "threshold": 3,
+          "model": {
+            "type": "minecraft:model",
+            "model": "mobcraft:item/axolotl_roe_opening_1"
+          }
+        },
+        {
+          "threshold": 6,
+          "model": {
+            "type": "minecraft:model",
+            "model": "mobcraft:item/axolotl_roe_opening_2"
+          }
+        },
+        {
+          "threshold": 9,
+          "model": {
+            "type": "minecraft:model",
+            "model": "mobcraft:item/axolotl_roe_open"
+          }
+        }
+      ],
+      "fallback": {
+        "type": "minecraft:model",
+        "model": "mobcraft:item/axolotl_roe"
+      }
+    }
+  }
+}

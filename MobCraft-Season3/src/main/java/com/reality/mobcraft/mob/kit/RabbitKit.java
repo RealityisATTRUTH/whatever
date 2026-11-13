@@ -32,8 +32,8 @@ import java.util.UUID;
  *   Home        Desert, Snowy Plains, Snowy Taiga: escorts get Speed I and half
  *               of Strength I ("The Rabbit King Must Protect"). Killer rabbits
  *               never flee ("Keep Fighting for the King").
- *   Double jump press jump in midair to jump again, 3 energy each. As many
- *               as your energy allows before you land.
+ *   Double jump press jump in midair to jump again, 3 energy each. Up to 3
+ *               midair jumps before you land.
  *   No fall damage
  *   Curse       only one midair jump before you land, and can't self-give raw
  *               rabbit. Raw rabbit already held stays.
@@ -104,6 +104,7 @@ public final class RabbitKit implements MobKit {
 
     private static final float JUMP_COST = 3;
     private static final double JUMP_VELOCITY = 0.6;
+    private static final int MAX_AIR_JUMPS = 3;
     /** Midair jumps since the player last touched the ground. */
     private static final Map<UUID, Integer> AIR_JUMPS = new HashMap<>();
 
@@ -114,6 +115,10 @@ public final class RabbitKit implements MobKit {
         int jumps = AIR_JUMPS.getOrDefault(player.getUUID(), 0);
         if (PlayerMob.isCursed(player) && jumps >= 1) {
             KitUtil.actionBar(player, "Cursed: only one midair jump.");
+            return;
+        }
+        if (jumps >= MAX_AIR_JUMPS) {
+            KitUtil.actionBar(player, "Out of midair jumps. Land to jump again.");
             return;
         }
         if (!PlayerMob.spend(player, JUMP_COST)) return;

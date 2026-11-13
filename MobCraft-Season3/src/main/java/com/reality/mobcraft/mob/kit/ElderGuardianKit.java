@@ -1,6 +1,7 @@
 package com.reality.mobcraft.mob.kit;
 
 import com.reality.mobcraft.mob.MobKit;
+import com.reality.mobcraft.mob.MobLook;
 import com.reality.mobcraft.mob.MobType;
 import com.reality.mobcraft.mob.PlayerMob;
 import net.minecraft.core.BlockPos;
@@ -38,7 +39,8 @@ import java.util.UUID;
  *   Water         Dolphin's Grace, Water Breathing, Night Vision while under.
  *   Land          Slowness I and no sprinting.
  *   Size          1.2 times normal.
- *   Spikes        standing still, melee attackers take 1 heart back per hit.
+ *   Spikes        when someone hits you up close, your spikes shoot out for
+ *                 1.5s and they take 1 heart of thorns damage.
  *   Laser Beam    R: locks onto the player you're looking at (24 blocks),
  *                 charges 2s while you keep them in sight, then 6 damage
  *                 through armor. Losing sight cancels it. 30 energy, 15s.
@@ -64,15 +66,14 @@ public final class ElderGuardianKit implements MobKit {
     private static final float LASER_DAMAGE = 6.0f;
     private static final double CURSE_RANGE = 20;
     private static final int MAX_GUARDIANS = 6;
-    private static final int STILL_TICKS = 10;
+    private static final int SPIKE_TICKS = 30;
     private static final double CONDUIT_RANGE = 8;
     private static final Set<EntityType<?>> ALLIES = Set.of(EntityTypes.GUARDIAN, EntityTypes.ELDER_GUARDIAN, EntityTypes.DROWNED);
 
     private record Charge(UUID target, int ticksLeft) {}
 
     private static final Map<UUID, Charge> CHARGING = new HashMap<>();
-    private static final Map<UUID, Vec3> LAST_POS = new HashMap<>();
-    private static final Map<UUID, Integer> STILL = new HashMap<>();
+    private static final KitUtil.Timers SPIKES_OUT = new KitUtil.Timers();
     private static final KitUtil.Flags IN_MONUMENT = new KitUtil.Flags();
 
     @Override
@@ -101,11 +102,7 @@ public final class ElderGuardianKit implements MobKit {
         }
         KitUtil.passive(player, MobEffects.RESISTANCE, 0, IN_MONUMENT.is(player));
 
-        // Standing still, for the spikes.
-        Vec3 pos = player.position();
-        Vec3 last = LAST_POS.put(id, pos);
-        boolean moved = last == null || pos.distanceToSqr(last) > 1.0E-4;
-        STILL.put(id, moved ? 0 : STILL.getOrDefault(id, 0) + 1);
+        MobLook.set(player, MobLook.SPIKES, SPIKES_OUT.active(player));
 
         KitUtil.calmAllies(player, 32, ALLIES);
         tickLaser(player);
@@ -119,6 +116,7 @@ public final class ElderGuardianKit implements MobKit {
         KitUtil.passive(player, MobEffects.NIGHT_VISION, 0, false);
         KitUtil.passive(player, MobEffects.SLOWNESS, 0, false);
         KitUtil.passive(player, MobEffects.RESISTANCE, 0, false);
+        MobLook.clear(player);
         forget(player);
     }
 
@@ -127,12 +125,13 @@ public final class ElderGuardianKit implements MobKit {
         return KitUtil.doubledAtHome(IN_MONUMENT.is(player), type);
     }
 
-    /** Spikes: while still, melee attackers take 1 heart back. */
+    /** Spikes: a hit up close makes them shoot out, and the attacker takes 1 heart back. */
     @Override
     public void afterHurt(ServerPlayer player, DamageSource source, float damage) {
         if (PlayerMob.isCursed(player) || source.is(DamageTypes.THORNS) || source.is(DamageTypeTags.IS_PROJECTILE)) return;
-        if (STILL.getOrDefault(player.getUUID(), 0) < STILL_TICKS) return;
         if (source.getDirectEntity() instanceof LivingEntity attacker && attacker == source.getEntity() && attacker != player) {
+            SPIKES_OUT.start(player, SPIKE_TICKS);
+            MobLook.set(player, MobLook.SPIKES, true);
             attacker.hurtServer(player.level(), player.damageSources().thorns(player), 2.0f);
             player.level().playSound(null, attacker.blockPosition(), SoundEvents.THORNS_HIT, SoundSource.PLAYERS, 1.0f, 1.0f);
         }
@@ -277,8 +276,7 @@ public final class ElderGuardianKit implements MobKit {
     static void forget(ServerPlayer player) {
         UUID id = player.getUUID();
         CHARGING.remove(id);
-        LAST_POS.remove(id);
-        STILL.remove(id);
+        SPIKES_OUT.forget(id);
         IN_MONUMENT.forget(player);
     }
 

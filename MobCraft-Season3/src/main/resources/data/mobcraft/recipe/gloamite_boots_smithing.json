@@ -1,0 +1,51 @@
+{
+  "type": "minecraft:smithing_transform",
+  "template": "mobcraft:gloamite_upgrade_smithing_template",
+  "base": "minecraft:netherite_boots",
+  "addition": "mobcraft:bound_gloamite",
+  "result": {
+    "id": "minecraft:netherite_boots",
+    "components": {
+      "minecraft:item_name": {
+        "translate": "item.mobcraft.gloamite_boots"
+      },
+      "minecraft:item_model": "mobcraft:gloamite_boots",
+      "minecraft:rarity": "epic",
+      "minecraft:attribute_modifiers": [
+        {
+          "type": "minecraft:armor",
+          "amount": 4,
+          "id": "mobcraft:gloamite_armor_feet",
+          "operation": "add_value",
+          "slot": "feet"
+        },
+        {
+          "type": "minecraft:armor_toughness",
+          "amount": 4.0,
+          "id": "mobcraft:gloamite_toughness_feet",
+          "operation": "add_value",
+          "slot": "feet"
+        },
+        {
+          "type": "minecraft:knockback_resistance",
+          "amount": 0.15,
+          "id": "mobcraft:gloamite_knockback_feet",
+          "operation": "add_value",
+          "slot": "feet"
+        }
+      ],
+      "minecraft:equippable": {
+        "slot": "feet",
+        "asset_id": "mobcraft:gloamite",
+        "equip_sound": "minecraft:item.armor.equip_netherite"
+      },
+      "minecraft:max_damage": 553,
+      "minecraft:enchantable": {
+        "value": 18
+      },
+      "minecraft:repairable": {
+        "items": "mobcraft:gloamite"
+      }
+    }
+  }
+}

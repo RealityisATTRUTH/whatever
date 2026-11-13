@@ -159,3 +159,8 @@ tasks.register('dumpVanillaSource') {
         println "Copied ${found.size()} files. Send this file back: ${dumpOutZip.absolutePath}"
     }
 }
+
+// The jar's file name uses jar_version (like mobcraft-beta-1.0.jar); the mod itself reports mod_version.
+tasks.named('jar') {
+    archiveVersion = project.findProperty('jar_version') ?: project.version
+}

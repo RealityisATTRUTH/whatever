@@ -1,6 +1,7 @@
 package com.reality.mobcraft.mob.kit;
 
 import com.reality.mobcraft.mob.MobKit;
+import com.reality.mobcraft.mob.MobLook;
 import com.reality.mobcraft.mob.MobType;
 import com.reality.mobcraft.mob.PlayerMob;
 import net.minecraft.core.particles.ParticleTypes;
@@ -61,6 +62,8 @@ public final class BreezeKit implements MobKit {
         boolean home = IN_CHAMBERS.is(player);
         KitUtil.passive(player, MobEffects.JUMP_BOOST, 1, true);
         KitUtil.passive(player, MobEffects.SPEED, 0, home);
+        // The wind swirl around the legs grows for a moment during Whirlwind. See MobLookLayer.
+        MobLook.set(player, MobLook.WHIRL, WHIRL_LOOK.active(player));
         KitUtil.calmAllies(player, 32, ALLIES);
     }
 
@@ -68,6 +71,7 @@ public final class BreezeKit implements MobKit {
     public void onRemoved(ServerPlayer player) {
         KitUtil.passive(player, MobEffects.JUMP_BOOST, 1, false);
         KitUtil.passive(player, MobEffects.SPEED, 0, false);
+        MobLook.clear(player);
         forget(player);
     }
 
@@ -139,7 +143,10 @@ public final class BreezeKit implements MobKit {
         level.playSound(null, player.blockPosition(), SoundEvents.BREEZE_JUMP, SoundSource.PLAYERS, 1.0f, 1.0f);
     }
 
+    private static final KitUtil.Timers WHIRL_LOOK = new KitUtil.Timers();
+
     private static void whirlwind(ServerPlayer player) {
+        WHIRL_LOOK.start(player, 30);
         ServerLevel level = player.level();
         for (Player target : level.getEntitiesOfClass(Player.class, player.getBoundingBox().inflate(WHIRL_RANGE),
                 p -> p != player && p.isAlive() && !p.isSpectator() && !p.isAlliedTo(player)
@@ -165,6 +172,7 @@ public final class BreezeKit implements MobKit {
 
     static void forget(ServerPlayer player) {
         IN_CHAMBERS.forget(player);
+        WHIRL_LOOK.forget(player.getUUID());
     }
 
     // --- Ultimate: Tempest ---------------------------------------------------------------

@@ -1,6 +1,347 @@
 ## Edit this file to change the Update Log on the title screen.
 ## Lines starting with "# " are version headings, lines starting with "- " are entries.
 ## Newest at the top. Lines starting with ## don't show, like these.
+# Season 3 Beta 5.10
+- Fixed the shadow hands' fingers for real. A bug squashed every finger into the palm, so the hand looked like a square on the end of the arm. The fingers now stretch out long with claw tips, like the concept art
+- The hands are back to the concept's pose and size
+- The Shadow Crush hand shows its fingers too, rising up over the heart
+# Season 3 Beta 5.9
+- Reworked the shadow hands so you can see the fingers. Before, the hand looked like a dark square on the end of the arm
+- Hands are bigger, with long splayed fingers, gaps between them, knuckles and bright claw tips, and a thinner glow so the fingers don't blur together
+- The hands now face the front, toward whoever the user is fighting
+- The Shadow Crush hand rises from low in the chest and its fingers close up over the heart
+# Season 3 Beta 5.8
+- Fixed Shieldbreaker never working: the axe knocked the shield down first, so the enchant couldn't find it. It now shatters the shield as intended (extra cooldown and 15 durability per level)
+- Checked in multiplayer: the Shadow Essence drop, Unseen Hand visibility (hidden without the Shadow, shown with it), Shadow Crush, the mantle, Skybreaker and the Backwards grip
+# Season 3 Beta 5.7
+- The Unseenhush is now a dev item. The code is all there, but it's switched off until the players vote on it
+- It doesn't generate, isn't in the creative tab, and the Hush helmet does nothing while it's off
+- Moderators can test it with /mobcraftdev unseenhush on. It turns back off when the server restarts
+# Season 3 Beta 5.6
+- The Unseenhush (a Dr. Stone reference): a new ore rarer than Duskvein. A single block deep in the deepslate, in about 1 chunk out of 1000
+- It's shy: look straight at it for a second and it slips into a nearby deepslate block. Wear a carved pumpkin or stand in Darkness and it can't tell you're there
+- It takes a very long time to mine, and any sound within 16 blocks starts the mining over. Make the world around it silent first
+- Mining it drops The Hush, and the world goes silent around it for a few seconds
+- Put The Hush on a helmet. The Armor Power key silences the player you look at, so they can't hear anything for 15 seconds. 2 minute cooldown
+# Season 3 Beta 5.5
+- The Witch's Shadow (a Re:Zero reference): kill a player who isn't playing as a mob and they drop a Shadow Essence. Combine it with an amethyst shard to make a Shadow Shard, then right-click to absorb it. It has its own slot, so it works alongside a mob essence
+- Shadow Crush (X key, needs the Shadow): a shadow hand reaches into whoever you look at, up to 16 blocks away, and slowly crushes their heart down to two hearts. It never kills, and everyone can see it. 3 minute cooldown
+- 24 new enchants. They come from Ancient City chests, ominous vaults, and the enchanting table only when Duskvein is in the slot. The Duskvein Anvil can push them past their max
+  - Swords: Phantom Edge, Executioner, Bloodmoon, Duelist
+  - Axes: Earthsplitter, Ricochet, Shieldbreaker
+  - Bows: Homing, Split Shot, Rift Arrow
+  - Crossbows: Grapple, Chain Lightning, Cluster Rocket
+  - Tridents: Maelstrom, Thunderlord
+  - Helmets: Duskvision, Danger Sense
+  - Chestplates: Unseen Hand, Thorn Aura
+  - Leggings: Dash, Lurk
+  - Boots: Double Jump, Magnetic, Lava Walker
+- Unseen Hand: sneak and right-click with an empty hand. Shadow hands rise out of your back (2, 4 or 6 by level) and one drags whoever you're looking at to you. At II and III it lifts and squeezes them. Only you and players with the Shadow can see the hands
+# Season 3 Beta 5.4
+- Armor now rolls tiers: Cracked, Worn, Plain, Sturdy, Tough, Light, Steadfast, Hearty and Legendary. Each piece rolls its own
+- Bows and crossbows now roll tiers: Warped, Slack, Plain, Taut, Quick, Far-Shot and Legendary
+- Reroll armor with its repair material, a bow with string, or a crossbow with a stick, at any anvil
+- New rare troll tiers:
+  - Weapons and tools: Squeaky (hits squeak and knock mobs way back), Butterfingers (sometimes slips out of your hand), Confetti (kills burst into confetti, a little weaker) and Backwards (held upside down)
+  - Armor: Squeaky (your steps squeak, even sneaking), Itchy (you stop to scratch now and then), Drippy (you drip water everywhere, even in the Nether) and Bouncy (less fall damage, but you bounce)
+  - Bows: Boomerang (some arrows come back), Party (arrows trail confetti and pop), Wobbly (arrows wobble) and Chicken Shot (some arrows land as chickens)
+- Bow and troll tiers say what they do in the tooltip
+# Season 3 Beta 5.3
+- Fixed: Crystal Bloom only worked when you clicked bare grass blocks. It now also works on the grass growing on top, which is what you usually click after the first bone meal
+- Fixed: Crystal Bloom could grow rare flowers without using any bone meal by clicking a flower over and over
+- Dust Cloud blinds and slows mobs for 3 seconds instead of 2.5
+- Glow Trail's purple glow is brighter so you can see it
+# Season 3 Beta 5.2
+- Echo Slam's rings are now blue soul flames with sculk bubbles. They close in on the spot you hit instead of trailing after a target that gets knocked away
+# Season 3 Beta 5.1
+- Tiers: every weapon and tool rolls a tier the first time it's in your inventory. It shows in front of the name, like "Keen Iron Sword"
+- The tiers are Broken, Dull, Plain, Keen, Swift, Heavy, Balanced, Far-Reaching and Legendary. Plain is the most common and changes nothing
+- Swords, axes, spears, maces and tridents get damage, swing speed or reach. Pickaxes, shovels and hoes get mining speed instead of damage
+- Reroll a tier at any anvil: a tool at full durability plus one of its repair material, for 3 levels
+- Gloamite tools now roll 2 of their traits instead of having them all. Reroll them at the Duskvein Anvil with a Dusk Binding, for 5 levels. The tier stays
+- Upgrading a tool to Gloamite keeps its tier
+# Season 3 Beta 5.0
+- Gloamite tools now have traits. Hover a Gloamite tool to see its list
+- Sword: Sweep Hiss (sweeps reach farther), Soul Siphon (kills heal a heart), Brittle Armor (wears down their armor faster), Last Crack (hits harder under 3 hearts)
+- Pickaxe: Vein Sense (sneak to see Duskvein through walls), Ore Echo (chimes when more ore touches it), Shard Bonus (extra amethyst and quartz), Self Mend (repairs while mining in the dark), Glow Trail (mined spots glow for a while)
+- Axe: Splinter (chopping can splinter nearby mobs), Crystal Bite (hits crack mobs for damage over time), Rooted (half knockback while held), Sap Mend (repairs while chopping logs), Dusk Cleave (night crits hit everything in front)
+- Shovel: Excavate (sneak to dig 3 by 3), Ground Sense (warns of caves and lava below), Soul Dig (fast on soul sand, no slowdown), Buried Echo (can uncover suspicious sand or gravel), Dust Cloud (digging fast blinds mobs nearby)
+- Hoe: Harvest Sweep (harvests the ripe crops around), Auto Replant (replants with the seeds it drops), Till Wave (tills 3 by 3), Crystal Bloom (bone meal can grow rare flowers or amethyst), Wither Touch (hits wither mobs)
+# Season 3 Beta 4.9
+- Fixed: Gravity Well threw mobs right past the impact to the other side. The pull now matches how far away they are, so they land in a ring around where you hit
+- Fixed: Aftershock never hurt the mobs around you, because the mace's own knockback lifted them off the ground first. It now lands while they're still standing
+- Echo Slam's blue rings are denser so they read as rings
+- The Strongholder's Mantle hides its hood when you wear a helmet or pumpkin, so nothing pokes out around it
+# Season 3 Beta 4.8
+- New: the Strongholder's Mantle. While you read the Stronghold Tome you're wrapped in a grey trench-coat robe with a deep hood, a popped gold-rimmed collar, lapels, a belt with a gold buckle, a long rune-marked cloak flaring behind and its own sleeves, with a halo of runes turning over your head. Everyone sees it
+- Opening the book writes the mantle on with a purple shimmer sweeping up from your feet. Closing it wipes it off from the top down
+# Season 3 Beta 4.7
+- New enchant: The Unbinding Severance, for swords and axes, up to III. It cuts the Binding Word's chains faster: every hit counts as 2 at I, 3 at II and 4 at III. Found in the enchanting table, loot and villager trades
+# Season 3 Beta 4.6
+- Word of Silence has its own model now: a band of glowing runes is written round the target's mouth, two small lavender chains cross over it to lock it, and a halo of runes turns above their head. Everyone sees it
+- Unwriting has its own model now: rune words lying on the target's body peel off, tumble away and dissolve, and fly back in and settle when the enchantments return. Everyone sees it
+# Season 3 Beta 4.5
+- The Stronghold Tome has more powers. Sneak + right-click turns the page to the next power: the book comes up, opens and a page flips, and the power's name shows above your hotbar. Hold right-click to read the page you're on
+- New power: Word of Silence. Runes circle the target's head and their mob abilities stop working for 10 seconds. A mob is left weak and slow instead. 30 second cooldown
+- New power: Unwriting. The target's worn and held enchantments go dark and stop working for 15 seconds, then write themselves back. 40 second cooldown
+- New power: Page Storm. Burning pages spray out of the book in three bursts, hurting and setting fire to what's in front of you. 10 second cooldown
+# Season 3 Beta 4.4
+- The Duskvein Anvil is animated now: light drifts through the purple glow and it pulses, and the veins breathe brighter and dimmer
+# Season 3 Beta 4.3
+- New look for the Duskvein Anvil: it's broken into chunks, and where pieces are missing a see-through purple glow fills the shape back in. Thin glowing veins spread across it, and it glows in the dark
+- Skybreaker's sky cracks are a little thinner so you can see yourself standing on the sky
+# Season 3 Beta 4.2
+- New: four mace enchants. A mace can only have one of them, and they go up to III
+  Gravity Well: a smash pulls nearby enemies in toward where you land
+  Aftershock: a smash sends a shockwave along the ground that hurts enemies around you. Bigger fall, bigger hit
+  Echo Slam: blue sculk rings close in around the target with warden and sculk sounds, Darkness wraps them, then a second hit lands a moment later
+  Skybreaker: right-click to use. You launch into the sky, flip upside down and plant your feet on the underside of the sky while it cracks under you, then it shatters and you dive head-first onto the enemy in your crosshair for a real mace smash. The landing sends out a shockwave that lifts the ground. Cooldown 20 seconds at I, 17 at II, 14 at III
+- Where to find them: Ancient City chests, ominous trial vaults, and the enchanting table when Duskvein is in the lapis slot (it can awaken one on a mace). Never from villagers
+- Greater mace enchants: Density can go past its max with Duskvein in the enchanting table. Breach stays capped so armor still matters
+- Wind Burst IV can drop from ominous trial vaults, and two Wind Burst III merge into IV (and two IV into V) at the Duskvein Anvil
+- New: Duskvein Anvil. 3 Duskvein, an anvil and 3 Rose Gold Ingots. It's the only anvil that can work greater enchants, it's never "Too Expensive", and it never chips
+- Changed: a normal anvil now won't work anything with an enchant past its max. Use the Duskvein Anvil
+# Season 3 Beta 4.1
+- New: Gloamite tools and weapons. Upgrade a netherite sword, axe, pickaxe, shovel or hoe at the smithing table with the Gloamite Upgrade and Bound Gloamite
+- Gloamite tools: 1 more attack damage than netherite, mining speed 11 instead of 9, and 2500 durability instead of 2031
+- Gloamite armor now has about 15% more durability than netherite
+- All Gloamite gear is easier to enchant than netherite, is repaired with Gloamite, and keeps its enchants when you upgrade it
+- Gloamite gear takes the greater enchants more easily: with Duskvein in the enchanting table, maxed enchants go past their max much more often than on other gear
+# Season 3 Beta 4.0
+- Fixed: Duskvein Ore was turning into Gloamite every time. Now it really is a 1 in 20 chance
+- Fixed: Fortune didn't give extra Duskvein. It works now
+- Fixed: the hiss, smoke and message when Duskvein turns into Gloamite didn't show up. They do now
+- Fixed: shift-clicking Duskvein in the enchanting table now moves it into the lapis slot
+- New look for Bound Gloamite: the broken Gloamite crystal put back together, with its cracks sealed in rose gold from the Dusk Binding
+# Season 3 Beta 3.9
+- New look for the Dusk Binding: Duskvein crystals fused into a rose gold ingot, with purple veins running through the gold. No more band
+# Season 3 Beta 3.8
+- Gloamite now looks broken from reacting with the air: the tip snapped off and floats above, the left crystal is broken short, cracks run through it and chips lie on the stone
+# Season 3 Beta 3.7
+- Gloamite now looks like the Duskvein crystal it came from, but pale twilight purple with rose glints, since it reacted with the air
+# Season 3 Beta 3.6
+- New look for the Dusk Binding: a rose gold band with a Duskvein gem fused into the front, with purple veins running into the gold
+# Season 3 Beta 3.5
+- The Gloamite Upgrade template is now the netherite upgrade template turned purple, with a soft lavender arrow
+# Season 3 Beta 3.4
+- Toned down the arrow on the Gloamite Upgrade template so it isn't as bright
+# Season 3 Beta 3.3
+- Removed the dark outline around the arrow on the Gloamite Upgrade template
+# Season 3 Beta 3.2
+- The Gloamite Upgrade template now has a clear upward arrow in the middle, like the netherite upgrade template
+# Season 3 Beta 3.1
+- The Gloamite Upgrade template got a new look in the same style as the netherite upgrade template: a purple slab with a lit top edge and a glowing Gloamite gem in the middle
+# Season 3 Beta 3.0
+- New: Gloamite. Mining Duskvein Ore has a 1 in 20 chance that the Duskvein reacts with the air and turns into Gloamite instead, with a hiss and smoke. Silk Touch keeps the ore
+- New: Gloamite armor, the tier above netherite. Gloamite can't go on armor by itself:
+  Rose Gold Ingot = gold ingot + copper ingot
+  Dusk Binding = Duskvein + 2 Rose Gold Ingots
+  Bound Gloamite = Gloamite + Dusk Binding
+  Smithing table: Gloamite Upgrade + a netherite armor piece + Bound Gloamite
+- The Gloamite Upgrade template is found in Ancient City chests, about 1 in 6, and copied with 7 Duskvein and cobbled deepslate
+- Gloamite armor: 1 more armor than netherite on every piece, 4 toughness per piece instead of 3, more knockback resistance, and a twilight purple look with glowing cracks. It keeps your enchants and durability
+- Credit: the Rose Gold Ingot texture is from the Rose Gold Equipment mod by igobyjake, used under the MIT License
+# Season 3 Beta 2.9
+- Duskvein Ore is now very hard to mine, hardness 200 (ancient debris is 30). A netherite pickaxe with Efficiency V takes about 8.5 seconds, and over 5 seconds even with Haste III. Duskvein-boosted Efficiency VI and VII cut that down. It's also blast proof like obsidian, so TNT, creepers and Creeper Essence blasts can't break it out
+# Season 3 Beta 2.8
+- Duskvein Ore: bedrock now creeps in from all four corners of every side, not just one, biggest at the bottom where the ore sits on bedrock, and each side is different
+# Season 3 Beta 2.7
+- Duskvein Ore: new look, built like Mojang's own ores. It's the game's deepslate with real bedrock creeping in at the corners, since it forms right on top of bedrock, and veins of purple crystal running through it with a warm glint. The crystal glows faintly, so it shines in the dark
+# Season 3 Beta 2.6
+- New: Duskvein, a rare gem from the very bottom of the world. Its ore only forms in the last few layers above bedrock, in tiny veins of 1 or 2, about 5 veins in every 5 by 5 chunks; you need an iron pickaxe or better. Put a Duskvein in an enchanting table instead of lapis: every enchant that comes out at its normal max has a chance to go one level past it, like Unbreaking IV, and sometimes two, like Unbreaking V. It's never guaranteed. Villagers never sell anything past the max, and anvils keep these levels when you repair or combine but never raise anything past the max themselves
+# Season 3 Beta 2.5
+- New: an enchant-boosting gem from the Deep Dark that pushes enchants past their max in an enchanting table. Renamed and reworked into Duskvein in Beta 2.6
+# Season 3 Beta 2.4
+- Binding Word: the chains are wound square round each leg now, flat against its four sides like they were pulled tight, with a rune in the middle of each side and the ground chains running from the corners
+# Season 3 Beta 2.3
+- Binding Word: the chains now coil tight round each leg, ankle to knee, shrink-wrapped to it, with chains from each ankle into the ground. Glowing runes ride the links and flicker from letter to letter
+# Season 3 Beta 2.2
+- Stronghold Tome power, Binding Word: read the open book at a player or mob within 16 blocks and the enchanting letters pour onto them and become lavender chains round their legs, with four chains pinning them to the ground. They can't walk or jump. To break free, look down at your feet and hit the chains 3 to 7 times, different every time; each hit snaps one of the ground chains. Mobs break out on their own after 7 seconds, and nobody stays chained longer than 20. 30 second cooldown
+# Season 3 Beta 2.1
+- Stronghold Tome: dying with it burns it. It drops as usual, but every death leaves it more burnt: singed edges, then scorched, then charred, then barely holding together, with glowing embers along the burn. A badly burnt Tome smokes in your hands. Its tooltip says how burnt it is. The fifth time someone dies holding it, it catches fire, burns to ash and blows away on the wind, gone for good
+# Season 3 Beta 2.0
+- Stronghold Tome: opens at a human pace now, about a second and a half instead of a snap. First your hands come up and bring the book in front of you, still shut, then the covers part and fall open, then the pages start turning. Letting go runs it backwards: the covers close, then your hands come down. Same in first person and for everyone watching
+# Season 3 Beta 1.9
+- Stronghold Tome: what other players see is fixed. Before, the arms crossed over the chest and squashed a tiny book against it, upside down. Now both arms reach out in front, hands at the covers, holding the book open below the chin with the pages turned up toward your face, so people in front see the covers and people above see the pages
+# Season 3 Beta 1.8
+- Stronghold Tome: you hold it like a person now. In first person both your hands come up and hold the open book in front of you, the way you hold a map, with the pages facing you. Everyone else sees both your arms come up and forward, holding the book open in front of your chest while you look down into it. The arms rise as it opens and drop as it shuts
+# Season 3 Beta 1.7
+- New: the Stronghold Tome, a rare book found only in stronghold library chests, about 1 chest in 10. Hold right-click to open it: the covers swing open, it tips up toward you and the pages keep flipping, while glowing enchanting letters pour into it like an enchanting table. Let go and it snaps shut. Other players see it open in your hand and see the letters too. What it does is coming later
+# Season 3 Beta 1.6
+- Wither: Block Destruction lasts 10 seconds now instead of one burst. Every block you touch breaks, whatever your speed: walk, fly or charge straight through walls, or stand still and it keeps clearing round you. Sneak to dig down. A countdown shows how long is left and how many blocks you've broken. 30 second cooldown
+- Fixed: the Silverfish flickering in Stone Swim when standing on a block that isn't stone, like stone over sandstone. Only stone opens up for you now, and everything else is solid, so you stand on it instead of sinking in and getting snapped back every tick
+# Season 3 Beta 1.5
+- Elder Spike: now goes on a chestplate in a crafting grid, and gives you the Elder Guardian's spikes. When someone hits you up close, spikes shoot out of your back and shoulders for 1.5 seconds and they take 1 heart of thorns damage. Arrows don't set it off. Helmets that already have an Elder Spike keep Water Breathing and Night Vision underwater
+# Season 3 Beta 1.4
+- Rabbit Ears disguise: the rabbit you turn into is animated now. Every hop and every jump plays a real rabbit's hop, its legs kicking and body stretching, and when you sit still it tilts its head now and then like a curious rabbit. Everyone watching sees it too
+# Season 3 Beta 1.3
+- Rabbit Ears: the ears on your helmet move with you now. They bob with every step and swing a little side to side as you walk, and flop back further the faster you run. Jump and they trail back as you rise, flick up and out as you fall, and bounce when you land. A Rabbit player's own ears do the same
+# Season 3 Beta 1.2
+- Skeleton: choose what G calls in /mobcraftsettings, "G Calls: Skeleton Horse" or "G Calls: Four Horsemen". The Four Horsemen are like the vanilla skeleton trap: lightning strikes, and four skeletons on skeleton horses ride out for you, with iron helmets and Power II bows. They're yours to command in RTS and crumble into dust after 60 seconds, or when you call new ones. Same 40 energy and 2:00 cooldown as the horse
+# Season 3 Beta 1.1
+- Fix: mobs an ability summoned, like an Axolotl's pod or an Evoker's vexes, stop being yours when you change mobs. Before, a new mob could still select and command them in RTS. They go wild like released pets, and ones far away in unloaded chunks go wild when they load
+# Season 3 Beta 1.0
+- The first beta, ready for the season. Tested on a dedicated server with two players: every mob item, its 3D model and its powers look and work the same for everyone watching
+# Season 3 Alpha 0.2.56
+- Creeper Essence: blasts are twice as big, and the charge is concentrated: blocks only stand up to it with a quarter of their blast resistance, so stone breaks about like dirt. Obsidian and bedrock still hold. Thrown, packed ice is now a charged creeper's blast (power 6), a water bucket 4.6, bigger than TNT, and the densest things reach 12. The last stand is three creepers for packed ice, from 2 up to 16
+# Season 3 Alpha 0.2.55
+- Creeper Essence: every blast breaks blocks now, thrown or last stand, like TNT. Density sets the power and each block's own blast resistance decides what goes: light things crack dirt and sand, denser ones chew through stone. Charging tells you the density and the power
+# Season 3 Alpha 0.2.54
+- Creeper Essence density reworked with bucket logic: anything you hold takes up 1 m³, so its density is its mass, and its mass is what went into it. A storage block is its real material (iron block 7,874, gold block 19,300), an ingot is a ninth of that (iron 874.9), and crafted things weigh their ingredients: a bucket is 3 ingots, 2,624.7, and a water bucket adds 875 of water, 3,499.7. Ice is still 875, packed ice 7,875 and blue ice 70,875
+- Creeper Essence last stand: carry two or more water buckets and they make an infinite water source, infinite mass: a singularity. Your last stand goes off at full power and breaks blocks
+# Season 3 Alpha 0.2.53
+- Creeper Essence: density now decides how big the blast is. Every item has a density worked out with Minecraft logic: a block is its real material (wood 600, stone 2,500 kg/m³), ice is 875, and crafting packs 9 into one, so packed ice is 7,875, blue ice 70,875, an iron block 70,866 and a gold block 173,700. Packed ice is the line: anything denser breaks blocks, anything at or under it doesn't. Packed ice throws a creeper's blast, and denser hits harder, from a little pop up to almost three creepers. Charging tells you the density and whether it breaks blocks
+- Creeper Essence last stand: the average density of everything you're carrying decides the blast, from 1 up to 12 power, twice a creeper for packed ice. Carry denser than packed ice on average and it breaks blocks too
+# Season 3 Alpha 0.2.52
+- Creeper Essence: a second power, Sneak+B, Rex's last stand. You swell and flash like a creeper for 1.5 seconds, glowing orange, and there's no stopping it. Then you blow yourself up with twice a creeper's blast, taking everyone near you with you. You die and the essence is used up. It never breaks blocks, and you can do it even while the throw is on cooldown
+# Season 3 Alpha 0.2.51
+- Creeper Essence: the charged item gets the orange glow too, swirling over it and shrink-wrapped to its exact shape, instead of the purple enchant shimmer. It shows in your hand, in your inventory and while the item flies through the air
+# Season 3 Alpha 0.2.50
+- Creeper Essence: while you hold a charge, an orange glow swirls over your whole body, like the Enderman's purple teleport glow. It flickers faster and faster the longer you hold the charge, like a creeper about to blow, and fades out after you throw
+# Season 3 Alpha 0.2.49
+- Creeper Essence (Creeper), replacing the Creeper Fuse: a jagged red crystal with orange cracks that pulse brighter and brighter, like it's about to blow. Right-click to absorb it, then press B to charge whatever you're holding with explosive energy, like Rex Splode. It glints, orange sparks crackle round your hand and it hisses like a creeper. Right-click to throw it: it glows orange as it flies and blows up where it lands with a full creeper blast. It never breaks blocks, and the thrown item is used up. The charge lasts 10 seconds, or press B again to let it go. 45 second cooldown from each throw. Chestplates that already have a Creeper Fuse keep it
+# Season 3 Alpha 0.2.48
+- Silverfish Grub: it's alive now, and it never stops squirming. A wave of squeezing rolls down its body from tail to head, its curl flexes open and shut, its head sways and its six little legs paddle. Every few seconds it gives a sudden twitch. Try eating one: it writhes twice as hard the whole time
+# Season 3 Alpha 0.2.47
+- Silverfish Grub (Silverfish): now a 3D beetle grub curled into a C. Fat, creamy yellow segments with a crease between each and a black dot down the side of every one, a blue-grey tail end, a little orange-brown head, and three pairs of tiny legs tucked into the curl
+# Season 3 Alpha 0.2.46
+- Villager Bread: reshaped to look like real bread. It's the normal bread made solid and thick, held the same way, with emeralds set into its score marks standing out from the crust. Bites still come off one end and show the green inside
+# Season 3 Alpha 0.2.45
+- Villager Bread (Villager): now a 3D loaf with a golden crust, three baker's cuts across the top with an emerald set in each, and little emerald chips in the sides. Eat it slowly and bites come out of one end, showing the inside is green, flecked with emerald. Its crumbs fly brown and green as you eat
+# Season 3 Alpha 0.2.44
+- Illusion Lens: the chain is solid 3D now, every link a loop of gold wire threaded through the next, with a solid gold bar on the end. Held in first person, the lens sits a little higher so you can see the whole chain swing
+# Season 3 Alpha 0.2.43
+- Illusion Lens (Illusioner): now a 3D gold monocle with swirling purple glass, and a little gold chain hanging from it with a bar on the end. The chain has real physics: turn, walk or jump and it swings behind and settles back down. Drag it around in your inventory and it swings there too. Held in third person, others see the lens face-on with the chain dangling
+# Season 3 Alpha 0.2.42
+- Rabbit Ears: now a 3D model in your inventory and hand, two wide brown ears side by side with big pink insides, cupped a little forward, on a band of fur
+# Season 3 Alpha 0.2.41
+- Rabbit Ears (Rabbit), replacing the Lucky Paw: they go on a helmet now, a rabbit's ears sticking up out of it and twitching. Press the Armor Power key (Z) to turn into a rabbit and blend in. Everyone sees a plain rabbit, with no name tag or armor, its fur matching the biome. You shrink to a rabbit's size and hop as you move, and mobs ignore you. Hitting anything or getting hurt turns you back, and then you can't hide again for 10 seconds. Press Z again to turn back yourself. Boots that already have a Lucky Paw keep it
+# Season 3 Alpha 0.2.40
+- Axolotl Roe: now a 3D caviar tin, silver with a gold rim, a pink label and a little axolotl on the lid, full of see-through pink eggs with dark specks. Pull it out and the lid swings open on its hinge. While you eat, the eggs go down a third at a time until the tin's nearly empty
+# Season 3 Alpha 0.2.39
+- Ghast Wisp: thrown, it now spins round and round like a wind charge, tumbling end over end through the air, its ember pulsing as it flies
+# Season 3 Alpha 0.2.38
+- Ghast Wisp (Ghast): a 3D model, a little glowing ember in the middle with swirls of wind curling round it, like the gusts when a wind charge hits a wall
+- Ghast Wisp: now you can throw it. It flies like a wind charge trailing little flames, does 1 damage and sets whatever it hits on fire for 3 seconds, then bursts into wind and flame that pushes everything nearby away. Weaker than a wind charge: a smaller burst and about 70% of the push. 1 second cooldown, stacks to 16, and it never sets blocks on fire. It still brews into the Potion of Drifting
+# Season 3 Alpha 0.2.37
+- Piglin Truffle texture: a black, warty truffle, cracked in places with gold showing through. Where a real truffle is white inside, this one is marbled with gold. While you eat it, it loses three bites, and each one shows more of the gold inside
+# Season 3 Alpha 0.2.36
+- Fixed: skeletons kept aiming and drawing their bows at you while you wore the Skull Visor. Now skeletons, strays, bogged, parched and wither skeletons never target you at all
+# Season 3 Alpha 0.2.35
+- Skull Visor: the blue energy now stretches across every crack like putty between two blocks pulled apart, wide where it holds on to each piece and pinched thin in the middle. The crown and jaw float a little farther off so you can see it stretch
+# Season 3 Alpha 0.2.34
+- Skull Visor: the blue energy is on your head now, not on the skull's pieces. Your head glows blue through the cracks and gaps, and the energy reaches out from it toward each floating piece
+# Season 3 Alpha 0.2.33
+- Skull Visor: worn, the two pieces with the goggle sockets now sit fitted to your face, over your eyes. The crown, the jaw and the loose chips still float off, and blue energy holds them to your head, the Enderman's teleport glow in blue, drifting over the floating pieces, shining through the cracks and stretching out from your head to each piece
+# Season 3 Alpha 0.2.32
+- Skull Visor: worn, it's now the same shattered 3D skull you see in your inventory, its pieces floating apart around your head, instead of a flat skull painted on
+# Season 3 Alpha 0.2.31
+- Skull Visor: the skull is shattered now, as broken up as the Iron Golem Head, in pieces pulled apart with chips knocked loose. Its eye sockets are carved like old snow goggles: long narrow slits with a ridge of bone above and below. No more ivory band or strap. Worn, the skull shows the same breaks and goggle sockets
+# Season 3 Alpha 0.2.30
+- Skull Visor: the skull is cracked now, and wears old bone snow goggles over its eyes, an ivory band with a slit for each eye, tied on with a leather strap. Same on your head and in your inventory
+- Skull Visor: the view inside is black, and you see out through the goggles' two narrow slits
+# Season 3 Alpha 0.2.29
+- Skull Visor (Skeleton): now a helmet you wear, a skeleton's skull over your head. Skeletons, strays, bogged, parched and wither skeletons leave you alone and can't hurt you, projectiles do 40% less damage, and bows draw 25% faster. But you burn in sunlight like a skeleton, and you can only see out through the skull's two eye holes. As strong as a leather helmet, repaired with bones. 3D skull in your inventory. Helmets that already had a Skull Visor crafted on keep it
+# Season 3 Alpha 0.2.28
+- Elder Spike: now exactly one of the spikes from the Elder Guardian's back, the same shape and pixels as on the mob, pale at the tip and dark navy at the base
+# Season 3 Alpha 0.2.27
+- Elder Spike (Elder Guardian), replacing the Elder Scale's look and name: a 3D spike torn off the Elder Guardian, navy blue at the jagged base, getting thinner and paler up to a white tip. You hold it like a sword. Still goes on a helmet for Water Breathing and Night Vision underwater
+# Season 3 Alpha 0.2.26
+- Dragon Essence: now a 3D dragon egg in your inventory and in your hand, like the real one. The shell is broken open on one side with glowing purple cracks down it, pieces of the top float above it, and purple glow pours out of the hole
+# Season 3 Alpha 0.2.25
+- Iron Golem Head (Iron Golem), replacing the Iron Heart: a 3D iron golem head in your inventory, broken into pieces with chips knocked loose, the right eye red and the left eye green, and green essence glowing in the cracks and drifting out. Still goes on a chestplate for half knockback. Iron Hearts you already have turn into it
+- Rabbit: at most 3 midair jumps before you land, instead of as many as your energy allowed
+# Season 3 Alpha 0.2.24
+- Vex Wing texture: the vex's own wing, pixel for pixel, standing upright
+# Season 3 Alpha 0.2.23
+- Vex Wing: flying now costs 3 energy a second, 50% more than the Vex's Phase, instead of making every ability cost 50% more. That's about 50 seconds of flight from full energy. At 0 you drop, and you can take off again at 10 energy. Mobs that already fly get nothing from the wing and pay nothing
+# Season 3 Alpha 0.2.22
+- Vex Wing (Vex): now goes on a chestplate and lets you fly like the Vex, but every ability costs 50% more energy. The wing has half an elytra's durability and wears down while you fly. At 0 it breaks and you can't fly until it's repaired, and the only way to repair it is killing allays. It can't go on a chestplate with Mending. Replaces the Potion of the Vex
+# Season 3 Alpha 0.2.21
+- Broken Totem: when both uses are gone it crumbles, and a red essence orb shaped like a thrown wind charge floats up out of you and fades away
+- Broken Totem: the red chain stays on screen a little longer
+- Fixed: absorbing an essence in creative left the item in your inventory. It's always used up now
+# Season 3 Alpha 0.2.20
+- Mob essences: some mob items are now essences you right-click to absorb, then use with the new Essence Power key (B)
+- Shulker Essence (Shulker), replacing the Shulker Scale: right-click to absorb it, then press B to close a shulker shell around yourself. It blocks all damage for up to 10 seconds, but two hits from any pickaxe, sword or axe crack it and break it, leaving you with Slowness II. 30 second cooldown, lost when you die
+- Shulker Essence texture: a purple wisp with the shulker's pale glow inside
+- Dragon Essence (Ender Dragon): the dragon egg cracked open, a purple glow coming out. Right-click to absorb it, then press B for Absorption IV, Regeneration II and Resistance. 4 minute cooldown. Replaces the Dragon Heart
+- Broken Totem (Evoker): a grey, cracked totem with red eyes, leaking red fog. Absorb it for 2 uses. B swaps places with the player you're looking at, teammate or enemy. Sneak + B readies a red chain: your next melee hit pulls them to you. The chain is see-through 3D links with a red teleport glow drifting over them. Maces only count without Density or Wind Burst. Replaces the Evoker Fang and the Potion of Fangs
+- You hold one essence at a time. Absorbing a different one replaces it
+# Season 3 Alpha 0.2.19
+- Fixed: pets stayed yours after you switched to another mob. Now every pet your new mob couldn't claim leaves you, even ones far away, and counts as released
+- Mob items: every mob has its own item now, dropped when another player kills that mob. Other players use it to make their own mob stronger
+- Mob items on armor, lasting as long as the armor: Lucky Paw (Rabbit), Breeze Core (Breeze), Iron Heart (Iron Golem), Creeper Fuse (Creeper), Shulker Scale (Shulker), Skull Visor (Skeleton), Illusion Lens (Illusioner), Elder Scale (Elder Guardian)
+- Mob items you eat, wearing off like a potion: Piglin Truffle, Silverfish Grub, Villager Bread, Axolotl Roe, Dragon Heart
+- Mob items you brew into an Awkward Potion: Ghast Wisp (Drifting), Blaze Ember (Blazing), Vex Wing (the Vex), Evoker Fang (Fangs)
+- The Bat Ear, Warden Tendril, Ender Pearl Shard and Star Fragment are those four mobs' items
+- Armor upgrades now go on boots too
+- Every mob item's tooltip says whose it is, how to use it, and what it does
+- Breeze Core texture: a snapped breeze rod with wind coming out of the break
+- Blaze Ember texture: a blaze rod snapped in half and burnt to charcoal, glowing at the break
+# Season 3 Alpha 0.2.18
+- Pets: claim mobs of your own kind by sneaking and right-clicking them with an empty hand. A Shulker claims shulkers, a Piglin claims piglins. Variants count: Skeletons also claim strays, bogged and parched, Piglins brutes and zombified piglins, Ghasts happy ghasts, Elder Guardians guardians. Pets follow you like a dog, teleport to you from 20 blocks away, defend you, never despawn and don't burn in sunlight
+- Pets: sneak + right-click your pet to make it sit and stay. /pets lists them, /pets release lets one go
+- Pets: each player has a pet file with how many pets they've claimed, lost and released, and each pet's kills and how it died
+- Piglin Barter Shop: right-click a piglin while holding gold to open a shop of everything piglins barter. Anyone can use it. Items that belong to a mob aren't sold to anyone while a player is that mob, online or not. While someone is the Enderman, only they have ender pearls, so trade with them. Throwing gold to a piglin still gives a random barter
+- Piglin Barter Shop: prices follow how much gold you own, counting boxes, bundles and your ender chest. Low on gold is up to half price, a big gold farm up to triple
+- Evoker: totems you give yourself are bound to you. They save you and your teammates, but anyone else holding one dies as if it weren't there. Totems you drop on death aren't bound
+- My Pets screen: from Team & Pets, every pet with its kills, whether it's sitting, and how far away it is, with Sit or Stand and Release buttons
+- Team & Pets screen: press Y (or the button in /mobcraftsettings) to make, rename, recolor, invite, kick, leave and accept invites with buttons instead of /myteam commands
+- Ghast: fireball jump. Your own fireball going off near you throws you away from the blast, like rocket jumping. Shoot your feet to launch up. It doesn't hurt you and the landing is free
+- Shulker: when a target dies, the bullets still flying at it go after the next enemy instead of dropping
+- Skeleton: no longer burns while it's raining or snowing, or in powder snow
+- Piglin: ears sit closer to the head instead of floating
+# Season 3 Alpha 0.2.17
+- Fixed: shulker bullets in RTS hit other shulkers on your side. Bullets from your shulkers, and a Shulker player's own, now only hit the enemy they're homing on
+# Season 3 Alpha 0.2.16
+- Shulker: you can't move while Blocking. You settle into the middle of your block and stay put until the shell opens
+- Shulker: the shell sits square on its block and doesn't turn when you look around
+- Fixed: shulkers in RTS now move and attack. They teleport where you send them, and hop into range to fire at targets
+# Season 3 Alpha 0.2.15
+- Skeleton: a bigger quiver with real arrows in it, one for each kind you carry. Tipped arrows show their potion's color on the feathers
+# Season 3 Alpha 0.2.14
+- Mob parts: the Skeleton has a quiver on its back. Tipped arrows give off their colors from it, and it shuts while flying with an elytra
+- Iron Golem: gray-white iron chips fly off every time you're hit
+- Evoker and Illusioner: spell particles while casting, like the real illagers, and smoke puffs when clones appear
+- Villager: angry when hit, happy green sparkles when giving yourself emeralds
+# Season 3 Alpha 0.2.13
+- Ghast: in the Nether your cloud is an ash cloud, dark smoke with glowing embers, and it rains ash
+# Season 3 Alpha 0.2.12
+- Mob parts: the Ghast sheds wisps of cloud, and rides a puffy cloud while flying
+# Season 3 Alpha 0.2.11
+- Mob parts: the Piglin has piglin ears that flap as it walks and flop when hit, zombified while cursed
+- Mob parts: the Wither has two wither heads on its shoulders that look at whoever's nearby, and the wither's blue armor below half health
+- Mob parts: the Silverfish has a silverfish tail that wiggles
+# Season 3 Alpha 0.2.10
+- Mob parts: the Enderman glows purple in a cloud of portal particles for half a second before it teleports
+- Mob parts: the Axolotl has its pink gills. They flutter in water or rain and droop when dry
+- Mob parts: the Shulker's shell appears around it during Blocking. The base at the feet, the lid above the head, then it shuts
+- Warden: hearing works like a real warden's. A vibration flies to the tendrils, and they click, twitch and glow, with 2s between
+# Season 3 Alpha 0.2.9
+- Rabbit tail a little smaller, Breeze wind a little bigger
+- Mob parts are hidden on invisible players, including a phasing Vex that's also invisible
+# Season 3 Alpha 0.2.8
+- Mob parts: the Rabbit has rabbit ears and a tail. The ears twitch, flop back when running and lie flat when cursed, and the fur matches the biome
+- Mob parts: the Vex has vex wings, goes see-through while phasing, and its eyes glow red during a Charge
+- Mob parts: the Breeze has its wind swirling around its legs, bigger during Whirlwind
+# Season 3 Alpha 0.2.7
+- Fixed: the Bat's ears and wings flickering
+# Season 3 Alpha 0.2.6
+- Dragon and Bat wings sit behind the back now, so they don't clip into the body or arms
+- A real wingbeat: big slow strokes when hovering, harder when climbing, shallower when flying fast, and gliding when diving. A quick downstroke, a slower upstroke, and the wingtips trail behind
+# Season 3 Alpha 0.2.5
+- Ender Dragon: the elytra merges into the wings. They grow to an elytra's size, and the elytra itself never shows, even when worn
+- Ender Dragon: resting wings hang down the back like a folded elytra
+# Season 3 Alpha 0.2.4
+- Folded dragon and bat wings move a little instead of sitting still
+# Season 3 Alpha 0.2.3
+- Mob parts: the Ender Dragon has dragon wings that flap when flying. Feed them an elytra for full-size wings and faster flight
+- Mob parts: the Bat has bat wings and ears, and the Blaze has its spinning rods
+# Season 3 Alpha 0.2.2
+- Mob parts: the Warden has the warden's tendrils, which shake when it senses something
+- Creeper: Gunpowder Blast has a real fuse now, swelling and flashing white, and Self Charge shows the charged-creeper swirl
+- Elder Guardian: spikes shoot out when you're hit up close, and give thorns damage. No more standing still
 # Season 3 Alpha 0.2
 - MobCraft is now CC0: anyone can use, change and share the code
 - /shutdownjeff: no password in the code. Set one in config/mobcraft-jeff.txt

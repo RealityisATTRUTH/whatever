@@ -36,6 +36,7 @@ public final class PlayerMob {
             player.setAttached(MobAttachments.CURSE_TICKS, 0); // a new mob starts uncursed
             player.removeAttached(MobAttachments.DISABLED_ABILITIES); // and with every ability on
         }
+        MobRoster.update(player);
     }
 
     // --- Energy ------------------------------------------------------------

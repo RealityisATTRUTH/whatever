@@ -84,6 +84,7 @@ public final class MobBehavior {
     private static void sendAfter(ServerPlayer owner, LivingEntity target) {
         if (target == owner || MobOwnership.isOwnedBy(target, owner)) return;
         for (Mob mob : owned(owner)) {
+            if (PetSystem.isSitting(mob)) continue; // a sitting pet stays out of it
             if (mob != target) mob.setTarget(target);
         }
     }
@@ -92,6 +93,7 @@ public final class MobBehavior {
     public static void tickFollow(ServerPlayer owner, int now) {
         if (!isOn(owner, FOLLOW)) return;
         for (Mob mob : owned(owner)) {
+            if (PetSystem.isSitting(mob)) continue; // told to stay
             if (mob.getTarget() != null && mob.getTarget().isAlive()) continue; // busy fighting
             if (RtsMobOrders.isBusy(mob)) continue; // following RTS orders
             Integer ordered = LAST_ORDER.get(mob.getUUID());

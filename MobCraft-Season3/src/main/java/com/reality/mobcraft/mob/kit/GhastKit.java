@@ -2,6 +2,7 @@ package com.reality.mobcraft.mob.kit;
 
 import com.reality.mobcraft.mob.MobAbilities;
 import com.reality.mobcraft.mob.MobKit;
+import com.reality.mobcraft.mob.MobLook;
 import com.reality.mobcraft.mob.MobTicker;
 import com.reality.mobcraft.mob.MobType;
 import com.reality.mobcraft.mob.PlayerMob;
@@ -38,6 +39,11 @@ import java.util.UUID;
  *   Barrage     G: three fireballs in a spread. 45 energy, 30s cooldown.
  *   Ferry       up to 4 teammates (same /team) can right-click you to ride
  *               along beside you. Sneak to get off.
+ *   Fireball jump  your own fireball going off within 4.5 blocks throws you away
+ *               from the blast, harder the closer it is. Shoot at your feet to
+ *               launch up, like rocket jumping in TF2. It doesn't hurt you, it
+ *               stops your flying so you sail, and there's no fall damage until
+ *               you land. Double-tap jump to fly again.
  *   Allies      ghasts and happy ghasts
  *   Home        Nether Wastes and Soul Sand Valley: faster flight, double energy regen
  *   Curse       Dried Out: can't fly or shoot. Standing in water ends it early.
@@ -75,6 +81,9 @@ public final class GhastKit implements MobKit {
 
         KitUtil.calmAllies(player, 48, ALLIES);
         tickSeats(player);
+        tickLaunch(player);
+        // Riding a cloud while flying.
+        MobLook.set(player, MobLook.FLYING, player.getAbilities().flying);
     }
 
     // --- Ferry ------------------------------------------------------------------------
@@ -157,17 +166,80 @@ public final class GhastKit implements MobKit {
         }
     }
 
+    // --- Fireball jump ----------------------------------------------------------------
+
+    private static final double JUMP_RADIUS = 4.5;
+    private static final double JUMP_MIN = 0.5;   // push at the edge of the radius
+    private static final double JUMP_EXTRA = 1.3; // added on top at point blank
+    private static final int NO_FALL_GRACE = 5;   // ticks before landing can end the protection
+
+    /** Ghasts thrown by their own fireball, and the tick it happened, until they land. */
+    private static final Map<UUID, Integer> LAUNCHED = new HashMap<>();
+
+    /** Called from FireballJumpMixin just before a large fireball explodes. */
+    public static void fireballBlast(LargeFireball fireball) {
+        if (!(fireball.level() instanceof ServerLevel level)) return;
+        if (!(fireball.getOwner() instanceof ServerPlayer player) || !player.isAlive()) return;
+        if (player.level() != level || !PlayerMob.has(player, MobType.GHAST)) return;
+        Vec3 blast = fireball.position();
+        Vec3 center = player.position().add(0, player.getBbHeight() / 2, 0);
+        double distance = center.distanceTo(blast);
+        if (distance >= JUMP_RADIUS) return;
+
+        // Away from the blast, tipped upward a little so a blast beside you still lifts you.
+        Vec3 away = center.subtract(blast);
+        away = away.lengthSqr() < 1.0E-4 ? new Vec3(0, 1, 0) : away.normalize();
+        away = away.add(0, 0.35, 0).normalize();
+        double power = JUMP_MIN + JUMP_EXTRA * (1 - distance / JUMP_RADIUS);
+        Vec3 push = away.scale(power);
+
+        Vec3 motion = player.getDeltaMovement();
+        // Falling doesn't eat the jump: the upward push starts from zero, not from the fall.
+        player.setDeltaMovement(motion.x + push.x, Math.max(motion.y, 0) + push.y, motion.z + push.z);
+        if (player.getAbilities().flying && !player.isCreative() && !player.isSpectator()) {
+            player.getAbilities().flying = false;
+            player.onUpdateAbilities();
+        }
+        player.fallDistance = 0;
+        LAUNCHED.put(player.getUUID(), player.tickCount);
+        KitUtil.syncMotion(player);
+        level.sendParticles(net.minecraft.core.particles.ParticleTypes.CLOUD, blast.x, blast.y, blast.z, 12, 0.4, 0.2, 0.4, 0.05);
+    }
+
+    /** Your own fireballs never hurt you, and a fireball jump has no fall damage. */
+    @Override
+    public boolean allowHurt(ServerPlayer player, DamageSource source, float amount) {
+        if (source.getEntity() == player && source.getDirectEntity() instanceof LargeFireball) return false;
+        if (source.is(net.minecraft.tags.DamageTypeTags.IS_FALL) && LAUNCHED.containsKey(player.getUUID())) {
+            LAUNCHED.remove(player.getUUID());
+            return false;
+        }
+        return true;
+    }
+
+    /** Ends the fall protection once the ghast lands, flies again or touches water. */
+    private static void tickLaunch(ServerPlayer player) {
+        Integer at = LAUNCHED.get(player.getUUID());
+        if (at == null) return;
+        boolean settled = player.getAbilities().flying || player.isInWater()
+                || (player.onGround() && player.tickCount - at > NO_FALL_GRACE);
+        if (settled || player.tickCount < at) LAUNCHED.remove(player.getUUID());
+    }
+
     @Override
     public void onDeath(ServerPlayer player, DamageSource source) {
         clearSeats(player);
+        LAUNCHED.remove(player.getUUID());
     }
 
     @Override
     public void onRemoved(ServerPlayer player) {
         clearSeats(player);
+        LAUNCHED.remove(player.getUUID());
         KitUtil.flight(player, false, FLY_SPEED);
         KitUtil.passive(player, MobEffects.FIRE_RESISTANCE, 0, false);
         KitUtil.passive(player, MobEffects.REGENERATION, 0, false);
+        MobLook.clear(player);
     }
 
     @Override
@@ -221,6 +293,7 @@ public final class GhastKit implements MobKit {
 
     static void forget(ServerPlayer player) {
         clearSeats(player);
+        LAUNCHED.remove(player.getUUID());
     }
 
     // --- Ultimate: Hellfire ---------------------------------------------------------------

@@ -5,6 +5,7 @@ import com.reality.mobcraft.item.ArmorUpgrades;
 import com.reality.mobcraft.item.ModItems;
 import com.reality.mobcraft.mob.MobAbilities;
 import com.reality.mobcraft.mob.MobKit;
+import com.reality.mobcraft.mob.MobLook;
 import com.reality.mobcraft.mob.PlayerMob;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.sounds.SoundEvents;
@@ -56,6 +57,8 @@ public final class BatKit implements MobKit {
     public void tick(ServerPlayer player) {
         KitUtil.modifier(player, Attributes.SCALE, "bat_scale", -0.5, AttributeModifier.Operation.ADD_MULTIPLIED_TOTAL, true);
         KitUtil.flight(player, true, FLY_SPEED);
+        // Wings spread and flap while flying, and fold up otherwise. See MobLookLayer.
+        MobLook.set(player, MobLook.FLYING, player.getAbilities().flying);
 
         // Cursed: blind, but always echolocating.
         boolean cursed = PlayerMob.isCursed(player);
@@ -83,6 +86,7 @@ public final class BatKit implements MobKit {
         KitUtil.modifier(player, Attributes.SCALE, "bat_scale", 0, AttributeModifier.Operation.ADD_MULTIPLIED_TOTAL, false);
         KitUtil.flight(player, false, FLY_SPEED);
         KitUtil.passive(player, MobEffects.BLINDNESS, 0, false);
+        MobLook.clear(player);
         forget(player);
     }
 

@@ -45,7 +45,8 @@ import java.util.UUID;
  *   R  Stone Swim      toggle: sink into the stone you're standing on or facing
  *                      and swim through it in any direction. You can pass
  *                      through every kind of stone, gravel and stone ores, plus
- *                      air, nothing else. Inside stone you float, so jump and
+ *                      air, nothing else: other blocks are as solid as ever, so you
+ *                      stand on them and bump into them (StoneSwimMixin). Inside stone you float, so jump and
  *                      sneak move you up and down. In open air you fall and walk
  *                      like normal until you're back in stone. You're
  *                      hidden inside the rock, can't attack or use items, and
@@ -138,7 +139,12 @@ public final class SilverfishKit implements MobKit {
             "deepslate_coal_ore", "deepslate_iron_ore", "deepslate_copper_ore", "deepslate_gold_ore",
             "deepslate_redstone_ore", "deepslate_lapis_ore", "deepslate_diamond_ore", "deepslate_emerald_ore");
 
-    private static boolean swimmable(BlockState state) {
+    /** Whether this player is swimming through stone right now. Works on both sides. */
+    public static boolean stoneSwimming(net.minecraft.world.entity.player.Player player) {
+        return VexKit.isPhasing(player) && PlayerMob.has(player, MobType.SILVERFISH);
+    }
+
+    public static boolean swimmable(BlockState state) {
         Identifier id = BuiltInRegistries.BLOCK.getKey(state.getBlock());
         return id.getNamespace().equals("minecraft") && SWIMMABLE.contains(id.getPath());
     }

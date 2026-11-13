@@ -2,6 +2,7 @@ package com.reality.mobcraft.mob.kit;
 
 import com.reality.mobcraft.mob.MobAttachments;
 import com.reality.mobcraft.mob.MobKit;
+import com.reality.mobcraft.mob.MobLook;
 import com.reality.mobcraft.mob.MobType;
 import com.reality.mobcraft.mob.PlayerMob;
 import net.minecraft.core.BlockPos;
@@ -90,6 +91,11 @@ public final class VexKit implements MobKit {
 
         tickCharge(player);
 
+        // For MobLookLayer: wings flap in flight, see-through while phasing, red eyes while charging.
+        MobLook.set(player, MobLook.FLYING, player.getAbilities().flying);
+        MobLook.set(player, MobLook.PHASING, isPhasing(player));
+        MobLook.set(player, MobLook.CHARGING, CHARGE_LOOK.active(player));
+
         KitUtil.calmAllies(player, 32, ALLIES);
     }
 
@@ -98,6 +104,7 @@ public final class VexKit implements MobKit {
         if (isPhasing(player)) stopPhasing(player);
         KitUtil.modifier(player, Attributes.SCALE, "vex_scale", 0, AttributeModifier.Operation.ADD_MULTIPLIED_TOTAL, false);
         KitUtil.flight(player, false, FLY_SPEED);
+        MobLook.clear(player);
         forget(player);
     }
 
@@ -173,6 +180,9 @@ public final class VexKit implements MobKit {
 
     // --- Charge -----------------------------------------------------------------------
 
+    /** How long the eyes glow red after a Charge. */
+    private static final KitUtil.Timers CHARGE_LOOK = new KitUtil.Timers();
+
     private static void charge(ServerPlayer player) {
         Vec3 look = player.getLookAngle().normalize();
         LivingEntity target = targetAhead(player, look);
@@ -181,6 +191,7 @@ public final class VexKit implements MobKit {
         player.setDeltaMovement(direction.scale(1.6));
         KitUtil.syncMotion(player);
         player.level().playSound(null, player.blockPosition(), SoundEvents.VEX_CHARGE, SoundSource.PLAYERS, 1.0f, 1.0f);
+        CHARGE_LOOK.start(player, 30);
         if (target != null) {
             CHARGING.put(player.getUUID(), new Charging(target.getId(), KitUtil.now(player) + CHARGE_TICKS));
         }
@@ -221,6 +232,7 @@ public final class VexKit implements MobKit {
     static void forget(ServerPlayer player) {
         if (isPhasing(player)) stopPhasing(player); // never log out stuck in a wall
         CHARGING.remove(player.getUUID());
+        CHARGE_LOOK.forget(player.getUUID());
         IN_MANSION.forget(player);
     }
 

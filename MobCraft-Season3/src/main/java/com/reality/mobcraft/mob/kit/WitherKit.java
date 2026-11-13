@@ -1,5 +1,7 @@
 package com.reality.mobcraft.mob.kit;
 
+import net.minecraft.util.Mth;
+import net.minecraft.world.phys.AABB;
 import com.mojang.datafixers.util.Pair;
 import com.reality.mobcraft.mob.MobKit;
 import com.reality.mobcraft.mob.PlayerMob;
@@ -44,9 +46,11 @@ import java.util.UUID;
  *                   25 energy, 8s cooldown.
  *   G  Charge       dash forward. Anything you ram takes 6 damage and Wither II
  *                   for 5s. 25 energy, 15s cooldown.
- *   V  Block Destruction  breaks the blocks around you, like the Wither
- *                   breaking out. Bedrock and other wither-proof blocks stay.
- *                   30 energy, 20s cooldown.
+ *   V  Block Destruction  for 10 seconds every block you touch breaks, like the
+ *                   Wither breaking out: walk, fly or charge through walls at any
+ *                   speed, or stand still and it keeps clearing round you. Sneak to
+ *                   dig down too. Bedrock and other wither-proof blocks stay.
+ *                   30 energy, 30s cooldown.
  *   Allies          wither skeletons
  *   Curse           no skulls
  */
@@ -66,6 +70,10 @@ public final class WitherKit implements MobKit {
     private static final KitUtil.Flags NEAR_FORTRESS = new KitUtil.Flags();
     private static final KitUtil.Flags IN_FORTRESS = new KitUtil.Flags();
     private static final KitUtil.Timers CHARGING = new KitUtil.Timers();
+    private static final KitUtil.Timers DESTROYING = new KitUtil.Timers();
+    private static final int DESTROY_TICKS = 200;   // 10 seconds
+    private static final Map<UUID, Integer> DESTROYED = new HashMap<>();
+    private static final Map<UUID, Integer> DESTROY_END = new HashMap<>();
     private static final Map<UUID, Set<Integer>> RAMMED = new HashMap<>();
 
     @Override
@@ -97,6 +105,7 @@ public final class WitherKit implements MobKit {
 
         KitUtil.flight(player, true, FLY_SPEED);
         tickCharge(player);
+        tickDestruction(player);
 
         KitUtil.calmAllies(player, 32, ALLIES);
     }
@@ -153,7 +162,15 @@ public final class WitherKit implements MobKit {
                 player.level().playSound(null, player.blockPosition(), SoundEvents.WITHER_AMBIENT, SoundSource.PLAYERS, 1.0f, 1.2f);
             }
             default -> {
-                if (!KitUtil.tryUse(player, BLOCK_DESTRUCTION, "Block Destruction", 30, 400)) return;
+                if (DESTROYING.active(player)) {
+                    KitUtil.actionBar(player, "Block Destruction is already going.");
+                    return;
+                }
+                if (!KitUtil.tryUse(player, BLOCK_DESTRUCTION, "Block Destruction", 30, 600)) return;
+                DESTROYING.start(player, DESTROY_TICKS);
+                DESTROY_END.put(player.getUUID(), KitUtil.now(player) + DESTROY_TICKS);
+                DESTROYED.put(player.getUUID(), 0);
+                player.level().playSound(null, player.blockPosition(), SoundEvents.WITHER_SPAWN, SoundSource.PLAYERS, 0.6f, 1.4f);
                 breakBlocksAround(player);
             }
         }
@@ -184,17 +201,42 @@ public final class WitherKit implements MobKit {
         }
     }
 
+    /** Block Destruction: every few ticks for 10 seconds, the blocks you're touching break, whatever your speed. */
+    private static void tickDestruction(ServerPlayer player) {
+        if (!DESTROYED.containsKey(player.getUUID())) return;
+        if (!DESTROYING.active(player)) {
+            int total = DESTROYED.remove(player.getUUID());
+            KitUtil.actionBar(player, "Block Destruction over. Broke " + total + " blocks.");
+            return;
+        }
+        if (player.tickCount % 3 == 0) breakBlocksAround(player);
+    }
+
+    /** Breaks every block the Wither's body is in or right against, a block out each side and above. */
     private static void breakBlocksAround(ServerPlayer player) {
         ServerLevel level = player.level();
-        BlockPos center = player.blockPosition();
+        AABB box = player.getBoundingBox().inflate(0.6, 0.0, 0.6).expandTowards(0, 0.6, 0);
+        int down = player.isShiftKeyDown() ? 1 : 0;   // sneak to dig down
         int broken = 0;
-        for (BlockPos pos : BlockPos.betweenClosed(center.offset(-1, 0, -1), center.offset(1, 3, 1))) {
+        for (BlockPos pos : BlockPos.betweenClosed(
+                Mth.floor(box.minX), Mth.floor(box.minY + 0.01) - down, Mth.floor(box.minZ),
+                Mth.floor(box.maxX), Mth.floor(box.maxY), Mth.floor(box.maxZ))) {
             BlockState state = level.getBlockState(pos);
             if (state.isAir() || state.is(BlockTags.WITHER_IMMUNE) || state.getDestroySpeed(level, pos) < 0) continue;
+            if (!state.getFluidState().isEmpty() && state.getCollisionShape(level, pos).isEmpty()) continue;
             if (level.destroyBlock(pos, true, player)) broken++;
         }
-        level.playSound(null, center, SoundEvents.WITHER_BREAK_BLOCK, SoundSource.PLAYERS, 1.0f, 1.0f);
-        KitUtil.actionBar(player, "Broke " + broken + " blocks.");
+        if (broken > 0) {
+            level.playSound(null, player.blockPosition(), SoundEvents.WITHER_BREAK_BLOCK, SoundSource.PLAYERS, 0.7f, 1.0f);
+            DESTROYED.merge(player.getUUID(), broken, Integer::sum);
+        }
+        int left = 0;
+        if (DESTROYING.active(player)) left = (int) Math.ceil(remaining(player) / 20.0);
+        if (left > 0) KitUtil.actionBar(player, "Block Destruction: " + left + "s. Broke " + DESTROYED.getOrDefault(player.getUUID(), 0) + " blocks.");
+    }
+
+    private static int remaining(ServerPlayer player) {
+        return DESTROY_END.getOrDefault(player.getUUID(), 0) - KitUtil.now(player);
     }
 
     /**
@@ -214,6 +256,9 @@ public final class WitherKit implements MobKit {
         NEAR_FORTRESS.forget(player);
         IN_FORTRESS.forget(player);
         CHARGING.forget(id);
+        DESTROYING.forget(id);
+        DESTROYED.remove(id);
+        DESTROY_END.remove(id);
         RAMMED.remove(id);
     }
 

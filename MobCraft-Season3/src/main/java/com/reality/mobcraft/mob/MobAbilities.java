@@ -75,6 +75,7 @@ public final class MobAbilities {
 
     /** True unless the player switched this ability off. Works on both sides. */
     public static boolean isEnabled(Player player, String abilityId) {
+        if (com.reality.mobcraft.item.TomePowers.silenced(player)) return false;   // Word of Silence
         return !player.getAttachedOrElse(MobAttachments.DISABLED_ABILITIES, List.of()).contains(abilityId);
     }
 

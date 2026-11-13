@@ -3,7 +3,7 @@
   "id": "mobcraft",
   "version": "${version}",
   "name": "MobCraft Season 3",
-  "description": "MobCraft Season 3 alpha. Mob roles, energy, curses, ability keys, dual hitbox, client-side glowing and Warden echolocation.",
+  "description": "MobCraft Season 3 beta. Mob roles, energy, curses, ability keys, dual hitbox, client-side glowing and Warden echolocation.",
   "authors": [
     "Reality Studios"
   ],
@@ -29,5 +29,8 @@
     "minecraft": ">=26.3",
     "java": ">=25",
     "fabric-api": "*"
-  }
+  },
+  "contributors": [
+    "igobyjake (Rose Gold Ingot texture, from Rose Gold Equipment, MIT)"
+  ]
 }

@@ -83,6 +83,8 @@ public final class IllusionerKit implements MobKit {
                 }
                 if (!KitUtil.tryUse(player, BLINDNESS, "Blindness", 15, 400)) return;
                 KitUtil.effect(target, MobEffects.BLINDNESS, 120, 0);
+                SpellFx.cast(player, 20, SpellFx.BLINDNESS);
+                SpellFx.burst(player, target.getX(), target.getEyeY(), target.getZ(), SpellFx.BLINDNESS, 16);
                 player.level().playSound(null, player.blockPosition(), SoundEvents.ILLUSIONER_CAST_SPELL, SoundSource.PLAYERS, 1.0f, 1.0f);
             }
         }
@@ -103,8 +105,28 @@ public final class IllusionerKit implements MobKit {
             if (clone != null) ids.add(clone.getUUID());
         }
         CLONES_ALIVE.put(player.getUUID(), new Clones(ids, KitUtil.now(player) + CLONE_TICKS));
+        poofs(player, ids);
         KitUtil.effect(player, MobEffects.INVISIBILITY, 160, 0);
         player.level().playSound(null, player.blockPosition(), SoundEvents.ILLUSIONER_MIRROR_MOVE, SoundSource.PLAYERS, 1.0f, 1.0f);
+    }
+
+    /**
+     * The illusioner's mirror trick: a puff where you vanish and where each clone appears,
+     * with its blue spell sparkling through it. Nothing stays on you, so you stay hidden.
+     */
+    private static void poofs(ServerPlayer player, List<UUID> ids) {
+        float s = player.getScale();
+        var level = player.level();
+        level.sendParticles(net.minecraft.core.particles.ParticleTypes.POOF, player.getX(), player.getY() + 0.9 * s, player.getZ(),
+                20, 0.3 * s, 0.6 * s, 0.3 * s, 0.02);
+        SpellFx.burst(player, player.getX(), player.getY() + 1.0 * s, player.getZ(), SpellFx.DISAPPEAR, 14);
+        for (UUID id : ids) {
+            Entity clone = level.getEntity(id);
+            if (clone == null) continue;
+            level.sendParticles(net.minecraft.core.particles.ParticleTypes.POOF, clone.getX(), clone.getY() + 1.0, clone.getZ(),
+                    16, 0.3, 0.6, 0.3, 0.02);
+            SpellFx.burst(player, clone.getX(), clone.getY() + 1.1, clone.getZ(), SpellFx.DISAPPEAR, 10);
+        }
     }
 
     private static void removeClones(ServerPlayer player) {
@@ -180,6 +202,7 @@ public final class IllusionerKit implements MobKit {
             if (clone != null) ids.add(clone.getUUID());
         }
         CLONES_ALIVE.put(player.getUUID(), new Clones(ids, KitUtil.now(player) + CLONE_TICKS));
+        poofs(player, ids);
         KitUtil.effect(player, MobEffects.INVISIBILITY, 200, 0);
         for (LivingEntity enemy : UltimateFx.enemies(player, 20)) {
             if (enemy instanceof Player) KitUtil.effect(enemy, MobEffects.BLINDNESS, 120, 0);

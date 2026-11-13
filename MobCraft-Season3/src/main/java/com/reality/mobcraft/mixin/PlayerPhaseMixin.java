@@ -22,6 +22,7 @@ public abstract class PlayerPhaseMixin {
             opcode = Opcodes.PUTFIELD, shift = At.Shift.AFTER))
     private void mobcraft$phase(CallbackInfo ci) {
         Player self = (Player) (Object) this;
-        if (VexKit.isPhasing(self)) self.noPhysics = true;
+        // The Silverfish doesn't ignore every block: only stone opens up for him (StoneSwimMixin).
+        if (VexKit.isPhasing(self) && !com.reality.mobcraft.mob.kit.SilverfishKit.stoneSwimming(self)) self.noPhysics = true;
     }
 }

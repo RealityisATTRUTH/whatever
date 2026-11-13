@@ -84,8 +84,28 @@ public class MobCraft implements ModInitializer {
     public void onInitialize() {
         MobAttachments.init();
         ModItems.init();
+        com.reality.mobcraft.item.GhastWisp.register();
+        com.reality.mobcraft.item.RabbitEars.register();
         ModEffects.init();
         ArmorUpgrades.register();
+        com.reality.mobcraft.item.MobRelics.register();
+        com.reality.mobcraft.item.ShulkerEssence.register();
+        com.reality.mobcraft.item.CreeperEssence.register();
+        com.reality.mobcraft.item.StrongholdTome.register();
+        com.reality.mobcraft.item.TomeBinding.register();
+        com.reality.mobcraft.item.Duskvein.register();
+        com.reality.mobcraft.item.Gloamite.register();
+        com.reality.mobcraft.item.MaceEnchants.register();
+        com.reality.mobcraft.item.GloamiteTraits.register();
+        com.reality.mobcraft.item.Tiers.register();
+        com.reality.mobcraft.item.Shadow.register();
+        com.reality.mobcraft.item.UnseenHand.register();
+        com.reality.mobcraft.item.Hush.register();
+        com.reality.mobcraft.item.GearEnchants.register();
+        com.reality.mobcraft.item.Skybreaker.register();
+        com.reality.mobcraft.item.TomePowers.register();
+        com.reality.mobcraft.item.DuskveinAnvil.register();
+        com.reality.mobcraft.item.EvokerEssence.register();
         ArmorUpgradeRecipe.register();
         MobKits.init();
         KitEvents.register();
@@ -94,12 +114,17 @@ public class MobCraft implements ModInitializer {
         Ultimate.register();
         com.reality.mobcraft.mob.kit.SculkEruption.register();
         com.reality.mobcraft.mob.kit.UltimateFx.register();
+        com.reality.mobcraft.mob.kit.SpellFx.register();
         com.reality.mobcraft.mob.kit.StarDeath.register();
         MobAdvancements.register();
+        com.reality.mobcraft.rts.PetSystem.register();
+        com.reality.mobcraft.mob.MobRoster.register();
+        com.reality.mobcraft.shop.PiglinShop.register();
 
         // Payload types must be registered on both sides, so they live here.
         PayloadTypeRegistry.clientboundPlay().register(GlowPayload.TYPE, GlowPayload.CODEC);
         PayloadTypeRegistry.clientboundPlay().register(GhostSyncPayload.TYPE, GhostSyncPayload.CODEC);
+        PayloadTypeRegistry.clientboundPlay().register(com.reality.mobcraft.net.EssenceOrbPayload.TYPE, com.reality.mobcraft.net.EssenceOrbPayload.CODEC);
         PayloadTypeRegistry.clientboundPlay().register(OpenSettingsPayload.TYPE, OpenSettingsPayload.CODEC);
         PayloadTypeRegistry.clientboundPlay().register(OpenJeffMenuPayload.TYPE, OpenJeffMenuPayload.CODEC);
         PayloadTypeRegistry.serverboundPlay().register(JeffGivePayload.TYPE, JeffGivePayload.CODEC);
@@ -117,6 +142,11 @@ public class MobCraft implements ModInitializer {
         PayloadTypeRegistry.serverboundPlay().register(CityTeleportPayload.TYPE, CityTeleportPayload.CODEC);
         PayloadTypeRegistry.serverboundPlay().register(DoubleJumpPayload.TYPE, DoubleJumpPayload.CODEC);
         PayloadTypeRegistry.serverboundPlay().register(ArmorPowerPayload.TYPE, ArmorPowerPayload.CODEC);
+        PayloadTypeRegistry.serverboundPlay().register(com.reality.mobcraft.net.EssencePayload.TYPE, com.reality.mobcraft.net.EssencePayload.CODEC);
+
+        // Essence Power key: the Shulker Essence's shell.
+        ServerPlayNetworking.registerGlobalReceiver(com.reality.mobcraft.net.EssencePayload.TYPE, (payload, context) ->
+                com.reality.mobcraft.item.ShulkerEssence.usePower(context.player()));
 
         // Armor Power key: Ender Pearl Shard and Stalker Shard teleports.
         ServerPlayNetworking.registerGlobalReceiver(ArmorPowerPayload.TYPE, (payload, context) ->
@@ -135,6 +165,8 @@ public class MobCraft implements ModInitializer {
         ServerPlayNetworking.registerGlobalReceiver(ToggleBehaviorPayload.TYPE, (payload, context) -> {
             if (Senses.SETTING.equals(payload.behavior())) {
                 Senses.set(context.player(), payload.enabled());
+            } else if (com.reality.mobcraft.mob.kit.SkeletonKit.HORSEMEN_SETTING.equals(payload.behavior())) {
+                com.reality.mobcraft.mob.kit.SkeletonKit.setHorsemen(context.player(), payload.enabled());
             } else if (BlazeKit.ROD_SETTING.equals(payload.behavior())) {
                 BlazeKit.setRodFiring(context.player(), payload.enabled());
             } else {
@@ -253,8 +285,9 @@ public class MobCraft implements ModInitializer {
             Jeff.registerCommand(dispatcher);
             AntiCheat.registerCommand(dispatcher);
             com.reality.mobcraft.rts.TeamList.register(dispatcher);
+            com.reality.mobcraft.rts.PetSystem.registerCommands(dispatcher);
         });
 
-        LOGGER.info("MobCraft Season 3 alpha loaded.");
+        LOGGER.info("MobCraft Season 3 beta loaded.");
     }
 }

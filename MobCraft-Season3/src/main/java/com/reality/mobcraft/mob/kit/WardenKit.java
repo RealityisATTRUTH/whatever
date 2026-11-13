@@ -3,7 +3,9 @@ package com.reality.mobcraft.mob.kit;
 import com.reality.mobcraft.item.ArmorUpgrades;
 import com.reality.mobcraft.item.ModItems;
 import com.reality.mobcraft.mob.MobKit;
+import com.reality.mobcraft.mob.MobLook;
 import com.reality.mobcraft.mob.MobTicker;
+import com.reality.mobcraft.mob.MobType;
 import com.reality.mobcraft.mob.PlayerMob;
 import com.reality.mobcraft.warden.Senses;
 import com.reality.mobcraft.warden.WardenEcholocation;
@@ -55,6 +57,9 @@ import java.util.UUID;
  *   Allies           wardens, always, even if you hit them
  *   Sculk            shriekers ignore you, so you never summon wardens or get
  *                    Darkness from them
+ *   Hearing          an enemy within 16 blocks who moves without sneaking sends a
+ *                    vibration flying to your tendrils, like a real warden's. When it
+ *                    lands they click, twitch and glow. Then 2s before the next one.
  *   Curse            no abilities, passives stay
  */
 public final class WardenKit implements MobKit {
@@ -79,6 +84,45 @@ public final class WardenKit implements MobKit {
 
     private static final KitUtil.Timers ECHO_ACTIVE = new KitUtil.Timers();
     private static final KitUtil.Timers SNIFF_ACTIVE = new KitUtil.Timers();
+    /** The tendrils twitch and glow while this runs, after a vibration reaches them. */
+    private static final KitUtil.Timers TWITCH = new KitUtil.Timers();
+    /** A real warden's 2s wait between vibrations it reacts to. */
+    private static final KitUtil.Timers HEARING_COOLDOWN = new KitUtil.Timers();
+    private static final double HEARING = 16;
+
+    /** Where each player near a Warden was the last time it listened, to tell who moved. */
+    private static final java.util.Map<java.util.UUID, net.minecraft.world.phys.Vec3> LAST_HEARD = new java.util.HashMap<>();
+
+    /** The closest enemy player within 16 blocks who moved without sneaking, the kind of thing a real warden hears. Or null. */
+    private static ServerPlayer heard(ServerPlayer warden) {
+        ServerPlayer closest = null;
+        for (ServerPlayer other : warden.level().players()) {
+            if (other == warden || other.isSpectator()) continue;
+            if (other.distanceToSqr(warden) > HEARING * HEARING || !WardenEcholocation.isEnemy.test(warden, other)) continue;
+            net.minecraft.world.phys.Vec3 last = LAST_HEARD.put(other.getUUID(), other.position());
+            boolean moved = last != null && last.distanceToSqr(other.position()) > 0.01;
+            if (moved && !other.isShiftKeyDown() && (closest == null || other.distanceToSqr(warden) < closest.distanceToSqr(warden))) closest = other;
+        }
+        if (LAST_HEARD.size() > 500) LAST_HEARD.clear();
+        return closest;
+    }
+
+    /**
+     * A vibration from `from` to the warden's tendrils, the same sculk wave a real warden gets.
+     * It travels a block a tick. When it lands, the tendrils click, twitch and glow.
+     */
+    private static void vibration(ServerPlayer warden, Vec3 from) {
+        ServerLevel level = warden.level();
+        int travel = Math.max(1, (int) Math.floor(from.distanceTo(warden.getEyePosition())));
+        level.sendParticles(new net.minecraft.core.particles.VibrationParticleOption(
+                        new net.minecraft.world.level.gameevent.EntityPositionSource(warden, warden.getEyeHeight()), travel),
+                from.x, from.y + 0.5, from.z, 1, 0, 0, 0, 0);
+        UltimateFx.later(warden, travel, p -> {
+            if (!PlayerMob.has(p, MobType.WARDEN)) return;
+            TWITCH.start(p, 10);
+            p.level().playSound(null, p.blockPosition(), SoundEvents.WARDEN_TENDRIL_CLICKS, SoundSource.PLAYERS, 1.0f, 1.0f);
+        });
+    }
     private static final KitUtil.Timers BURROWED = new KitUtil.Timers();
     private static final Set<UUID> WAS_BURROWED = new HashSet<>();
 
@@ -104,6 +148,16 @@ public final class WardenKit implements MobKit {
 
         tickBurrow(player);
 
+        // Tendrils shake while it senses something: its senses are on, or an enemy nearby is moving without sneaking.
+        if (player.tickCount % 10 == 0) {
+            ServerPlayer source = heard(player);
+            if (source != null && !HEARING_COOLDOWN.active(player)) {
+                HEARING_COOLDOWN.start(player, 40);
+                vibration(player, source.position());
+            }
+        }
+        MobLook.set(player, MobLook.SENSING, ECHO_ACTIVE.active(player) || SNIFF_ACTIVE.active(player) || TWITCH.active(player));
+
         // Wardens are always friendly, even after you hit them. Sculk Darkness doesn't affect you.
         KitUtil.calmAllies(player, 48, ALLIES);
         if (player.hasEffect(MobEffects.DARKNESS)) player.removeEffect(MobEffects.DARKNESS);
@@ -121,6 +175,9 @@ public final class WardenKit implements MobKit {
         KitUtil.passive(player, MobEffects.RESISTANCE, 0, false);
         KitUtil.passive(player, MobEffects.FIRE_RESISTANCE, 0, false);
         if (WardenEcholocation.isEnabled(player)) WardenEcholocation.disable(player);
+        MobLook.clear(player);
+        TWITCH.forget(player.getUUID());
+        HEARING_COOLDOWN.forget(player.getUUID());
         BURROWED.stop(player);
         setBurrowed(player, false);
         forget(player);

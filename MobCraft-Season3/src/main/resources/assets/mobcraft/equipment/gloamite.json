@@ -1,0 +1,26 @@
+{
+  "layers": {
+    "humanoid": [
+      {
+        "texture": "minecraft:netherite",
+        "dyeable": {
+          "color_when_undyed": -4286721
+        }
+      },
+      {
+        "texture": "mobcraft:gloamite_veins"
+      }
+    ],
+    "humanoid_leggings": [
+      {
+        "texture": "minecraft:netherite",
+        "dyeable": {
+          "color_when_undyed": -4286721
+        }
+      },
+      {
+        "texture": "mobcraft:gloamite_veins"
+      }
+    ]
+  }
+}

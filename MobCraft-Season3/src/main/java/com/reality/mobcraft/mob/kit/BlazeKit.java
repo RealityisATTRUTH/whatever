@@ -2,6 +2,7 @@ package com.reality.mobcraft.mob.kit;
 
 import com.reality.mobcraft.mob.MobAttachments;
 import com.reality.mobcraft.mob.MobKit;
+import com.reality.mobcraft.mob.MobLook;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.InteractionResult;
 import net.minecraft.world.item.Items;
@@ -120,6 +121,8 @@ public final class BlazeKit implements MobKit {
             level.playSound(null, player.blockPosition(), SoundEvents.BLAZE_BURN, SoundSource.PLAYERS, 0.6f, 1.0f);
         }
         if (WAS_IN_PHASE.is(player) && !inPhase) KitUtil.actionBar(player, "Your flames die down.");
+        // The rods around you spin faster during Fire Shield and the combat phase. See MobLookLayer.
+        MobLook.set(player, MobLook.SHIELD, SHIELD.active(player) || inPhase);
         WAS_IN_PHASE.set(player, inPhase);
 
         KitUtil.calmAllies(player, 32, ALLIES);
@@ -130,6 +133,7 @@ public final class BlazeKit implements MobKit {
         KitUtil.passive(player, MobEffects.FIRE_RESISTANCE, 0, false);
         KitUtil.passive(player, MobEffects.STRENGTH, 0, false);
         KitUtil.flight(player, false, FLY_SPEED);
+        MobLook.clear(player);
         forget(player);
     }
 

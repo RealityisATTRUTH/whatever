@@ -2,6 +2,7 @@ package com.reality.mobcraft.mob.kit;
 
 import com.reality.mobcraft.mob.MobAbilities;
 import com.reality.mobcraft.mob.MobKit;
+import com.reality.mobcraft.mob.MobLook;
 import com.reality.mobcraft.mob.MobType;
 import com.reality.mobcraft.mob.PlayerMob;
 import net.minecraft.core.BlockPos;
@@ -45,7 +46,8 @@ import java.util.Comparator;
  *
  *   Shell defense   stand still for 2s: Resistance I (II in the End) and
  *                   projectiles bounce off you back at whoever shot them
- *   R  Blocking     close your shell for 5s: Resistance II and Blindness
+ *   R  Blocking     your shell appears and snaps shut around you for 5s. You
+ *                   stay put inside it, lined up with the block you're on: Resistance II and Blindness
  *                   (no Blindness in the End), then Slowness I for 3s.
  *                   10 energy, 15s cooldown.
  *   G  Teleport     to a random safe spot within 8 blocks. 5s cooldown.
@@ -100,10 +102,15 @@ public final class ShulkerKit implements MobKit {
         STILL_FOR.put(id, moved ? 0 : STILL_FOR.getOrDefault(id, 0) + 1);
 
         boolean blocking = BLOCKING_TIME.active(player);
+        // Shut in the shell: no walking, jumping or being knocked about.
+        KitUtil.modifier(player, Attributes.MOVEMENT_SPEED, "shulker_shell_still", -1.0, AttributeModifier.Operation.ADD_MULTIPLIED_TOTAL, blocking);
+        KitUtil.modifier(player, Attributes.JUMP_STRENGTH, "shulker_shell_still", -1.0, AttributeModifier.Operation.ADD_MULTIPLIED_TOTAL, blocking);
+        KitUtil.modifier(player, Attributes.KNOCKBACK_RESISTANCE, "shulker_shell_still", 1.0, AttributeModifier.Operation.ADD_VALUE, blocking);
         if (WAS_BLOCKING.is(player) && !blocking) {
             KitUtil.effect(player, MobEffects.SLOWNESS, 60, 0); // shell opening
         }
         WAS_BLOCKING.set(player, blocking);
+        MobLook.set(player, MobLook.SHELL, blocking);
 
         int resistance = -1;
         if (defending(player)) resistance = inEnd ? 1 : 0;
@@ -117,6 +124,10 @@ public final class ShulkerKit implements MobKit {
     public void onRemoved(ServerPlayer player) {
         KitUtil.modifier(player, Attributes.SCALE, "shulker_scale", 0, AttributeModifier.Operation.ADD_MULTIPLIED_TOTAL, false);
         KitUtil.passive(player, MobEffects.RESISTANCE, 0, false);
+        KitUtil.modifier(player, Attributes.MOVEMENT_SPEED, "shulker_shell_still", 0, AttributeModifier.Operation.ADD_MULTIPLIED_TOTAL, false);
+        KitUtil.modifier(player, Attributes.JUMP_STRENGTH, "shulker_shell_still", 0, AttributeModifier.Operation.ADD_MULTIPLIED_TOTAL, false);
+        KitUtil.modifier(player, Attributes.KNOCKBACK_RESISTANCE, "shulker_shell_still", 0, AttributeModifier.Operation.ADD_VALUE, false);
+        MobLook.clear(player);
         forget(player);
     }
 
@@ -141,6 +152,10 @@ public final class ShulkerKit implements MobKit {
     private static void block(ServerPlayer player) {
         if (!KitUtil.tryUse(player, BLOCKING, "Blocking", 10, 300)) return;
         BLOCKING_TIME.start(player, 100);
+        // Settle into the middle of the block, so the shell sits on the block like a real shulker.
+        player.setDeltaMovement(0, Math.min(0, player.getDeltaMovement().y), 0);
+        player.teleportTo(Math.floor(player.getX()) + 0.5, player.getY(), Math.floor(player.getZ()) + 0.5);
+        KitUtil.syncMotion(player);
         if (player.level().dimension() != Level.END) KitUtil.effect(player, MobEffects.BLINDNESS, 100, 0);
         player.level().playSound(null, player.blockPosition(), SoundEvents.SHULKER_CLOSE, SoundSource.PLAYERS, 1.0f, 1.0f);
     }

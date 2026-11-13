@@ -143,6 +143,10 @@ public final class KitUtil {
      * Tells the player on their action bar why it didn't fire.
      */
     public static boolean tryUse(ServerPlayer player, String abilityId, String name, float energy, int cooldownTicks) {
+        if (com.reality.mobcraft.item.TomePowers.silenced(player)) {
+            actionBar(player, "You've been silenced by the Word of Silence.");
+            return false;
+        }
         if (!MobAbilities.isEnabled(player, abilityId)) {
             actionBar(player, name + " is switched off in /mobcraftsettings.");
             return false;
@@ -286,6 +290,8 @@ public final class KitUtil {
         for (Mob mob : found) {
             mob.removeTag(NEW_TAG);
             MobOwnership.setOwner(mob, owner);
+            MobType as = PlayerMob.get(owner);
+            if (as != null) mob.setAttached(com.reality.mobcraft.mob.MobAttachments.SUMMONED_AS, as.id());
             result = mob;
         }
         return result;

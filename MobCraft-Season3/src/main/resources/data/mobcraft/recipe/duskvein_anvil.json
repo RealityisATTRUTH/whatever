@@ -1,0 +1,16 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "key": {
+    "D": "mobcraft:duskvein",
+    "A": "minecraft:anvil",
+    "R": "mobcraft:rose_gold_ingot"
+  },
+  "pattern": [
+    "DDD",
+    " A ",
+    "RRR"
+  ],
+  "result": {
+    "id": "mobcraft:duskvein_anvil"
+  }
+}

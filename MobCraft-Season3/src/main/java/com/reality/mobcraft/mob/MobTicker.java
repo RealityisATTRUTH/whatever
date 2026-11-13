@@ -98,6 +98,7 @@ public final class MobTicker {
         Cooldowns.clear(player);
         FormerMob.onSwitch(player, old, type);
         PlayerMob.set(player, type);
+        com.reality.mobcraft.rts.PetSystem.onMobSwitch(player, old, type);
         if (type != null) MobKits.get(type).onAssigned(player);
     }
 }

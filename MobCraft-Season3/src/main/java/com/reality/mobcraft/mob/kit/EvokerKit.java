@@ -50,6 +50,7 @@ import java.util.UUID;
  *                 captain gets Bad Omen. Taking the banner off ends it.
  *                 35 energy, 2:30 cooldown after the minute.
  *   Self-give     totems only out of combat (15s since you last hit or were hit),
+ *                 bound to you: they only save you and your team (item/BoundTotem),
  *                 emeralds any time
  *   Allies        evokers and vexes. No vex can ever hurt you.
  *   Bells         within 50 blocks of a bell you glow
@@ -99,6 +100,12 @@ public final class EvokerKit implements MobKit {
         boolean captain = CAPTAIN.active(player);
         KitUtil.calmAllies(player, 32, mob -> ALLIES.contains(mob.getType())
                 || (captain && RAIDERS.contains(mob.getType())));
+        // The raid captain gives off the raid omen's swirls now and then.
+        if (captain && player.tickCount % 6 == 0) {
+            float s = player.getScale();
+            player.level().sendParticles(net.minecraft.core.particles.ParticleTypes.RAID_OMEN,
+                    player.getX(), player.getY() + 1.2 * s, player.getZ(), 1, 0.35 * s, 0.5 * s, 0.35 * s, 0.0);
+        }
 
         // Vex charge finished.
         if (CHARGE_PENDING.is(player) && !CHARGING.active(player)) {
@@ -110,6 +117,7 @@ public final class EvokerKit implements MobKit {
     @Override
     public void onRemoved(ServerPlayer player) {
         KitUtil.passive(player, MobEffects.GLOWING, 0, false);
+        SpellFx.stop(player);
         forget(player);
     }
 
@@ -128,6 +136,7 @@ public final class EvokerKit implements MobKit {
                 fangLine(player);
             }
             player.level().playSound(null, player.blockPosition(), SoundEvents.EVOKER_CAST_SPELL, SoundSource.PLAYERS, 1.0f, 1.0f);
+            SpellFx.cast(player, 15, SpellFx.FANGS);
         } else if (slot == ABILITY_2) {
             if (CHARGE_PENDING.is(player)) return;
             if (vexes(player).size() >= MAX_VEXES) {
@@ -137,6 +146,7 @@ public final class EvokerKit implements MobKit {
             if (!KitUtil.tryUse(player, VEXES, "Summon Vexes", 30, 400)) return;
             CHARGING.start(player, VEX_CHARGE);
             CHARGE_PENDING.set(player, true);
+            SpellFx.cast(player, VEX_CHARGE, SpellFx.SUMMON_VEX);
             player.level().playSound(null, player.blockPosition(), SoundEvents.EVOKER_PREPARE_SUMMON, SoundSource.PLAYERS, 1.0f, 1.0f);
             KitUtil.actionBar(player, "Summoning vexes...");
         } else {
@@ -313,6 +323,12 @@ public final class EvokerKit implements MobKit {
                 .isPresent();
     }
 
+    /** Self-given totems are bound to the Evoker and his team. See item/BoundTotem. */
+    @Override
+    public void customizeSelfGive(ServerPlayer player, String itemId, net.minecraft.world.item.ItemStack stack) {
+        if (itemId.equals("totem_of_undying")) com.reality.mobcraft.item.BoundTotem.bind(stack, player);
+    }
+
     @Override
     public boolean canSelfGive(ServerPlayer player, String itemId) {
         if (!itemId.equals("totem_of_undying")) return true;
@@ -347,6 +363,7 @@ public final class EvokerKit implements MobKit {
 
     @Override
     public boolean onUltimate(ServerPlayer player) {
+        SpellFx.cast(player, 30, SpellFx.FANGS);
         for (int ring = 0; ring < 3; ring++) {
             double radius = 2 + ring * 2;
             int count = 8 + ring * 6;

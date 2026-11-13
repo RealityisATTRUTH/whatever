@@ -5,33 +5,41 @@
 ## change them in Controls. Lines starting with ## don't show.
 # RABBIT
 - Passive: Speed II, Jump Boost III, half size, instant respawn
+- Ears and tail: the rabbit's ears on your head and its puffy tail. The ears twitch now and then, flop back when you run and lie flat while you're cursed. Your fur turns white in the snow and gold in the desert.
 - Escorts: R, or left-click while holding a rabbit's foot: up to 5 killer rabbits, 15.5s cooldown, 25 alive at once. They follow, defend and attack per the Mob Behavior settings, and take RTS orders.
 - Home: Desert, Snowy Plains, Snowy Taiga: escorts get Speed I and half of Strength I ("The Rabbit King Must Protect"). Killer rabbits never flee ("Keep Fighting for the King").
-- Double jump: press jump in midair to jump again, 3 energy each. As many as your energy allows before you land.
+- Double jump: press jump in midair to jump again, 3 energy each. Up to 3 midair jumps before you land.
 - No fall damage
 - Curse: only one midair jump before you land, and can't self-give raw rabbit. Raw rabbit already held stays.
 - Ultimate, U: Killer Stampede. Up to 10 killer rabbits at once, no rabbit's foot needed, still 25 at most. Every escort within 32 blocks gets Strength I and Speed II for 20s.
+- Mob item: Rabbit Ears. Goes on a helmet, the ears sticking up out of it. Press the Armor Power key (Z) to turn into a rabbit: everyone sees a plain rabbit, you shrink to rabbit size and hop as you move, and mobs ignore you. Hitting anything or getting hurt turns you back, and you can't hide again for 10 seconds. Drops when another player kills you.
 # IRON_GOLEM
 - Passive: Resistance I, +3 hearts attack damage, 1.4 size, knockback immunity, no fall damage, Slowness I. Mace smash does half damage.
+- Breaking down: every hit knocks gray-white chips of iron off you, more for harder hits and more again the more worn down you are.
 - Golem Toss, R: your next empty-hand hit launches the target upward. A tossed player is stunned for 2s: no moving, jumping or attacking. 15 energy, 8s cooldown.
 - Iron Repair: right-click an iron ingot: heal 4 hearts, 10s cooldown. Teammates can right-click you with an ingot to repair you.
 - Allies: villagers and iron golems
 - Home: Villages: Resistance II and Regeneration I
 - Curse, Rusted: loses Resistance and knockback immunity, Slowness II
 - Ultimate, U: Earthquake. You slam the ground. Enemies within 7 blocks take 4 hearts and are thrown up. Players are stunned for 3s, mobs slowed to a crawl.
+- Mob item: Iron Golem Head, the golem's head broken into pieces, one eye red and one green, with green essence flowing out. Goes on a chestplate: half knockback. Drops when another player kills you.
 # SKELETON
 - Self-give: bow with Power III and Curse of Vanishing, arrows, bones
+- Quiver: a leather quiver across your back with an arrow for each kind you carry, up to three. Tipped arrows have feathers in their potion's color, spectral arrows gold, plain arrows white. Tipped arrows give off their colors from it too. It shuts while you fly with an elytra.
 - Biome arrows: where he fires decides the effect: Desert Weakness 30s, snowy biomes Slowness 30s, swamps Poison 4s
 - Lock On, R: your next 3 arrows home in. 25 energy, 20s cooldown.
 - Skeleton Horse, G: a saddled skeleton horse you ride at once. 40 energy, 2:00 cooldown. Calling a new one sends the old one away.
-- Undead: poison immune, Instant Damage heals, Instant Health hurts, Smite does bonus damage, burns in sunlight without a helmet, Weakness I within 8 blocks of a wolf
+- Four Horsemen, G instead of the horse if you pick it in /mobcraftsettings: lightning strikes and four skeleton horsemen with iron helmets and Power II bows ride out for you. Command them in RTS. They crumble after 60 seconds. Same cost and cooldown.
+- Undead: poison immune, Instant Damage heals, Instant Health hurts, Smite does bonus damage, burns in sunlight without a helmet (not while it rains or snows), Weakness I within 8 blocks of a wolf
 - Allies: skeletons, strays, bogged
 - Home: Soul Sand Valley: Speed I and double energy regen
 - Curse: no Lock On, no self-given arrows
 - Ultimate, U: Arrow Rain. Arrows rain down where you look, up to 48 blocks away: 48 arrows over 3 seconds across 5 blocks. They can't be picked up.
+- Mob item: Skull Visor, a shattered skeleton's skull with eye sockets carved like old snow goggles, worn as a helmet. Skeletons, strays, bogged, parched and wither skeletons can't hurt you, projectiles do 40% less damage, and bows draw 25% faster. But you burn in sunlight like a skeleton and see out only through the goggles' two narrow slits. As strong as a leather helmet, repaired with bones. Drops when another player kills you.
 # AXOLOTL
 - Passive: Water Breathing, Dolphin's Grace, instant respawn. Regeneration II only in water or rain.
 - Drying out: after 5 minutes dry, takes half a heart every 2 seconds until wet
+- Gills: the axolotl's pink gills around your head. They fan out and flutter in water or rain, and droop back when you're dry.
 - Play Dead: R, in water: 10s frozen, can't attack, mobs lose interest, Regeneration III. 25 energy, 45s cooldown.
 - Call the Pod: G, in water: 3 axolotls you can command in RTS. 30 energy, 30s cooldown.
 - Hunting Partner: a teammate who kills something you hurt in the last 10s gets Regeneration I for 5s and loses Mining Fatigue
@@ -39,39 +47,48 @@
 - Home: Lush Caves: double energy regen
 - Curse: dry everywhere, no Regeneration, drying runs underwater, no pod
 - Ultimate, U: Tidal Surge. You and teammates within 10 blocks get Regeneration III and Resistance I for 10s. Enemies within 10 blocks are washed back and slowed for 8s.
+- Mob item: Axolotl Roe, a round caviar tin full of pink axolotl eggs. The lid swings open when you pull it out, and the eggs go down as you eat. Eat it: Water Breathing 5:00, Regeneration I 0:30, Dolphin's Grace 1:00. Drops when another player kills you.
 # PIGLIN
 - Passive: Strength I. Inside a Bastion Remnant: Strength II and Resistance I.
+- Ears: the piglin's ears on your head, flapping as you walk and flopping out when you're hit. Zombified ears while you're cursed.
 - Allies: piglins and piglin brutes, so mining gold never angers them
 - Gold Rush, R: Speed II for 8s. 20 energy, 30s cooldown.
 - Crossbow, G: a crossbow for 1:00 with Piercing V, Multishot I and Curse of Vanishing. It vanishes if you die. 2:00 cooldown after it's gone.
 - Curse: Zombification: no Strength, can't self-give gold or crying obsidian
 - Ultimate, U: Bastion Rally. Strength II, Resistance I and Speed II for 20s, and 3 piglin brutes fight for you for 45s. They don't zombify and take RTS orders.
+- Mob item: Piglin Truffle, a black warty truffle with gold marbling inside, cracked so the gold shows through. As you eat it, bites come out of it and show the gold inside. Eat it: Strength I and Absorption II for 2:00. Drops when another player kills you.
 # GHAST
 - Passive: slow flight, Fire Resistance, Regeneration I only in the Nether
+- Cloud: wisps of cloud drift off you. While flying you ride a puffy cloud under your feet that sheds wisps behind you. In the Nether it's an ash cloud: dark smoke with glowing embers, trailing smoke and raining ash.
 - Fireball, R: one ghast fireball. 15 energy, 3s cooldown. Can be punched back.
+- Fireball Jump: your own fireball going off within 4.5 blocks throws you away from the blast, harder the closer it is. Shoot at your feet to launch high, like rocket jumping. It never hurts you, stops your flying so you sail, and the landing is free. Double-tap jump to fly again.
 - Barrage, G: three fireballs in a spread. 45 energy, 30s cooldown.
 - Ferry: up to 4 teammates (same /team) can right-click you to ride along beside you. Sneak to get off.
 - Allies: ghasts and happy ghasts
 - Home: Nether Wastes and Soul Sand Valley: faster flight, double energy regen
 - Curse: Dried Out: can't fly or shoot. Standing in water ends it early.
 - Ultimate, U: Hellfire. Two volleys of 5 fireballs fanned out where you look, a second apart.
+- Mob item: Ghast Wisp, a little ember wrapped in swirling wind. Throw it: a small fireball that flies like a wind charge, does 1 damage and sets what it hits on fire for 3 seconds, then bursts into wind that pushes everything away, weaker than a wind charge. 1 second cooldown, never burns blocks. Or brew it into an Awkward Potion: Potion of Drifting, Slow Falling and Fire Resistance for 3:00. Drops when another player kills you.
 # BAT
 - Passive: half size, flight at about sprint speed, instant respawn
+- Wings and ears: the bat's own wings on your back, beating while you fly and folded otherwise, and its ears on your head.
 - Lifesteal: hitting a player heals you for a quarter of the damage
 - Confuse: R primes it. Your next hit on a player stops them moving and attacking for 25s and jams their RTS. A mob you hit can't get new RTS orders for 25s but keeps its current one. 35 energy, 1:30 cooldown. Stays primed until a hit lands, cleared when you log out.
 - Echolocation: G, only in caves: every living thing within 24 blocks glows on your screen for 10s. 15 energy, 10s cooldown.
 - Curse: Blinded: Blindness the whole time, but Echolocation is always on, anywhere, open air or cave. Every living thing within 24 blocks glows on your screen and gets a vibration marker drawn over the blindness. Mods that hide Blindness don't help.
 - Ultimate, U: Night Swarm. 12 bats burst out around you for 10s. Every enemy within 14 blocks glows for 15s, and enemy players are blinded for 6s.
 # CREEPER
-- Gunpowder Blast, R: explode where you stand without dying: power 3, or 6 while charged. Your own blast never hurts you. 40 energy, 20s cooldown.
-- Self Charge, G: become a charged creeper for 30s: your next blast is double power and you glow. 30 energy, 1:00 cooldown.
+- Gunpowder Blast, R: a 1.5s fuse like a real creeper's, swelling and flashing white, then explode where you are without dying: power 3, or 6 while charged. Your own blast never hurts you. 40 energy, 20s cooldown.
+- Self Charge, G: become a charged creeper for 30s: your next blast is double power, you glow, and the charged-creeper energy swirls around you. 30 energy, 1:00 cooldown.
 - Leaf Hide, V: while touching leaves, turn invisible for up to 10s. Ends if you hit something or leave the leaves. 20 energy, 30s cooldown.
 - Cats: within 6 blocks of a cat or ocelot you're slowed and can't blast
 - Allies: creepers
 - Curse: no Gunpowder Blast
 - Ultimate, U: Supernova. You glow and hiss for 1.5s, then blow up at power 7.5, over twice a charged Gunpowder Blast. It never hurts you. A cat nearby stops it.
+- Mob item: Creeper Essence, a jagged red crystal with orange cracks that pulse brighter and brighter. Right-click to absorb it, then press B: whatever you're holding is charged with explosive energy, like Rex Splode, and an orange glow swirls over you and over the item itself, shrink-wrapped to its shape, until you throw it. Right-click to throw it: it glows orange as it flies and blows up where it lands. Density decides the blast: packed ice (7,875 kg/m³) is a charged creeper's blast, lighter is weaker and denser hits harder up to 4 creepers. A water bucket is bigger than TNT. It breaks blocks like TNT, but blocks only have a quarter of their blast resistance against it, so stone breaks like dirt. Anything you hold takes up 1 m³, so density is mass, and mass is what went into it: a gold block is real gold, 19,300, an ingot a ninth of its block, a bucket 3 iron ingots, 2,624.7, a water bucket 3,499.7. Ice is 875, packed ice 9 ice. The thrown item is used up. The charge lasts 10s; press B again to let it go. 45s cooldown from each throw. Sneak+B: Rex's last stand. You swell and flash for 1.5s, glowing orange, then blow yourself up. The average density of what you carry decides it: three creepers for packed ice, up to 5, breaking blocks like TNT. Two or more water buckets make an infinite water source: a singularity, full power. You die and the essence is used up. No cooldown. One essence at a time, lost when you die. Drops when another player kills you.
 # SILVERFISH
 - Passive: tiny, Haste II
+- Tail: the silverfish's body trails from your back as a tail, wiggling like a silverfish, more when you move.
 - Stone Swim, R: toggle: sink into the stone you're standing on or facing and swim through it in any direction. You can pass through every kind of stone, gravel and stone ores, plus air, nothing else. Inside stone you float, so jump and sneak move you up and down. In open air you fall and walk like normal until you're back in stone. You're hidden inside the rock, can't attack or use items, and don't regenerate energy. 10 energy to enter. Press R again to climb out at the nearest open spot.
 - Infest, Sneak+R: stone-type blocks within 3 blocks turn into infested blocks that release silverfish when broken. Up to 24 blocks. 20 energy, 20s cooldown.
 - Summon Silverfish, G: 3 silverfish you can command in RTS. 12 alive at most. 25 energy, 30s cooldown.
@@ -79,18 +96,21 @@
 - Allies: silverfish and endermites
 - Curse: no Stone Swim, Infest or summoning
 - Ultimate, U: Infestation. 8 silverfish swarm out for 1:00, on top of your usual 12, and take RTS orders. Enemies within 8 blocks get Mining Fatigue II and Weakness I for 15s.
+- Mob item: Silverfish Grub. Eat it: Haste II for 3:00. Drops when another player kills you.
 # EVOKER
 - Fangs, R with a totem in your main hand: a line of fangs where you look. Sneak+R: a ring of fangs around you. 5 energy, 1s cooldown.
+- Spells: casting Fangs or Summon Vexes swirls spell particles round your hands, like a real evoker. As raid captain you give off raid omen swirls.
 - Summon Vexes, G: 2 second charge, then 3 vexes that attack whoever you hit and can be commanded in RTS. They fade after 60s. 30 energy, 20s cooldown, 9 alive at most.
 - Raid Captain: Put an ominous banner on your head (right-click it, only the Evoker can) and you become a raid captain for 1:00. Pillagers, vindicators, evokers, illusioners, ravagers and witches within 32 blocks won't attack you, go after whatever you hit or whatever hits you, and get Strength I and Speed I within 16 blocks. Whoever kills you while you're captain gets Bad Omen. Taking the banner off ends it. 35 energy, 2:30 cooldown after the minute.
-- Self-give: totems only out of combat (15s since you last hit or were hit), emeralds any time
+- Self-give: totems only out of combat (15s since you last hit or were hit), emeralds any time. Your totems are bound to you: they save you and your teammates, nobody else.
 - Allies: evokers and vexes. No vex can ever hurt you.
 - Bells: within 50 blocks of a bell you glow
 - Home: Woodland Mansion: take 10% less damage
 - Curse: no totem self-give
 - Ultimate, U: Fang Storm. Three rings of fangs burst out around you one after another, 42 fangs in all, and 3 vexes join you (up to the usual 9).
+- Mob item: Broken Totem, a grey cracked totem with red eyes leaking red fog. Right-click to absorb it. It has 2 uses, for either power. B: swap places with the player you're looking at, up to 32 blocks, teammate or enemy. Sneak+B: ready the red chain, and your next melee hit pulls whoever you hit to you. Swords, axes, spears and tridents work, and maces without Density or Wind Burst. One essence at a time, lost when you die. Drops when another player kills you.
 # ENDERMAN
-- Teleport, R: to the block you're looking at, up to 32 blocks away. 15 energy, 3s cooldown.
+- Teleport, R: to the block you're looking at, up to 32 blocks away. You glow purple in a cloud of portal particles for half a second, then go. 15 energy, 3s cooldown.
 - Auto Dodge: passive: a projectile that would hit you teleports you up to 8 blocks away instead. 5 energy each time. Switch off in /mobcraftsettings.
 - Water: water and rain hurt you, half a heart a second
 - Ender pearls: no pearl damage
@@ -99,6 +119,7 @@
 - Ultimate, U: Void Rift. Every enemy within 16 blocks is teleported to a random spot 8 to 16 blocks from where they stood, with Nausea for 8s. Players are blinded for 3s too.
 # VEX
 - Passive: vanilla vex size, flight at walking speed, no fall damage
+- Wings: the vex's wings, always fluttering and beating hard while you fly. You go see-through while phasing, and your eyes glow red during a Charge.
 - Phase, R: toggle: fly through blocks. Costs 2 energy a second. You can't attack, open containers or use items while phasing. Ends by itself at 0 energy. If you end inside a block you're pushed to the nearest open space.
 - Charge, G: dash forward and strike whatever's in front of you within 6 blocks with your held weapon. 15 energy, 6s cooldown.
 - Borrowed Time: at 0 energy you take half a heart every 3s until energy recovers
@@ -106,9 +127,11 @@
 - Home: Woodland Mansion: double energy regen
 - Curse: can't phase or fly
 - Ultimate, U: Spectral Legion. 5 vexes fight for you for 30s and take RTS orders, and you get Strength I and Speed I for 10s.
+- Mob item: Vex Wing. Put it on a chestplate (not one with Mending) to fly like you do, for 3 energy a second. At 0 energy they drop until they're back to 10. The wing wears down while flying, 216 seconds in all, and breaks at 0. Only killing allays repairs it. Drops when another player kills you.
 # SHULKER
 - Shell defense: stand still for 2s: Resistance I (II in the End) and projectiles bounce off you back at whoever shot them
-- Blocking, R: close your shell for 5s: Resistance II and Blindness (no Blindness in the End), then Slowness I for 3s. 10 energy, 15s cooldown.
+- Blocking, R: your shell appears and snaps shut around you for 5s. You settle into the middle of your block and can't move, jump or be knocked back until it opens. Resistance II and Blindness (no Blindness in the End), then Slowness I for 3s. 10 energy, 15s cooldown.
+- Shell: during Blocking the shulker's shell shows around you. The base at your feet and the lid above your head, then the lid comes down and shuts you in. It sits square on your block like a real shulker and doesn't turn when you look around.
 - Teleport, G: to a random safe spot within 8 blocks. 5s cooldown.
 - Shulker Bullet, V: at whatever you're looking at within 32 blocks. 5 energy, 2s cooldown. Turns off shell defense for 5s.
 - Elytra Gamble, Sneak+V: 1 in 50 chance at an Elytra. 50 energy a roll.
@@ -116,26 +139,31 @@
 - Allies: endermen and shulkers
 - Drops: Elytra too, if killed with a Looting weapon
 - Ultimate, U: Bullet Storm. Shulker bullets at up to 10 enemies within 24 blocks, more bullets each when there are fewer targets (3 at most). Resistance II for 5s.
+- Mob item: Shulker Essence. Right-click to absorb it, then press B: a shulker shell closes around you and blocks all damage for up to 10s. Two hits from a pickaxe, sword or axe crack it and break it open, leaving you with Slowness II for 5s. 30s cooldown. Lost when you die. Drops when another player kills you.
 # WITHER
 - Flight: double-tap jump to fly, a bit faster than walking
+- Heads: the wither's two side heads ride on your shoulders. Each turns to look at someone nearby. Below half health the wither's blue armor swirls over you. It's only a look, it doesn't block arrows.
 - Nether: Speed I anywhere in the Nether, Speed II within 200 blocks of a fortress, Strength I only inside a fortress
 - Undead: immune to Wither and poison, Instant Damage heals and Instant Health hurts
 - Black Skull, R: a wither skull where you look. 10 energy, 1s cooldown.
 - Blue Skull, Sneak+R: a dangerous blue skull that breaks blocks it hits. 25 energy, 8s cooldown.
 - Charge, G: dash forward. Anything you ram takes 6 damage and Wither II for 5s. 25 energy, 15s cooldown.
-- Block Destruction, V: breaks the blocks around you, like the Wither breaking out. Bedrock and other wither-proof blocks stay. 30 energy, 20s cooldown.
+- Block Destruction, V: for 10 seconds every block you touch breaks, like the Wither breaking out. Walk, fly or charge through walls at any speed, or stand still and it keeps clearing round you. Sneak to dig down too. Bedrock and other wither-proof blocks stay. 30 energy, 30s cooldown.
 - Allies: wither skeletons
 - Curse: no skulls
 - Ultimate, U: Skull Storm. 16 black skulls fly out in a ring and 3 blue skulls go where you look. Enemies within 10 blocks get Wither II for 10s.
 # ILLUSIONER
 - Clones, R: turn invisible for 8s while 3 illusioner clones appear around you and fight for you. They vanish after 15s. 30 energy, 30s cooldown.
+- Spells: making clones leaves a puff of smoke and blue sparkles where you vanish and where each clone appears. Blindness swirls dark spell particles round your hands and over the target.
 - Arrow Burst, G: 8 arrows fanned out where you look. 20 energy, 10s cooldown.
 - Blindness, V: whatever you're looking at within 24 blocks is blinded for 6s. 15 energy, 20s cooldown.
 - Allies: illagers: pillagers, vindicators, evokers, illusioners
 - Curse: no Clones
 - Ultimate, U: Hall of Mirrors. 6 clones appear around you while you turn invisible for 10s, and every enemy player within 20 blocks is blinded for 6s.
+- Mob item: Illusion Lens. Goes on a helmet: Blindness and Darkness can't affect you. Drops when another player kills you.
 # WARDEN
 - Passive: +9 attack damage, Resistance I, Fire Resistance
+- Tendrils: when an enemy within 16 blocks moves without sneaking, a vibration flies to the tendrils on your head. When it lands they click, twitch and glow, then wait 2s before the next one. They also twitch and glow through Echolocation and Sniffing.
 - Sonic Shriek, R: a sonic boom 15 blocks ahead, through walls and armor, 10 damage and knockback. 30 energy, 10s cooldown.
 - Rage, Sneak+R: Strength I and Speed I for 15s. 40 energy, 1:00 cooldown.
 - Echolocation, G: for 10s, white ghosts show where everything nearby was 1s ago. Sneaking makes no vibration, so it leaves none. 15 energy, 20s cooldown.
@@ -157,11 +185,14 @@
 - Commands: he's a server operator while powered up.
 ## Hidden: * Shut down
 ## Hidden: - A plain Villager with normal energy. Gives himself emeralds, but only within 5 blocks of a crafting table or a villager job block. Raid mobs (pillagers, vindicators, evokers, illusioners, ravagers, witches) do half again as much damage to him.
+- Moods: when something hits you, an angry storm cloud puffs over your head. Giving yourself emeralds makes green sparkles, like a happy villager after a trade.
 - Allies: villagers and iron golems, either way.
 - Ultimate, U: Call the Guard. 3 iron golems come to defend you for 1:00 and take RTS orders, powered up or not.
+- Mob item: Villager Bread. Eat it: Hero of the Village for 5:00. Drops when another player kills you.
 # ENDER_DRAGON
 - Energy: 100, 1 per second. Double in the End.
 - Flight: sprinting speed, 1 energy per second while flying (instead of regenerating). Out of energy, she can't fly again until she has 10. Taking damage grounds her for 3s.
+- Wings: the dragon's own wings on your back, flapping while you fly and hanging down your back like a folded elytra on the ground. Right-click an elytra to merge it into them: they grow to an elytra's size and you fly faster. An elytra never shows on you. They stay through death, until you stop being the Ender Dragon.
 - Immunities: Wither and Slow Falling. Fire Resistance and Water Breathing.
 - Crystals: the nearest end crystal within 24 blocks beams at her and heals her: Regeneration II in the End, Regeneration I anywhere else.
 - Dragon Breath, R: a dragon fireball where she looks, leaving a damaging purple cloud that never hurts her. 30 energy, 20s cooldown.
@@ -175,8 +206,10 @@
 - Drops: 64 dragon's breath and a dragon head, never the egg
 - The End: while someone is the Ender Dragon, no dragon spawns and all 20 gateways open. Switching off the Ender Dragon turns that off again and takes the egg away.
 - Ultimate, U: Dragon's Fury. 5 dragon fireballs in a wide spread where she looks, and every enemy within 10 blocks is blown far back.
+- Mob item: Dragon Essence, your egg cracked open. Right-click to absorb it, then press B: Absorption IV 2:00, Regeneration II 0:30, Resistance I 1:00. 4 minute cooldown. One essence at a time, lost when you die. Drops when another player kills you.
 # BLAZE
 - Energy: 100, 1 per second
+- Rods: the blaze's twelve rods spin around you in three rings, always lit. They spin faster during Fire Shield and the Combat Phase.
 - Passives: Fire Resistance, slow hover flight
 - Weaknesses: water and rain hurt you, half a heart a second. Snowballs do 3 damage, like they do to real blazes. No flying in water.
 - Combat Phase: starts on its own when you hit a player or one hits you. Flames and smoke pour off you, your melee hits set targets on fire, and the Fireballs cooldown is halved. But your energy stops regenerating and water hurts twice as much. Ends after 10s with no hits either way (15s at home).
@@ -189,11 +222,12 @@
 - Curse: Snuffed Out, 3:00: no Combat Phase, no Fireballs, no flying, no self-given blaze rods.
 - Drops: 16 blaze rods and 32 blaze powder
 - Ultimate, U: Inferno. Three rings of 16 small fireballs fly out from you half a second apart. Enemies within 6 blocks catch fire for 8s, and Combat Phase starts.
+- Mob item: Blaze Ember. Brew it into an Awkward Potion: Potion of Blazing, Strength I and Fire Resistance for 1:30. Drops when another player kills you.
 # ELDER_GUARDIAN
 - Water: Dolphin's Grace, Water Breathing, Night Vision while under.
 - Land: Slowness I and no sprinting.
 - Size: 1.2 times normal.
-- Spikes: standing still, melee attackers take 1 heart back per hit.
+- Spikes: when someone hits you up close, your spikes shoot out for 1.5s and they take 1 heart of thorns damage.
 - Laser Beam, R: locks onto the player you're looking at (24 blocks), charges 2s while you keep them in sight, then 6 damage through armor. Losing sight cancels it. 30 energy, 15s cooldown.
 - Elder Curse, G: enemy players within 20 blocks (40 in a monument) see the ghost face and get Mining Fatigue III for 30s. 40 energy, 2:00 cooldown.
 - Guardians, V: 2 guardians for RTS, in water only, 6 at most. 35 energy, 45s cooldown.
@@ -203,8 +237,10 @@
 - Curse, Beached: no swim speed, no Laser Beam, spikes off.
 - Drops: prismarine shards and wet sponges.
 - Ultimate, U: Abyssal Gaze. Every enemy within 32 blocks (48 in a monument) sees the ghost face, takes 4 hearts of magic damage, and gets Mining Fatigue III for 1:00 and Slowness II for 6s.
+- Mob item: Elder Spike, one of the spikes from the Elder Guardian's back, exactly as it looks on the mob. Goes on a chestplate: spikes, like the Elder Guardian's. When someone hits you up close, spikes shoot out of your back for 1.5 seconds and they take 1 heart of thorns damage. Helmets that got one before keep Water Breathing and Night Vision underwater. Drops when another player kills you.
 # BREEZE
 - Passives: no fall damage, Jump Boost II. Arrows and tridents bounce off, except in water. Takes 1.5 times the knockback.
+- Wind: the breeze's own wind swirls around your legs, and grows during Whirlwind.
 - Gust, R: a wind charge where you look. 10 energy, 2s cooldown.
 - Leap, G: launches you high and forward. 15 energy, 6s cooldown.
 - Whirlwind, V: players within 5 blocks are thrown up and away. 35 energy, 30s cooldown.
@@ -214,3 +250,5 @@
 - Curse, Still Air: no Leap, nothing bounces off, no self-given wind charges.
 - Drops: 4 breeze rods and 32 wind charges.
 - Ultimate, U: Tempest. 8 wind charges fly out in a ring, enemies within 10 blocks are thrown high into the air, and you're lifted up with them.
+
+- Mob item: Breeze Core. Goes on boots: no fall damage. Drops when another player kills you.
