@@ -1,0 +1,27 @@
+{
+ "model": {
+  "type": "minecraft:composite",
+  "models": [
+   {
+    "type": "minecraft:model",
+    "model": "mobcraft:item/creeper_fuse"
+   },
+   {
+    "type": "minecraft:model",
+    "model": "mobcraft:item/creeper_fuse_part1"
+   },
+   {
+    "type": "minecraft:model",
+    "model": "mobcraft:item/creeper_fuse_part2"
+   },
+   {
+    "type": "minecraft:model",
+    "model": "mobcraft:item/creeper_fuse_part3"
+   },
+   {
+    "type": "minecraft:model",
+    "model": "mobcraft:item/creeper_fuse_part4"
+   }
+  ]
+ }
+}

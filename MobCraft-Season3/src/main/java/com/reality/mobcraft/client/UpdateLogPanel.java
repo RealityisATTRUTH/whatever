@@ -258,7 +258,7 @@ public final class UpdateLogPanel {
         for (String[] entry : entries()) {
             if (entry[0].equals("#")) {
                 if (!out.isEmpty()) out.add(new Line("", TEXT_COLOR, 0));
-                out.add(new Line(entry[1], HEADING_COLOR, 0));
+                for (String part : wrap(font, entry[1], width)) out.add(new Line(part, HEADING_COLOR, 0));
             } else {
                 boolean first = true;
                 for (String part : wrap(font, entry[1], width - 8)) {

@@ -34,6 +34,13 @@ public class MobCraftClient implements ClientModInitializer {
             if (tier == null || tier.desc() == null || lines.isEmpty()) return;
             lines.add(1, net.minecraft.network.chat.Component.literal(tier.desc()).withStyle(tier.color()));
         });
+        // Gear with MobCraft enchants shows how many it holds out of its cap.
+        net.fabricmc.fabric.api.client.item.v1.ItemTooltipCallback.EVENT.register((stack, context, flag, lines) -> {
+            int n = com.reality.mobcraft.item.EnchantCap.count(stack), cap = com.reality.mobcraft.item.EnchantCap.cap(stack);
+            if (n == 0 || cap == Integer.MAX_VALUE) return;
+            lines.add(net.minecraft.network.chat.Component.literal("MobCraft enchants: " + n + "/" + cap)
+                    .withStyle(n >= cap ? net.minecraft.ChatFormatting.GOLD : net.minecraft.ChatFormatting.GRAY));
+        });
         // Itchy armor: now and then you stop to scratch, and the camera shakes a little.
         ClientTickEvents.END_CLIENT_TICK.register(client -> {
             var p = client.player;

@@ -1,0 +1,163 @@
+{
+ "model": {
+  "type": "minecraft:composite",
+  "models": [
+   {
+    "type": "minecraft:model",
+    "model": "mobcraft:item/ghast_wisp"
+   },
+   {
+    "type": "minecraft:model",
+    "model": "mobcraft:item/ghast_wisp_part1"
+   },
+   {
+    "type": "minecraft:model",
+    "model": "mobcraft:item/ghast_wisp_part2"
+   },
+   {
+    "type": "minecraft:model",
+    "model": "mobcraft:item/ghast_wisp_part3"
+   },
+   {
+    "type": "minecraft:model",
+    "model": "mobcraft:item/ghast_wisp_part4"
+   },
+   {
+    "type": "minecraft:model",
+    "model": "mobcraft:item/ghast_wisp_part5"
+   },
+   {
+    "type": "minecraft:model",
+    "model": "mobcraft:item/ghast_wisp_part6"
+   },
+   {
+    "type": "minecraft:model",
+    "model": "mobcraft:item/ghast_wisp_part7"
+   },
+   {
+    "type": "minecraft:model",
+    "model": "mobcraft:item/ghast_wisp_part8"
+   },
+   {
+    "type": "minecraft:model",
+    "model": "mobcraft:item/ghast_wisp_part9"
+   },
+   {
+    "type": "minecraft:model",
+    "model": "mobcraft:item/ghast_wisp_part10"
+   },
+   {
+    "type": "minecraft:model",
+    "model": "mobcraft:item/ghast_wisp_part11"
+   },
+   {
+    "type": "minecraft:model",
+    "model": "mobcraft:item/ghast_wisp_part12"
+   },
+   {
+    "type": "minecraft:model",
+    "model": "mobcraft:item/ghast_wisp_part13"
+   },
+   {
+    "type": "minecraft:model",
+    "model": "mobcraft:item/ghast_wisp_part14"
+   },
+   {
+    "type": "minecraft:model",
+    "model": "mobcraft:item/ghast_wisp_part15"
+   },
+   {
+    "type": "minecraft:model",
+    "model": "mobcraft:item/ghast_wisp_part16"
+   },
+   {
+    "type": "minecraft:model",
+    "model": "mobcraft:item/ghast_wisp_part17"
+   },
+   {
+    "type": "minecraft:model",
+    "model": "mobcraft:item/ghast_wisp_part18"
+   },
+   {
+    "type": "minecraft:model",
+    "model": "mobcraft:item/ghast_wisp_part19"
+   },
+   {
+    "type": "minecraft:model",
+    "model": "mobcraft:item/ghast_wisp_part20"
+   },
+   {
+    "type": "minecraft:model",
+    "model": "mobcraft:item/ghast_wisp_part21"
+   },
+   {
+    "type": "minecraft:model",
+    "model": "mobcraft:item/ghast_wisp_part22"
+   },
+   {
+    "type": "minecraft:model",
+    "model": "mobcraft:item/ghast_wisp_part23"
+   },
+   {
+    "type": "minecraft:model",
+    "model": "mobcraft:item/ghast_wisp_part24"
+   },
+   {
+    "type": "minecraft:model",
+    "model": "mobcraft:item/ghast_wisp_part25"
+   },
+   {
+    "type": "minecraft:model",
+    "model": "mobcraft:item/ghast_wisp_part26"
+   },
+   {
+    "type": "minecraft:model",
+    "model": "mobcraft:item/ghast_wisp_part27"
+   },
+   {
+    "type": "minecraft:model",
+    "model": "mobcraft:item/ghast_wisp_part28"
+   },
+   {
+    "type": "minecraft:model",
+    "model": "mobcraft:item/ghast_wisp_part29"
+   },
+   {
+    "type": "minecraft:model",
+    "model": "mobcraft:item/ghast_wisp_part30"
+   },
+   {
+    "type": "minecraft:model",
+    "model": "mobcraft:item/ghast_wisp_part31"
+   },
+   {
+    "type": "minecraft:model",
+    "model": "mobcraft:item/ghast_wisp_part32"
+   },
+   {
+    "type": "minecraft:model",
+    "model": "mobcraft:item/ghast_wisp_part33"
+   },
+   {
+    "type": "minecraft:model",
+    "model": "mobcraft:item/ghast_wisp_part34"
+   },
+   {
+    "type": "minecraft:model",
+    "model": "mobcraft:item/ghast_wisp_part35"
+   },
+   {
+    "type": "minecraft:model",
+    "model": "mobcraft:item/ghast_wisp_part36"
+   },
+   {
+    "type": "minecraft:model",
+    "model": "mobcraft:item/ghast_wisp_part37"
+   },
+   {
+    "type": "minecraft:model",
+    "model": "mobcraft:item/ghast_wisp_part38"
+   }
+  ]
+ }
+}

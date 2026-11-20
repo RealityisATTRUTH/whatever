@@ -1,0 +1,19 @@
+{
+  "parent": "mobcraft:mob_roster",
+  "display": {
+    "icon": {
+      "id": "minecraft:silverfish_spawn_egg"
+    },
+    "title": "Silverfish",
+    "description": "Play as the Silverfish",
+    "frame": "task",
+    "show_toast": true,
+    "announce_to_chat": true,
+    "hidden": false
+  },
+  "criteria": {
+    "done": {
+      "trigger": "minecraft:impossible"
+    }
+  }
+}

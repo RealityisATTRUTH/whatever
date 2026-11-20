@@ -1,6 +1,24 @@
 ## Edit this file to change the Update Log on the title screen.
 ## Lines starting with "# " are version headings, lines starting with "- " are entries.
 ## Newest at the top. Lines starting with ## don't show, like these.
+# Season 3 Beta 5.15
+- Each mob belongs to one player at a time, like in the original MobCraft plugin. /setmob won't give a mob that someone else already has, even while they're offline
+- A mob is free again once its player switches to another mob or to none
+- New admin command /freemob <mob> takes a mob from whoever has it, even while they're offline. They join with no mob next time
+- Long headings in the Update Log wrap onto the next line instead of running past the panel
+# Season 3 Beta 5.14
+- The helmet's bat ears are now 3D. Every pixel is a little block, with real thickness you can see from any side
+- Each ear is a cupped bowl: the dark rim stands out and the pink inside sits deep in the middle
+- The ears are thickest at the base and thinner toward the tip, and they curve gently forward near the top
+# Season 3 Beta 5.13
+- A helmet's warden tendrils, bat ears or rabbit ears never show together with your mob's own ears, tendrils or gills. The helmet's piece shows and your mob's steps aside, like a Rabbit's ears under a tendril helmet, or a Warden's tendrils under a rabbit-ears helmet
+- One tendril or one bat ear on the helmet still pairs with the Warden's or Bat's own on the other side
+# Season 3 Beta 5.12
+- Enchant cap: each item can hold only so many MobCraft enchants. Mace, trident, helmet, chestplate and leggings take 1. Sword, axe, bow, crossbow and boots take 2. Vanilla enchants don't count
+- Unbinding Severance doesn't count toward the cap
+- The anvil shows no result if it would go past the cap, and Duskvein won't awaken an enchant past it. Gear that already has more keeps them
+- The tooltip shows how many MobCraft enchants an item holds out of its cap
+- Same number on every Minecraft version: Beta 5.11 was the 26.1, 26.2 and 1.21.x builds, so 26.3 goes from 5.10 straight to 5.12
 # Season 3 Beta 5.10
 - Fixed the shadow hands' fingers for real. A bug squashed every finger into the palm, so the hand looked like a square on the end of the arm. The fingers now stretch out long with claw tips, like the concept art
 - The hands are back to the concept's pose and size

@@ -909,6 +909,8 @@ public final class MobLookLayer extends RenderLayer<AvatarRenderState, PlayerMod
                 String helmet = state.getData(HelmetUpgradeLayer.UPGRADE);
                 boolean left = ArmorUpgrades.TENDRIL_LEFT.equals(helmet) || ArmorUpgrades.TENDRIL_BOTH.equals(helmet);
                 boolean right = ArmorUpgrades.TENDRIL_RIGHT.equals(helmet) || ArmorUpgrades.TENDRIL_BOTH.equals(helmet);
+                // Bat ears or rabbit ears on the helmet: the warden's own tendrils step aside.
+                if (helmetHeadPiece(helmet) && !tendrils(helmet)) left = right = true;
                 // The tendrils light up as they twitch, pulsing a little, as if lit from inside.
                 float glow = data(state, SHAKE) * (0.8f + 0.2f * Mth.sin(state.ageInTicks * 0.6f));
                 int lit = glowing(light, glow);
@@ -930,6 +932,8 @@ public final class MobLookLayer extends RenderLayer<AvatarRenderState, PlayerMod
                 String helmet = state.getData(HelmetUpgradeLayer.UPGRADE);
                 boolean left = ArmorUpgrades.EAR_LEFT.equals(helmet) || ArmorUpgrades.EAR_BOTH.equals(helmet);
                 boolean right = ArmorUpgrades.EAR_RIGHT.equals(helmet) || ArmorUpgrades.EAR_BOTH.equals(helmet);
+                // Tendrils or rabbit ears on the helmet: the bat's own ears step aside.
+                if (helmetHeadPiece(helmet) && !batEars(helmet)) left = right = true;
                 if (!left) draw(batEarLeft, true, RenderTypes.entityCutoutCull(BAT_TEXTURE), poseStack, collector, light, state);
                 if (!right) draw(batEarRight, true, RenderTypes.entityCutoutCull(BAT_TEXTURE), poseStack, collector, light, state);
             }
@@ -939,7 +943,8 @@ public final class MobLookLayer extends RenderLayer<AvatarRenderState, PlayerMod
             case "rabbit" -> {
                 Integer fur = state.getData(FUR);
                 Identifier tex = RABBIT_TEXTURES[fur == null ? 0 : fur];
-                draw(rabbitEars, true, RenderTypes.entityCutout(tex), poseStack, collector, light, state);
+                // A head piece on the helmet: the rabbit's own ears step aside.
+                if (!helmetHeadPiece(state.getData(HelmetUpgradeLayer.UPGRADE))) draw(rabbitEars, true, RenderTypes.entityCutout(tex), poseStack, collector, light, state);
                 draw(rabbitTail, true, RenderTypes.entityCutout(tex), poseStack, collector, light, state);
             }
             case "vex" -> {
@@ -960,12 +965,16 @@ public final class MobLookLayer extends RenderLayer<AvatarRenderState, PlayerMod
                 }
             }
             // Each gill is a flat sheet with its picture on one face only, so both sides show that face.
-            case "axolotl" -> draw(axolotlGills, true, RenderTypes.entityCutout(AXOLOTL_TEXTURE), poseStack, collector, light, state);
+            case "axolotl" -> {
+                if (!helmetHeadPiece(state.getData(HelmetUpgradeLayer.UPGRADE))) draw(axolotlGills, true, RenderTypes.entityCutout(AXOLOTL_TEXTURE), poseStack, collector, light, state);
+            }
             case "shulker" -> {
                 drawShell(poseStack, collector, light, state);
             }
-            case "piglin" -> draw(piglinEars, true, RenderTypes.entityCutout(
+            case "piglin" -> {
+                if (!helmetHeadPiece(state.getData(HelmetUpgradeLayer.UPGRADE))) draw(piglinEars, true, RenderTypes.entityCutout(
                     Boolean.TRUE.equals(state.getData(CURSED)) ? ZOMBIFIED_PIGLIN_TEXTURE : PIGLIN_TEXTURE), poseStack, collector, light, state);
+            }
             case "wither" -> {
                 draw(witherHeads, true, RenderTypes.entityCutout(WITHER_TEXTURE), poseStack, collector, light, state);
                 if (Boolean.TRUE.equals(state.getData(WITHER_ARMOR))) {
@@ -1389,5 +1398,18 @@ public final class MobLookLayer extends RenderLayer<AvatarRenderState, PlayerMod
         Float fuse = state.getData(FUSE);
         if (fuse == null || fuse <= 0f) return -1f;
         return (int) (fuse * 10f) % 2 == 0 ? 0f : Mth.clamp(fuse, 0.5f, 1f);
+    }
+
+    /** Warden tendrils, bat ears or rabbit ears on the helmet: the mob's own ears, tendrils or gills don't show with them. */
+    static boolean helmetHeadPiece(String helmet) {
+        return tendrils(helmet) || batEars(helmet) || ArmorUpgrades.LUCKY_PAW.equals(helmet);
+    }
+
+    private static boolean tendrils(String helmet) {
+        return ArmorUpgrades.TENDRIL_LEFT.equals(helmet) || ArmorUpgrades.TENDRIL_RIGHT.equals(helmet) || ArmorUpgrades.TENDRIL_BOTH.equals(helmet);
+    }
+
+    private static boolean batEars(String helmet) {
+        return ArmorUpgrades.EAR_LEFT.equals(helmet) || ArmorUpgrades.EAR_RIGHT.equals(helmet) || ArmorUpgrades.EAR_BOTH.equals(helmet);
     }
 }

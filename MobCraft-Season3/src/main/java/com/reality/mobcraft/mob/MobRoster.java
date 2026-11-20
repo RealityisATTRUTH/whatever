@@ -49,7 +49,16 @@ public final class MobRoster {
             ROSTER.clear();
             file = null;
         });
-        ServerPlayConnectionEvents.JOIN.register((handler, sender, server) -> update(handler.player));
+        ServerPlayConnectionEvents.JOIN.register((handler, sender, server) -> {
+            // A mob freed with /freemob while its player was away: they join with no mob.
+            Entry line = ROSTER.get(handler.player.getStringUUID());
+            if (line != null && FREED.equals(line.mob()) && PlayerMob.get(handler.player) != null) {
+                MobTicker.assign(handler.player, null);
+                handler.player.sendSystemMessage(net.minecraft.network.chat.Component.literal(
+                        "Your mob was given up while you were away, so someone else can have it."));
+            }
+            update(handler.player);
+        });
     }
 
     /** Records the player's current mob, or removes them if they have none. Server only. */
@@ -63,6 +72,36 @@ public final class MobRoster {
         if (now == null) ROSTER.remove(uuid);
         else ROSTER.put(uuid, now);
         save();
+    }
+
+    /** The roster's mark for a player whose mob was freed while they were offline. */
+    private static final String FREED = "none";
+
+    /**
+     * Frees a mob from whoever has it. An online player loses it now; an offline one is marked
+     * and loses it when they next join. Returns that player's name, or null if nobody had it.
+     */
+    public static String free(net.minecraft.server.MinecraftServer server, String mobId) {
+        for (Map.Entry<String, Entry> e : ROSTER.entrySet()) {
+            if (!e.getValue().mob().equals(mobId)) continue;
+            String name = e.getValue().name();
+            ServerPlayer online = server.getPlayerList().getPlayer(java.util.UUID.fromString(e.getKey()));
+            if (online != null) MobTicker.assign(online, null);
+            else {
+                e.setValue(new Entry(name, FREED));
+                save();
+            }
+            return name;
+        }
+        return null;
+    }
+
+    /** Someone other than this player who is this mob, online or not, or null if the mob is free. */
+    public static Entry holder(String mobId, String exceptUuid) {
+        for (Map.Entry<String, Entry> e : ROSTER.entrySet()) {
+            if (!e.getKey().equals(exceptUuid) && e.getValue().mob().equals(mobId)) return e.getValue();
+        }
+        return null;
     }
 
     /** Everyone who has a mob, online or not, by uuid. */

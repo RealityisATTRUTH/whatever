@@ -1,0 +1,18 @@
+{
+  "model": {
+    "type": "minecraft:composite",
+    "models": [
+      {
+        "type": "minecraft:model",
+        "model": "mobcraft:item/illusion_lens"
+      },
+      {
+        "type": "minecraft:special",
+        "base": "mobcraft:item/illusion_lens",
+        "model": {
+          "type": "mobcraft:lens_chain"
+        }
+      }
+    ]
+  }
+}

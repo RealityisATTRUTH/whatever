@@ -1,4 +1,4 @@
-# MobCraft Season 3 (beta 5.10)
+# MobCraft Season 3 (beta 5.15)
 
 Minecraft 26.3, Fabric. Every player needs this mod installed on their own game.
 
@@ -10,7 +10,7 @@ Improvements are welcome.
 
 ## What's in this build
 
-- **Mob roles.** /setmob gives a player a mob. Their mob, energy and curse are
+- **Mob roles.** /setmob gives a player a mob. Each mob belongs to one player at a time, online or not; /freemob <mob> takes it back so it can go to someone else. Their mob, energy and curse are
   saved with the world and kept through death.
 - **Energy.** Each mob has a max and a regen rate. The energy bar shows the
   mob name, energy and curse timer. Press H to drag it anywhere on screen.
@@ -137,7 +137,9 @@ Improvements are welcome.
 - **Armor upgrades.** Mob drops that attach to armor: a helmet, chestplate or
   boots. Put the piece and the upgrade in a crafting grid, and you get the piece
   back with the upgrade on it. Ears and tendrils go beside the helmet in a row.
-  The items have textures, and they show on the armor.
+  The items have textures, and they show on the armor. The bat ears on the helmet
+  are 3D, one small block per pixel, cupped and curving gently forward
+  (built by tools/bat_ears_3d.py, which writes BatEarModel and bat_ears_3d.png).
 
   | Upgrade | Comes from | Goes on | Power |
   |---|---|---|---|

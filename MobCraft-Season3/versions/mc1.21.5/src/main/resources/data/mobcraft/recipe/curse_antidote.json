@@ -1,0 +1,17 @@
+{
+  "type": "minecraft:crafting_shapeless",
+  "category": "misc",
+  "ingredients": [
+    "minecraft:milk_bucket",
+    "minecraft:enchanted_golden_apple",
+    "minecraft:golden_apple",
+    "minecraft:brown_mushroom",
+    "minecraft:red_mushroom",
+    "minecraft:golden_carrot",
+    "minecraft:bowl"
+  ],
+  "result": {
+    "id": "mobcraft:curse_antidote",
+    "count": 1
+  }
+}

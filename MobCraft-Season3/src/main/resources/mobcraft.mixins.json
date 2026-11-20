@@ -20,6 +20,7 @@
     "EnchantShiftClickMixin",
     "EnchantDuskveinMixin",
     "AnvilKeepLevelsMixin",
+    "EnchantCapAnvilMixin",
     "ItemCombinerAccessor",
     "AnvilBlockDamageMixin",
     "MaceSmashMixin",

@@ -274,7 +274,7 @@ public final class MaceEnchants {
 
     /** Duskvein can awaken one custom mace enchant on a mace it enchants. Returns true when it did. */
     public static boolean awaken(ItemStack result, Player player, RandomSource random) {
-        if (!result.is(ItemTags.MACE_ENCHANTABLE) || random.nextFloat() >= AWAKEN_CHANCE) return false;
+        if (!result.is(ItemTags.MACE_ENCHANTABLE) || EnchantCap.full(result) || random.nextFloat() >= AWAKEN_CHANCE) return false;
         HolderLookup.RegistryLookup<Enchantment> reg = player.level().registryAccess().lookupOrThrow(Registries.ENCHANTMENT);
         List<Holder<Enchantment>> options = new ArrayList<>();
         for (ResourceKey<Enchantment> k : ALL) {

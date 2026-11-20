@@ -130,7 +130,7 @@ public final class GearEnchants {
 
     /** Duskvein at the enchanting table can awaken one of these on what it enchants (maces have their own). */
     public static void awaken(ItemStack result, Player player, net.minecraft.util.RandomSource random) {
-        if (result.is(ItemTags.MACE_ENCHANTABLE) || random.nextFloat() >= 0.3f) return;
+        if (result.is(ItemTags.MACE_ENCHANTABLE) || EnchantCap.full(result) || random.nextFloat() >= 0.3f) return;
         var reg = player.level().registryAccess().lookupOrThrow(Registries.ENCHANTMENT);
         List<net.minecraft.core.Holder<Enchantment>> options = new ArrayList<>();
         var current = net.minecraft.world.item.enchantment.EnchantmentHelper.getEnchantmentsForCrafting(result).keySet();

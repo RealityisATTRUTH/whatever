@@ -1,0 +1,16 @@
+{
+  "model": {
+    "type": "minecraft:model",
+    "model": "mobcraft:item/gloamite_boots",
+    "tints": [
+      {
+        "type": "minecraft:constant",
+        "value": -4286721
+      },
+      {
+        "type": "minecraft:constant",
+        "value": -1
+      }
+    ]
+  }
+}

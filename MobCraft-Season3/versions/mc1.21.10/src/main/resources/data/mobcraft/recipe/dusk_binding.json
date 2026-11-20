@@ -1,0 +1,11 @@
+{
+  "type": "minecraft:crafting_shapeless",
+  "ingredients": [
+    "mobcraft:duskvein",
+    "mobcraft:rose_gold_ingot",
+    "mobcraft:rose_gold_ingot"
+  ],
+  "result": {
+    "id": "mobcraft:dusk_binding"
+  }
+}

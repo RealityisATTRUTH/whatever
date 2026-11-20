@@ -1,0 +1,318 @@
+{
+ "parent": "minecraft:block/block",
+ "gui_light": "front",
+ "textures": {
+  "particle": "mobcraft:item/skull_visor",
+  "skull": "mobcraft:item/skull_visor"
+ },
+ "display": {
+  "none": {
+   "rotation": [
+    8.0,
+    0.0,
+    -0.0
+   ],
+   "translation": [
+    0.0,
+    -0.0545,
+    0.7794
+   ],
+   "scale": [
+    1,
+    1,
+    1
+   ]
+  },
+  "thirdperson_lefthand": {
+   "rotation": [
+    86.2413,
+    -44.4451,
+    7.9231
+   ],
+   "translation": [
+    -0.248,
+    2.2541,
+    0.0405
+   ],
+   "scale": [
+    0.45,
+    0.45,
+    0.45
+   ]
+  },
+  "thirdperson_righthand": {
+   "rotation": [
+    86.2413,
+    -44.4451,
+    7.9231
+   ],
+   "translation": [
+    -0.248,
+    2.2541,
+    0.0405
+   ],
+   "scale": [
+    0.45,
+    0.45,
+    0.45
+   ]
+  },
+  "firstperson_lefthand": {
+   "rotation": [
+    143.7587,
+    44.4451,
+    -172.0769
+   ],
+   "translation": [
+    0.1874,
+    3.404,
+    -0.162
+   ],
+   "scale": [
+    0.34,
+    0.34,
+    0.34
+   ]
+  },
+  "firstperson_righthand": {
+   "rotation": [
+    143.7587,
+    44.4451,
+    -172.0769
+   ],
+   "translation": [
+    0.1874,
+    3.404,
+    -0.162
+   ],
+   "scale": [
+    0.34,
+    0.34,
+    0.34
+   ]
+  },
+  "head": {
+   "rotation": [
+    8.0,
+    0.0,
+    -0.0
+   ],
+   "translation": [
+    0.0,
+    -0.0545,
+    0.7794
+   ],
+   "scale": [
+    1,
+    1,
+    1
+   ]
+  },
+  "gui": {
+   "rotation": [
+    -163.8146,
+    24.7403,
+    -176.2869
+   ],
+   "translation": [
+    0.2372,
+    0.1794,
+    -0.4775
+   ],
+   "scale": [
+    0.72,
+    0.72,
+    0.72
+   ]
+  },
+  "ground": {
+   "rotation": [
+    172.0,
+    0.0,
+    -180.0
+   ],
+   "translation": [
+    0.0,
+    2.9782,
+    -0.3117
+   ],
+   "scale": [
+    0.4,
+    0.4,
+    0.4
+   ]
+  },
+  "fixed": {
+   "rotation": [
+    172.0,
+    0.0,
+    -180.0
+   ],
+   "translation": [
+    0.0,
+    -0.0436,
+    -0.6235
+   ],
+   "scale": [
+    0.8,
+    0.8,
+    0.8
+   ]
+  },
+  "on_shelf": {
+   "rotation": [
+    172.0,
+    0.0,
+    -180.0
+   ],
+   "translation": [
+    0.0,
+    -0.0545,
+    -0.7794
+   ],
+   "scale": [
+    1,
+    1,
+    1
+   ]
+  }
+ },
+ "elements": [
+  {
+   "from": [
+    11.7,
+    1.7,
+    2.0
+   ],
+   "to": [
+    14.5,
+    4.5,
+    13.2
+   ],
+   "faces": {
+    "north": {
+     "uv": [
+      4.0,
+      7.0,
+      5.0,
+      8.0
+     ],
+     "texture": "#skull"
+    },
+    "east": {
+     "uv": [
+      0.0,
+      7.0,
+      4.0,
+      8.0
+     ],
+     "texture": "#skull"
+    },
+    "south": {
+     "uv": [
+      15.0,
+      7.0,
+      16.0,
+      8.0
+     ],
+     "texture": "#skull"
+    },
+    "west": {
+     "uv": [
+      0,
+      8,
+      4,
+      12
+     ],
+     "texture": "#skull"
+    },
+    "up": {
+     "uv": [
+      0,
+      8,
+      4,
+      12
+     ],
+     "texture": "#skull"
+    },
+    "down": {
+     "uv": [
+      8.0,
+      0.0,
+      9.0,
+      4.0
+     ],
+     "texture": "#skull"
+    }
+   }
+  },
+  {
+   "from": [
+    8.9,
+    1.7,
+    2.0
+   ],
+   "to": [
+    11.7,
+    5.9,
+    13.2
+   ],
+   "faces": {
+    "north": {
+     "uv": [
+      5.0,
+      6.5,
+      6.0,
+      8.0
+     ],
+     "texture": "#skull"
+    },
+    "east": {
+     "uv": [
+      0,
+      8,
+      4,
+      12
+     ],
+     "texture": "#skull"
+    },
+    "south": {
+     "uv": [
+      14.0,
+      6.5,
+      15.0,
+      8.0
+     ],
+     "texture": "#skull"
+    },
+    "west": {
+     "uv": [
+      0,
+      8,
+      4,
+      12
+     ],
+     "texture": "#skull"
+    },
+    "up": {
+     "uv": [
+      0,
+      8,
+      4,
+      12
+     ],
+     "texture": "#skull"
+    },
+    "down": {
+     "uv": [
+      9.0,
+      0.0,
+      10.0,
+      4.0
+     ],
+     "texture": "#skull"
+    }
+   }
+  }
+ ]
+}

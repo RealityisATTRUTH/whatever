@@ -1,0 +1,26 @@
+{
+  "parent": "mobcraft:wither_slayer",
+  "display": {
+    "icon": {
+      "id": "mobcraft:star_fragment"
+    },
+    "title": "Shattered Star",
+    "description": "Get a Star Fragment",
+    "frame": "task",
+    "show_toast": true,
+    "announce_to_chat": true,
+    "hidden": false
+  },
+  "criteria": {
+    "got": {
+      "trigger": "minecraft:inventory_changed",
+      "conditions": {
+        "items": [
+          {
+            "items": "mobcraft:star_fragment"
+          }
+        ]
+      }
+    }
+  }
+}

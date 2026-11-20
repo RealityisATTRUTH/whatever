@@ -1,0 +1,19 @@
+{
+  "parent": "mobcraft:rts_root",
+  "display": {
+    "icon": {
+      "id": "minecraft:compass"
+    },
+    "title": "Commander",
+    "description": "Open RTS mode",
+    "frame": "task",
+    "show_toast": true,
+    "announce_to_chat": true,
+    "hidden": false
+  },
+  "criteria": {
+    "done": {
+      "trigger": "minecraft:impossible"
+    }
+  }
+}

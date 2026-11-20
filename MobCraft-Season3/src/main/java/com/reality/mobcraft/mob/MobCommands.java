@@ -24,6 +24,9 @@ import java.util.List;
  * Admin commands.
  *
  *   /setmob <players> <mob>          give players a mob ("none" removes it)
+ *                                    each mob belongs to one player at a time; it's
+ *                                    free again once that player switches or has none
+ *   /freemob <mob>                   take a mob from whoever has it, even offline
  *   /curse <players> [seconds]       curse players, default 3:00
  *   /uncurse <players>               lift a curse early
  *   /mobenergy <players> <amount>    set energy, for testing
@@ -48,6 +51,12 @@ public final class MobCommands {
                         .then(Commands.argument("mob", StringArgumentType.word())
                                 .suggests((ctx, builder) -> SharedSuggestionProvider.suggest(mobIds, builder))
                                 .executes(MobCommands::setMob))));
+
+        dispatcher.register(Commands.literal("freemob")
+                .requires(source -> source.permissions().hasPermission(Permissions.COMMANDS_MODERATOR))
+                .then(Commands.argument("mob", StringArgumentType.word())
+                        .suggests((ctx, builder) -> SharedSuggestionProvider.suggest(mobIds.subList(1, mobIds.size()), builder))
+                        .executes(MobCommands::freeMob)));
 
         dispatcher.register(Commands.literal("curse")
                 .requires(source -> source.permissions().hasPermission(Permissions.COMMANDS_MODERATOR))
@@ -85,16 +94,45 @@ public final class MobCommands {
             return 0;
         }
         Collection<ServerPlayer> targets = EntityArgument.getPlayers(ctx, "targets");
+        int count = 0;
         for (ServerPlayer player : targets) {
+            // One player per mob, like the original plugin. The roster knows offline players too.
+            MobRoster.Entry holder = type == null ? null : MobRoster.holder(type.id(), player.getStringUUID());
+            if (holder != null) {
+                ctx.getSource().sendFailure(Component.literal(holder.name() + " is already the " + type.displayName
+                        + ". Each mob belongs to one player. Free it first with /freemob " + type.id() + "."));
+                continue;
+            }
             MobTicker.assign(player, type);
             player.sendSystemMessage(Component.literal(type == null
                     ? "You no longer have a mob."
                     : "You are now the " + type.displayName + "."));
+            count++;
         }
+        if (count == 0) return 0;
+        int set = count;
         String label = type == null ? "no mob" : type.displayName;
         ctx.getSource().sendSuccess(() -> Component.literal(
-                "Set " + targets.size() + " player(s) to " + label + "."), true);
-        return targets.size();
+                "Set " + set + " player(s) to " + label + "."), true);
+        return set;
+    }
+
+    /** Takes a mob from whoever has it, online or not, so it can be given to someone else. */
+    private static int freeMob(CommandContext<CommandSourceStack> ctx) {
+        String id = StringArgumentType.getString(ctx, "mob");
+        MobType type = MobType.byId(id);
+        if (type == null) {
+            ctx.getSource().sendFailure(Component.literal("Unknown mob: " + id));
+            return 0;
+        }
+        String name = MobRoster.free(ctx.getSource().getServer(), type.id());
+        if (name == null) {
+            ctx.getSource().sendFailure(Component.literal("Nobody is the " + type.displayName + "."));
+            return 0;
+        }
+        ctx.getSource().sendSuccess(() -> Component.literal("Freed the " + type.displayName + " from " + name
+                + ". If they're offline, they'll have no mob when they next join."), true);
+        return 1;
     }
 
     private static int curse(CommandContext<CommandSourceStack> ctx, int seconds) throws CommandSyntaxException {

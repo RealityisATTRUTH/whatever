@@ -1,0 +1,39 @@
+{
+ "model": {
+  "type": "minecraft:composite",
+  "models": [
+   {
+    "type": "minecraft:model",
+    "model": "mobcraft:item/iron_heart"
+   },
+   {
+    "type": "minecraft:model",
+    "model": "mobcraft:item/iron_heart_part1"
+   },
+   {
+    "type": "minecraft:model",
+    "model": "mobcraft:item/iron_heart_part2"
+   },
+   {
+    "type": "minecraft:model",
+    "model": "mobcraft:item/iron_heart_part3"
+   },
+   {
+    "type": "minecraft:model",
+    "model": "mobcraft:item/iron_heart_part4"
+   },
+   {
+    "type": "minecraft:model",
+    "model": "mobcraft:item/iron_heart_part5"
+   },
+   {
+    "type": "minecraft:model",
+    "model": "mobcraft:item/iron_heart_part6"
+   },
+   {
+    "type": "minecraft:model",
+    "model": "mobcraft:item/iron_heart_part7"
+   }
+  ]
+ }
+}

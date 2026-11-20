@@ -1,0 +1,48 @@
+{
+  "required": true,
+  "minVersion": "0.8",
+  "package": "com.reality.mobcraft.mixin.client",
+  "compatibilityLevel": "JAVA_21",
+  "client": [
+    "RenderStateDataMixin",
+    "KeyMappingShareMixin",
+    "RabbitDisguiseRenderMixin",
+    "ModelPartChildrenAccess",
+    "MinecraftGlowMixin",
+    "PurpleTemplateMixin",
+    "SkybreakerPoseMixin",
+    "SkybreakerRotationMixin",
+    "CameraShakeMixin",
+    "BackwardsItemMixin",
+    "BackwardsFirstPersonMixin",
+    "UnseenHandClickMixin",
+    "EntityTeamColorMixin",
+    "EntityHitboxDebugRendererMixin",
+    "AvatarHelmetMixin",
+    "AvatarSwellMixin",
+    "WhiteFlashMixin",
+    "WingsLayerMixin",
+    "EffectGuardMixin",
+    "RtsSelfRenderMixin",
+    "UpdateLogScrollMixin",
+    "RangeSelectPropertiesMixin",
+    "RabbitAccessor",
+    "SpecialModelRenderersMixin",
+    "SpecialModelWrapperMixin",
+    "ItemModelResolverGlowMixin",
+    "ItemStackRenderStateGlowMixin",
+    "ItemLayerGlowMixin",
+    "RenderPipelinesAccessor",
+    "ItemDecorationsMixin",
+    "TomeArmsMixin",
+    "TomeHandsMixin",
+    "HushSoundMixin",
+    "MultiPlayerGameModeAccessor"
+  ],
+  "injectors": {
+    "defaultRequire": 1
+  },
+  "mixinextras": {
+    "minVersion": "0.5.0"
+  }
+}

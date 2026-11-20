@@ -1,0 +1,47 @@
+{
+ "model": {
+  "type": "minecraft:select",
+  "property": "minecraft:display_context",
+  "cases": [
+   {
+    "when": "head",
+    "model": {
+     "type": "minecraft:empty"
+    }
+   }
+  ],
+  "fallback": {
+   "type": "minecraft:composite",
+   "models": [
+    {
+     "type": "minecraft:model",
+     "model": "mobcraft:item/skull_visor"
+    },
+    {
+     "type": "minecraft:model",
+     "model": "mobcraft:item/skull_visor_part1"
+    },
+    {
+     "type": "minecraft:model",
+     "model": "mobcraft:item/skull_visor_part2"
+    },
+    {
+     "type": "minecraft:model",
+     "model": "mobcraft:item/skull_visor_part3"
+    },
+    {
+     "type": "minecraft:model",
+     "model": "mobcraft:item/skull_visor_part4"
+    },
+    {
+     "type": "minecraft:model",
+     "model": "mobcraft:item/skull_visor_part5"
+    },
+    {
+     "type": "minecraft:model",
+     "model": "mobcraft:item/skull_visor_part6"
+    }
+   ]
+  }
+ }
+}

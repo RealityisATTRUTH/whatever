@@ -1,0 +1,19 @@
+{
+  "parent": "mobcraft:mob_roster",
+  "display": {
+    "icon": {
+      "id": "minecraft:blaze_spawn_egg"
+    },
+    "title": "Blaze",
+    "description": "Play as the Blaze",
+    "frame": "task",
+    "show_toast": true,
+    "announce_to_chat": true,
+    "hidden": false
+  },
+  "criteria": {
+    "done": {
+      "trigger": "minecraft:impossible"
+    }
+  }
+}

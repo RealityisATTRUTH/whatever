@@ -50,7 +50,7 @@ public final class HelmetUpgradeLayer extends RenderLayer<AvatarRenderState, Pla
     public static final RenderStateDataKey<String> CHEST_UPGRADE = RenderStateDataKey.create(() -> "mobcraft chestplate upgrade");
     public static final RenderStateDataKey<Boolean> CHEST_FOIL = RenderStateDataKey.create(() -> "mobcraft chestplate foil");
 
-    private static final Identifier BAT_TEXTURE = MobCraft.id("textures/entity/bat_ears.png");
+    private static final Identifier BAT_TEXTURE = MobCraft.id("textures/entity/bat_ears_3d.png");
     private static final Identifier PEARL_TRIM_TEXTURE = MobCraft.id("textures/entity/pearl_trim.png");
     private static final Identifier CHEST_TEXTURE = MobCraft.id("textures/entity/chest_emblems.png");
     private static final Identifier WARDEN_TEXTURE = Identifier.withDefaultNamespace("textures/entity/warden/warden.png");
@@ -94,12 +94,10 @@ public final class HelmetUpgradeLayer extends RenderLayer<AvatarRenderState, Pla
 
     @SuppressWarnings({"unchecked", "rawtypes"})
     public static void register() {
-        // bat_ears.png is 64x32 but declared as 32x16, so the ears keep the item's finer pixels.
-        // Each ear is two thin sheets a quarter pixel apart: the pink inside in front, the dark
-        // outside behind. Each sheet shows the same picture on both its faces, so nothing flickers.
-        ModelLayerRegistry.registerModelLayer(EAR_LEFT_LAYER, () -> mesh(32, 16, ear(0),
+        // The bat ears are built in 3D, one small block per pixel of the bat ear picture (BatEarModel).
+        ModelLayerRegistry.registerModelLayer(EAR_LEFT_LAYER, () -> earMesh(true,
                 PartPose.offsetAndRotation(3.5f, -8.5f, 0.5f, 0f, 0f, EAR_TILT)));
-        ModelLayerRegistry.registerModelLayer(EAR_RIGHT_LAYER, () -> mesh(32, 16, ear(8),
+        ModelLayerRegistry.registerModelLayer(EAR_RIGHT_LAYER, () -> earMesh(false,
                 PartPose.offsetAndRotation(-3.5f, -8.5f, 0.5f, 0f, 0f, -EAR_TILT)));
         // warden.png is 128x128, declared as 64x64 so each model pixel covers two texture pixels.
         // The warden's own tendrils sit at texture 58,0 (left) and 52,32 (right).
@@ -127,11 +125,12 @@ public final class HelmetUpgradeLayer extends RenderLayer<AvatarRenderState, Pla
         });
     }
 
-    /** The two sheets of one ear, from the texture row starting at v. */
-    private static CubeListBuilder ear(int v) {
-        return CubeListBuilder.create()
-                .texOffs(0, v).addBox(-2.5f, -7.5f, 0f, 5f, 7.5f, 0f)       // inside, facing forward
-                .texOffs(10, v).addBox(-2.5f, -7.5f, 0.25f, 5f, 7.5f, 0f);  // outside, facing back
+    /** One bat ear under a part named like the player's head, so it follows the head. */
+    private static LayerDefinition earMesh(boolean left, PartPose pose) {
+        MeshDefinition mesh = new MeshDefinition();
+        PartDefinition head = mesh.getRoot().addOrReplaceChild(PartNames.HEAD, CubeListBuilder.create(), PartPose.ZERO);
+        BatEarModel.addEar(head.addOrReplaceChild("mobcraft_armor_piece", CubeListBuilder.create(), pose), left);
+        return LayerDefinition.create(mesh, BatEarModel.TEXTURE_WIDTH, BatEarModel.TEXTURE_HEIGHT);
     }
 
     /**

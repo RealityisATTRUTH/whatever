@@ -1,0 +1,12 @@
+{
+  "type": "minecraft:smithing_transform",
+  "template": "minecraft:netherite_upgrade_smithing_template",
+  "base": "minecraft:netherite_sword",
+  "addition": "mobcraft:nether_star_shard",
+  "result": {
+    "id": "minecraft:netherite_sword",
+    "components": {
+      "mobcraft:armor_upgrade": "nether_star_shard"
+    }
+  }
+}
