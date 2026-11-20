@@ -1,0 +1,20 @@
+{
+  "schemaVersion": 1,
+  "id": "hafnium",
+  "version": "${version}",
+  "name": "Hafnium",
+  "description": "A cleaner Minecraft menu you can make your own. Gray theme, your own button colours, and buttons you can drag or hide on the title screen and pause menu.",
+  "authors": ["Reality Studios"],
+  "license": "GPL-3.0-or-later",
+  "icon": "assets/hafnium/icon.png",
+  "environment": "client",
+  "entrypoints": {
+    "client": ["com.reality.hafnium.Hafnium"]
+  },
+  "mixins": ["hafnium.mixins.json"],
+  "depends": {
+    "fabricloader": ">=0.19.0",
+    "fabric-api": "*",
+    "minecraft": "~26.3"
+  }
+}
