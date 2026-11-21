@@ -1,0 +1,43 @@
+plugins {
+    id 'java'
+    id 'net.neoforged.moddev' version '2.0.148'
+}
+
+version = mod_version
+group = maven_group
+base { archivesName = archives_base_name }
+
+
+
+dependencies {
+    compileOnly 'io.github.llamalad7:mixinextras-common:0.5.0'
+}
+
+neoForge {
+    version = project.neo_version
+    accessTransformers { from(file('src/main/resources/META-INF/accesstransformer.cfg')) }
+    interfaceInjectionData { from(file('interfaces.json')); publish(file('interfaces.json')) }
+    runs {
+        client { client(); programArguments.addAll('--quickPlayMultiplayer', 'localhost:25565') }
+        server { server(); programArgument '--nogui' }
+    }
+    mods {
+        mobcraft { sourceSet(sourceSets.main) }
+    }
+}
+
+processResources {
+    inputs.property "version", project.version
+    filesMatching("META-INF/neoforge.mods.toml") { expand "version": project.version }
+}
+
+tasks.withType(JavaCompile).configureEach {
+    it.options.compilerArgs += ['-Xmaxerrs', '10000']
+    it.options.release = 21
+    it.options.encoding = 'UTF-8'
+}
+
+jar {
+    archiveFileName = "mobcraft-season3-${project.jar_version}.jar"
+    from('LICENSE')
+}
