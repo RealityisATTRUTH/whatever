@@ -1,0 +1,23 @@
+{
+ "model": {
+  "type": "minecraft:composite",
+  "models": [
+   {
+    "type": "minecraft:model",
+    "model": "mobcraft:item/dragon_essence"
+   },
+   {
+    "type": "minecraft:model",
+    "model": "mobcraft:item/dragon_essence_part1"
+   },
+   {
+    "type": "minecraft:model",
+    "model": "mobcraft:item/dragon_essence_part2"
+   },
+   {
+    "type": "minecraft:model",
+    "model": "mobcraft:item/dragon_essence_part3"
+   }
+  ]
+ }
+}

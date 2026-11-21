@@ -1,0 +1,19 @@
+{
+ "model": {
+  "type": "minecraft:composite",
+  "models": [
+   {
+    "type": "minecraft:model",
+    "model": "mobcraft:item/lucky_paw"
+   },
+   {
+    "type": "minecraft:model",
+    "model": "mobcraft:item/lucky_paw_part1"
+   },
+   {
+    "type": "minecraft:model",
+    "model": "mobcraft:item/lucky_paw_part2"
+   }
+  ]
+ }
+}

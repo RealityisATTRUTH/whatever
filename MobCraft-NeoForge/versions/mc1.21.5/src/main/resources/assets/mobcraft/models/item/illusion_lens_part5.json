@@ -1,0 +1,181 @@
+{
+ "parent": "minecraft:block/block",
+ "gui_light": "front",
+ "textures": {
+  "particle": "mobcraft:item/illusion_lens_3d",
+  "t": "mobcraft:item/illusion_lens_3d"
+ },
+ "display": {
+  "none": {
+   "rotation": [
+    -0.0,
+    0.0,
+    -90.0
+   ],
+   "translation": [
+    6.0303,
+    1.2974,
+    0.0
+   ],
+   "scale": [
+    1,
+    1,
+    1
+   ]
+  },
+  "thirdperson_lefthand": {
+   "rotation": [
+    90.0,
+    90.0,
+    0.0
+   ],
+   "translation": [
+    -0.0,
+    3.5838,
+    3.7137
+   ],
+   "scale": [
+    0.45,
+    0.45,
+    0.45
+   ]
+  },
+  "thirdperson_righthand": {
+   "rotation": [
+    -90.0,
+    90.0,
+    0.0
+   ],
+   "translation": [
+    0.0,
+    3.5838,
+    -1.7137
+   ],
+   "scale": [
+    0.45,
+    0.45,
+    0.45
+   ]
+  },
+  "firstperson_lefthand": {
+   "rotation": [
+    -0.0,
+    -15.0,
+    90.0
+   ],
+   "translation": [
+    -3.3299,
+    7.019,
+    -0.6243
+   ],
+   "scale": [
+    0.4,
+    0.4,
+    0.4
+   ]
+  },
+  "firstperson_righthand": {
+   "rotation": [
+    -0.0,
+    -15.0,
+    -90.0
+   ],
+   "translation": [
+    1.3299,
+    7.019,
+    0.6243
+   ],
+   "scale": [
+    0.4,
+    0.4,
+    0.4
+   ]
+  },
+  "head": {
+   "rotation": [
+    -0.0,
+    0.0,
+    -90.0
+   ],
+   "translation": [
+    6.0303,
+    1.2974,
+    0.0
+   ],
+   "scale": [
+    1,
+    1,
+    1
+   ]
+  },
+  "gui": {
+   "rotation": [
+    10.0,
+    -25.0,
+    -90.0
+   ],
+   "translation": [
+    3.9816,
+    2.6848,
+    2.2428
+   ],
+   "scale": [
+    0.82,
+    0.82,
+    0.82
+   ]
+  },
+  "ground": {
+   "rotation": [
+    -0.0,
+    0.0,
+    -90.0
+   ],
+   "translation": [
+    3.0152,
+    3.6487,
+    0.0
+   ],
+   "scale": [
+    0.5,
+    0.5,
+    0.5
+   ]
+  },
+  "fixed": {
+   "rotation": [
+    -180.0,
+    0.0,
+    90.0
+   ],
+   "translation": [
+    -4.8243,
+    1.0379,
+    -0.0
+   ],
+   "scale": [
+    0.8,
+    0.8,
+    0.8
+   ]
+  },
+  "on_shelf": {
+   "rotation": [
+    -180.0,
+    0.0,
+    90.0
+   ],
+   "translation": [
+    -6.0303,
+    1.2974,
+    -0.0
+   ],
+   "scale": [
+    1,
+    1,
+    1
+   ]
+  }
+ },
+ "elements": []
+}

@@ -1,0 +1,50 @@
+{
+  "required": true,
+  "minVersion": "0.8",
+  "package": "com.reality.mobcraft.mixin",
+  "compatibilityLevel": "JAVA_25",
+  "mixins": [
+    "ProjectileUtilMixin",
+    "ProjectileSiblingMixin",
+    "LivingEntityHitboxMixin",
+    "MobMeleeMixin",
+    "ServerExplosionMixin",
+    "ServerAttackMixin",
+    "CarpetTracerMixin",
+    "KitDamageMixin",
+    "UndeadPlayerMixin",
+    "SculkShriekerMixin",
+    "PlayerPhaseMixin",
+    "StoneSwimMixin",
+    "EnchantLapisSlotMixin",
+    "EnchantShiftClickMixin",
+    "EnchantDuskveinMixin",
+    "AnvilKeepLevelsMixin",
+    "EnchantCapAnvilMixin",
+    "ItemCombinerAccessor",
+    "AnvilBlockDamageMixin",
+    "MaceSmashMixin",
+    "HeldEndermanMixin",
+    "ShulkerBulletAimMixin",
+    "FireballJumpMixin",
+    "PetSunMixin",
+    "BoundTotemMixin",
+    "SkullVisorBowMixin",
+    "SkullVisorTargetMixin",
+    "GloamitePlayerMixin",
+    "GloamiteLivingMixin",
+    "TierNameMixin",
+    "TierAnvilMixin",
+    "AbstractArrowAccessor",
+    "BowTierMixin",
+    "CrossbowTierMixin",
+    "ServerPlayerGameModeAccessor",
+    "ServerLevelSoundMixin"
+  ],
+  "injectors": {
+    "defaultRequire": 1
+  },
+  "mixinextras": {
+    "minVersion": "0.5.0"
+  }
+}

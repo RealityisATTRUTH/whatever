@@ -1,0 +1,8 @@
+{
+  "net/minecraft/world/entity/Entity": [
+    "com/reality/mobcraft/neo/fabric/fabric/api/attachment/v1/AttachmentTarget"
+  ],
+  "net/minecraft/world/level/Level": [
+    "com/reality/mobcraft/neo/fabric/fabric/api/attachment/v1/AttachmentTarget"
+  ]
+}

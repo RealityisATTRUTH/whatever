@@ -1,0 +1,19 @@
+{
+  "required": true,
+  "minVersion": "0.8",
+  "package": "com.reality.mobcraft.neo.mixin",
+  "compatibilityLevel": "JAVA_21",
+  "mixins": [
+    "EntityAttachmentMixin",
+    "LevelAttachmentMixin"
+  ],
+  "client": [
+    "ScreenInvoker",
+    "EntityRenderStateDataMixin",
+    "WorldRenderEventsMixin",
+    "ModelPartChildrenAccess"
+  ],
+  "injectors": {
+    "defaultRequire": 1
+  }
+}

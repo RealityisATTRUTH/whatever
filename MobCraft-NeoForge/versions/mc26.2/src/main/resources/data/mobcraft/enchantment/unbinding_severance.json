@@ -1,0 +1,22 @@
+{
+  "anvil_cost": 2,
+  "description": {
+    "translate": "enchantment.mobcraft.unbinding_severance"
+  },
+  "effects": {},
+  "max_cost": {
+    "base": 30,
+    "per_level_above_first": 10
+  },
+  "max_level": 3,
+  "min_cost": {
+    "base": 8,
+    "per_level_above_first": 10
+  },
+  "primary_items": "#mobcraft:enchantable/severance",
+  "slots": [
+    "mainhand"
+  ],
+  "supported_items": "#mobcraft:enchantable/severance",
+  "weight": 3
+}

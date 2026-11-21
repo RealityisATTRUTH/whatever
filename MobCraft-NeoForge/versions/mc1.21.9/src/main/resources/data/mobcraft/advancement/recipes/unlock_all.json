@@ -1,0 +1,14 @@
+{
+  "criteria": {
+    "joined": {
+      "trigger": "minecraft:tick"
+    }
+  },
+  "rewards": {
+    "recipes": [
+      "mobcraft:fracture_nether_star",
+      "mobcraft:stalker_shard",
+      "mobcraft:curse_antidote"
+    ]
+  }
+}

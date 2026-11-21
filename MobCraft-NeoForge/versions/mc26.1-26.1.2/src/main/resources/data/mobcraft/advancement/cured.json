@@ -1,0 +1,24 @@
+{
+  "parent": "mobcraft:cursed",
+  "display": {
+    "icon": {
+      "id": "mobcraft:curse_antidote"
+    },
+    "title": "The Cure",
+    "description": "Eat a Curse Antidote",
+    "frame": "task",
+    "show_toast": true,
+    "announce_to_chat": true,
+    "hidden": false
+  },
+  "criteria": {
+    "ate": {
+      "trigger": "minecraft:consume_item",
+      "conditions": {
+        "item": {
+          "items": "mobcraft:curse_antidote"
+        }
+      }
+    }
+  }
+}

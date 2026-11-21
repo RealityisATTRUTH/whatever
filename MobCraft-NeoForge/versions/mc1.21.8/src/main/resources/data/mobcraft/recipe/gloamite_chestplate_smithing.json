@@ -1,0 +1,51 @@
+{
+  "type": "minecraft:smithing_transform",
+  "template": "mobcraft:gloamite_upgrade_smithing_template",
+  "base": "minecraft:netherite_chestplate",
+  "addition": "mobcraft:bound_gloamite",
+  "result": {
+    "id": "minecraft:netherite_chestplate",
+    "components": {
+      "minecraft:item_name": {
+        "translate": "item.mobcraft.gloamite_chestplate"
+      },
+      "minecraft:item_model": "mobcraft:gloamite_chestplate",
+      "minecraft:rarity": "epic",
+      "minecraft:attribute_modifiers": [
+        {
+          "type": "minecraft:armor",
+          "amount": 9,
+          "id": "mobcraft:gloamite_armor_chest",
+          "operation": "add_value",
+          "slot": "chest"
+        },
+        {
+          "type": "minecraft:armor_toughness",
+          "amount": 4.0,
+          "id": "mobcraft:gloamite_toughness_chest",
+          "operation": "add_value",
+          "slot": "chest"
+        },
+        {
+          "type": "minecraft:knockback_resistance",
+          "amount": 0.15,
+          "id": "mobcraft:gloamite_knockback_chest",
+          "operation": "add_value",
+          "slot": "chest"
+        }
+      ],
+      "minecraft:equippable": {
+        "slot": "chest",
+        "asset_id": "mobcraft:gloamite",
+        "equip_sound": "minecraft:item.armor.equip_netherite"
+      },
+      "minecraft:max_damage": 681,
+      "minecraft:enchantable": {
+        "value": 18
+      },
+      "minecraft:repairable": {
+        "items": "mobcraft:gloamite"
+      }
+    }
+  }
+}

@@ -1,0 +1,53 @@
+{
+  "type": "minecraft:smithing_transform",
+  "template": "mobcraft:gloamite_upgrade_smithing_template",
+  "base": "minecraft:netherite_pickaxe",
+  "addition": "mobcraft:bound_gloamite",
+  "result": {
+    "id": "minecraft:netherite_pickaxe",
+    "components": {
+      "minecraft:item_name": {
+        "translate": "item.mobcraft.gloamite_pickaxe"
+      },
+      "minecraft:item_model": "mobcraft:gloamite_pickaxe",
+      "minecraft:rarity": "epic",
+      "minecraft:max_damage": 2500,
+      "minecraft:enchantable": {
+        "value": 18
+      },
+      "minecraft:repairable": {
+        "items": "mobcraft:gloamite"
+      },
+      "minecraft:attribute_modifiers": [
+        {
+          "type": "minecraft:attack_damage",
+          "amount": 6.0,
+          "id": "minecraft:base_attack_damage",
+          "operation": "add_value",
+          "slot": "mainhand"
+        },
+        {
+          "type": "minecraft:attack_speed",
+          "amount": -2.8,
+          "id": "minecraft:base_attack_speed",
+          "operation": "add_value",
+          "slot": "mainhand"
+        }
+      ],
+      "minecraft:tool": {
+        "rules": [
+          {
+            "blocks": "#minecraft:incorrect_for_netherite_tool",
+            "correct_for_drops": false
+          },
+          {
+            "blocks": "#minecraft:mineable/pickaxe",
+            "correct_for_drops": true,
+            "speed": 11.0
+          }
+        ],
+        "damage_per_block": 1
+      }
+    }
+  }
+}

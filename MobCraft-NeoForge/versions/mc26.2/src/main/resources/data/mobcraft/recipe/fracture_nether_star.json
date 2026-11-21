@@ -1,0 +1,18 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "misc",
+  "pattern": [
+    "EFE",
+    "FNF",
+    "EFE"
+  ],
+  "key": {
+    "E": "minecraft:echo_shard",
+    "F": "mobcraft:star_fragment",
+    "N": "minecraft:nether_star"
+  },
+  "result": {
+    "id": "mobcraft:nether_star_shard",
+    "count": 1
+  }
+}

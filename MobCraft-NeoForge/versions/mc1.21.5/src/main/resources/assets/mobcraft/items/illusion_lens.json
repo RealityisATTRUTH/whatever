@@ -1,0 +1,52 @@
+{
+ "model": {
+  "type": "minecraft:composite",
+  "models": [
+   {
+    "type": "minecraft:composite",
+    "models": [
+     {
+      "type": "minecraft:model",
+      "model": "mobcraft:item/illusion_lens"
+     },
+     {
+      "type": "minecraft:model",
+      "model": "mobcraft:item/illusion_lens_part1"
+     },
+     {
+      "type": "minecraft:model",
+      "model": "mobcraft:item/illusion_lens_part2"
+     },
+     {
+      "type": "minecraft:model",
+      "model": "mobcraft:item/illusion_lens_part3"
+     },
+     {
+      "type": "minecraft:model",
+      "model": "mobcraft:item/illusion_lens_part4"
+     },
+     {
+      "type": "minecraft:composite",
+      "models": [
+       {
+        "type": "minecraft:model",
+        "model": "mobcraft:item/illusion_lens_part5"
+       },
+       {
+        "type": "minecraft:model",
+        "model": "mobcraft:item/illusion_lens_part5_part1"
+       }
+      ]
+     }
+    ]
+   },
+   {
+    "type": "minecraft:special",
+    "base": "mobcraft:item/illusion_lens",
+    "model": {
+     "type": "mobcraft:lens_chain"
+    }
+   }
+  ]
+ }
+}

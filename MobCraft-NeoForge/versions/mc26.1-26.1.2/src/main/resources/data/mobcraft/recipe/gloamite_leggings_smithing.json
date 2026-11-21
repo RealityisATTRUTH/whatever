@@ -1,0 +1,51 @@
+{
+  "type": "minecraft:smithing_transform",
+  "template": "mobcraft:gloamite_upgrade_smithing_template",
+  "base": "minecraft:netherite_leggings",
+  "addition": "mobcraft:bound_gloamite",
+  "result": {
+    "id": "minecraft:netherite_leggings",
+    "components": {
+      "minecraft:item_name": {
+        "translate": "item.mobcraft.gloamite_leggings"
+      },
+      "minecraft:item_model": "mobcraft:gloamite_leggings",
+      "minecraft:rarity": "epic",
+      "minecraft:attribute_modifiers": [
+        {
+          "type": "minecraft:armor",
+          "amount": 7,
+          "id": "mobcraft:gloamite_armor_legs",
+          "operation": "add_value",
+          "slot": "legs"
+        },
+        {
+          "type": "minecraft:armor_toughness",
+          "amount": 4.0,
+          "id": "mobcraft:gloamite_toughness_legs",
+          "operation": "add_value",
+          "slot": "legs"
+        },
+        {
+          "type": "minecraft:knockback_resistance",
+          "amount": 0.15,
+          "id": "mobcraft:gloamite_knockback_legs",
+          "operation": "add_value",
+          "slot": "legs"
+        }
+      ],
+      "minecraft:equippable": {
+        "slot": "legs",
+        "asset_id": "mobcraft:gloamite",
+        "equip_sound": "minecraft:item.armor.equip_netherite"
+      },
+      "minecraft:max_damage": 638,
+      "minecraft:enchantable": {
+        "value": 18
+      },
+      "minecraft:repairable": {
+        "items": "mobcraft:gloamite"
+      }
+    }
+  }
+}

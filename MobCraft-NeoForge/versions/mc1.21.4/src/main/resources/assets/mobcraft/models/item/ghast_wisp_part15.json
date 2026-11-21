@@ -1,0 +1,250 @@
+{
+ "parent": "minecraft:block/block",
+ "textures": {
+  "particle": "mobcraft:item/ghast_wisp",
+  "wisp": "mobcraft:item/ghast_wisp"
+ },
+ "display": {
+  "none": {
+   "rotation": [
+    169.7607,
+    41.9343,
+    145.3856
+   ],
+   "translation": [
+    -9.6689,
+    -1.9715,
+    6.6716
+   ],
+   "scale": [
+    1,
+    1,
+    1
+   ]
+  },
+  "thirdperson_lefthand": {
+   "rotation": [
+    169.7607,
+    -41.9343,
+    -145.3856
+   ],
+   "translation": [
+    3.8676,
+    1.7114,
+    4.6686
+   ],
+   "scale": [
+    0.4,
+    0.4,
+    0.4
+   ]
+  },
+  "thirdperson_righthand": {
+   "rotation": [
+    169.7607,
+    41.9343,
+    145.3856
+   ],
+   "translation": [
+    -3.8676,
+    1.7114,
+    4.6686
+   ],
+   "scale": [
+    0.4,
+    0.4,
+    0.4
+   ]
+  },
+  "firstperson_lefthand": {
+   "rotation": [
+    108.8332,
+    -81.9685,
+    150.504
+   ],
+   "translation": [
+    4.6218,
+    2.2114,
+    -0.8478
+   ],
+   "scale": [
+    0.4,
+    0.4,
+    0.4
+   ]
+  },
+  "firstperson_righthand": {
+   "rotation": [
+    172.3933,
+    -2.5851,
+    138.1573
+   ],
+   "translation": [
+    -0.8478,
+    2.2114,
+    4.6218
+   ],
+   "scale": [
+    0.4,
+    0.4,
+    0.4
+   ]
+  },
+  "head": {
+   "rotation": [
+    169.7607,
+    41.9343,
+    145.3856
+   ],
+   "translation": [
+    -9.6689,
+    -1.9715,
+    6.6716
+   ],
+   "scale": [
+    1,
+    1,
+    1
+   ]
+  },
+  "gui": {
+   "rotation": [
+    -167.778,
+    12.2815,
+    140.1666
+   ],
+   "translation": [
+    -5.0377,
+    -5.4822,
+    9.2979
+   ],
+   "scale": [
+    1.0,
+    1.0,
+    1.0
+   ]
+  },
+  "ground": {
+   "rotation": [
+    169.7607,
+    41.9343,
+    145.3856
+   ],
+   "translation": [
+    -5.8013,
+    -1.1829,
+    4.0029
+   ],
+   "scale": [
+    0.6,
+    0.6,
+    0.6
+   ]
+  },
+  "fixed": {
+   "rotation": [
+    169.7607,
+    41.9343,
+    145.3856
+   ],
+   "translation": [
+    -7.7351,
+    -1.5772,
+    5.3373
+   ],
+   "scale": [
+    0.8,
+    0.8,
+    0.8
+   ]
+  },
+  "on_shelf": {
+   "rotation": [
+    10.2393,
+    -41.9343,
+    -34.6144
+   ],
+   "translation": [
+    9.6689,
+    -1.9715,
+    -6.6716
+   ],
+   "scale": [
+    1,
+    1,
+    1
+   ]
+  }
+ },
+ "elements": [
+  {
+   "from": [
+    2.438,
+    8.471,
+    12.31
+   ],
+   "to": [
+    5.007,
+    9.221,
+    13.06
+   ],
+   "shade": false,
+   "faces": {
+    "north": {
+     "uv": [
+      4,
+      4,
+      8,
+      8
+     ],
+     "texture": "#wisp"
+    },
+    "east": {
+     "uv": [
+      4,
+      4,
+      8,
+      8
+     ],
+     "texture": "#wisp"
+    },
+    "south": {
+     "uv": [
+      4,
+      4,
+      8,
+      8
+     ],
+     "texture": "#wisp"
+    },
+    "west": {
+     "uv": [
+      4,
+      4,
+      8,
+      8
+     ],
+     "texture": "#wisp"
+    },
+    "up": {
+     "uv": [
+      4,
+      4,
+      8,
+      8
+     ],
+     "texture": "#wisp"
+    },
+    "down": {
+     "uv": [
+      4,
+      4,
+      8,
+      8
+     ],
+     "texture": "#wisp"
+    }
+   }
+  }
+ ]
+}

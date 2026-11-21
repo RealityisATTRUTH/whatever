@@ -1,0 +1,12 @@
+{
+  "type": "minecraft:crafting_shapeless",
+  "category": "misc",
+  "ingredients": [
+    "mobcraft:ender_pearl_shard",
+    "mobcraft:creaking_splinter"
+  ],
+  "result": {
+    "id": "mobcraft:stalker_shard",
+    "count": 1
+  }
+}

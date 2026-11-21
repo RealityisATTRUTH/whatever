@@ -1,0 +1,17 @@
+{
+  "type": "minecraft:block",
+  "pools": [
+    {
+      "rolls": 1,
+      "entries": [
+        {
+          "type": "minecraft:alternatives",
+          "children": [
+            { "type": "minecraft:item", "condition": "minecraft:tool/can_silk_touch", "name": "mobcraft:unseenhush" },
+            { "type": "minecraft:item", "name": "mobcraft:hush" }
+          ]
+        }
+      ]
+    }
+  ]
+}

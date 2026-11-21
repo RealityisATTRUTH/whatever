@@ -1,0 +1,180 @@
+{
+ "parent": "minecraft:block/block",
+ "textures": {
+  "particle": "mobcraft:item/axolotl_roe",
+  "tin": "mobcraft:item/axolotl_roe"
+ },
+ "display": {
+  "none": {
+   "rotation": [
+    90.0,
+    0.0,
+    -0.0
+   ],
+   "translation": [
+    0.0,
+    5.0,
+    6.0
+   ],
+   "scale": [
+    1,
+    1,
+    1
+   ]
+  },
+  "thirdperson_lefthand": {
+   "rotation": [
+    150.0,
+    0.0,
+    -0.0
+   ],
+   "translation": [
+    0.0,
+    1.7867,
+    4.2986
+   ],
+   "scale": [
+    0.45,
+    0.45,
+    0.45
+   ]
+  },
+  "thirdperson_righthand": {
+   "rotation": [
+    150.0,
+    0.0,
+    -0.0
+   ],
+   "translation": [
+    0.0,
+    1.7867,
+    4.2986
+   ],
+   "scale": [
+    0.45,
+    0.45,
+    0.45
+   ]
+  },
+  "firstperson_lefthand": {
+   "rotation": [
+    125.0,
+    -0.0,
+    160.0
+   ],
+   "translation": [
+    -1.0261,
+    7.1648,
+    -0.8753
+   ],
+   "scale": [
+    0.5,
+    0.5,
+    0.5
+   ]
+  },
+  "firstperson_righthand": {
+   "rotation": [
+    125.0,
+    -0.0,
+    160.0
+   ],
+   "translation": [
+    -1.0261,
+    7.1648,
+    -0.8753
+   ],
+   "scale": [
+    0.5,
+    0.5,
+    0.5
+   ]
+  },
+  "head": {
+   "rotation": [
+    90.0,
+    0.0,
+    -0.0
+   ],
+   "translation": [
+    0.0,
+    5.0,
+    6.0
+   ],
+   "scale": [
+    1,
+    1,
+    1
+   ]
+  },
+  "gui": {
+   "rotation": [
+    120.0,
+    -0.0,
+    135.0
+   ],
+   "translation": [
+    -3.3941,
+    5.6612,
+    -0.9394
+   ],
+   "scale": [
+    0.8,
+    0.8,
+    0.8
+   ]
+  },
+  "ground": {
+   "rotation": [
+    90.0,
+    0.0,
+    -0.0
+   ],
+   "translation": [
+    0.0,
+    4.25,
+    2.7
+   ],
+   "scale": [
+    0.45,
+    0.45,
+    0.45
+   ]
+  },
+  "fixed": {
+   "rotation": [
+    180.0,
+    0.0,
+    -0.0
+   ],
+   "translation": [
+    0.0,
+    -4.8,
+    4.0
+   ],
+   "scale": [
+    0.8,
+    0.8,
+    0.8
+   ]
+  },
+  "on_shelf": {
+   "rotation": [
+    90.0,
+    0.0,
+    -180.0
+   ],
+   "translation": [
+    0.0,
+    5.0,
+    -6.0
+   ],
+   "scale": [
+    1,
+    1,
+    1
+   ]
+  }
+ },
+ "elements": []
+}
